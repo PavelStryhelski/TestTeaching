@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+<appender name="nullAppender" class="org.apache.log4j.varia.NullAppender">
+        
+    </appender>
+
+<appender name="html" class="org.apache.log4j.FileAppender">
+    <param name="File" value="logs/suiteLog.html"/>
+    <param name="Append" value="false"/>
+        <layout class="com.qulix.ft.logging.SuiteHTMLLayout">
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+                <param name="LevelMin" value="DEBUG" />
+                <param name="LevelMax" value="FATAL" />
+                <param name="AcceptOnMatch" value="true" />
+		</filter>
+</appender>
+
+<logger name="com.qulix.ft.teachingSite.tests">
+    <level value="debug"/>
+    <appender-ref ref="html"/>
+	<appender-ref ref="console"/>
+</logger>
+
+
+<root>
+    	<level value="error" />
+		<appender-ref ref="nullAppender"/>
+</root>
+
+
+</log4j:configuration>

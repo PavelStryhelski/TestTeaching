@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<title>Log4J Log Messages</title>
+<style type="text/css">        
+	tr.err{color: red;}     		
+	tr.warn{color: orange;}				
+	body, table {font-family: arial,sans-serif; font-size: x-small;}		
+	th {background: #336699; color: #FFFFFF; text-align: left;}		
+	span.error{color: red; font-weight: bold;}
+	span.warning{color: orange; font-weight: bold;}
+</style>
+<script>
+
+var lastError=0;
+var lastWarn=0;
+var maxErrors=0;
+var maxWarnings=0;
+	
+function hideAllDebug(){
+						var elements = document.getElementsByTagName('tr');		
+						for (var i=0;i<elements.length;i++){					
+							if (elements[i].getAttribute("name")=="debug"){				
+								elements[i].style.display = "NONE";			
+							}		
+						}	
+					}
+function showAllDebug(){
+		var elements = document.getElementsByTagName("tr");				
+		for (var i=0;i<elements.length;i++){
+			if (elements[i].getAttribute("name")=="debug"){
+				elements[i].style.display = "";								
+			}
+	}			
+}		
+function countErrors(){						
+	var counter = 0;				
+	var elements = document.getElementsByTagName("tr");						
+	
+	for (var i=0;i<elements.length;i++){						
+			if (elements[i].className=="err"){								
+				counter++;						
+			}				
+	}								
+	maxErrors = counter;
+	document.getElementById('errorsCount').innerText = counter;				
+	if (counter>0) {
+		document.getElementById('errorsLabel').className = 'error';	
+		document.getElementById('errorsCount').innerHTML = counter + "&nbsp;&nbsp;<a id='prevError' href='#error" + 1 + "' onclick=\"if (lastError>0){this.href='#error' + --lastError; document.getElementById('nextError').href='#error' + (lastError+1);}\">Previous</a>&nbsp;&nbsp;&nbsp;<a id='nextError' href='#error" + 1 + "' onclick=\"if (lastError<maxErrors) {this.href='#error' + ++lastError; document.getElementById('prevError').href='#error' + (lastError-1);}\">Next</a>";
+	}
+}
+
+function countWarnings(){						
+	var counter = 0;				
+	var elements = document.getElementsByTagName("tr");						
+	
+	for (var i=0;i<elements.length;i++){						
+			if (elements[i].className=="warn"){								
+				counter++;						
+			}				
+	}								
+	maxWarnings = counter;
+	document.getElementById('warnsCount').innerText = counter;				
+	if (counter>0) {
+		document.getElementById('warnsLabel').className = 'warning';	
+		document.getElementById('warnsCount').innerHTML = counter + "&nbsp;&nbsp;<a id='prevWarn' href='#warn" + 1 + "' onclick=\"if (lastWarn>0){this.href='#warn' + --lastWarn; document.getElementById('nextWarn').href='#warn' + (lastWarn+1);}\">Previous</a>&nbsp;&nbsp;&nbsp;<a id='nextWarn' href='#warn" + 1 + "' onclick=\"if (lastWarn<maxWarnings) {this.href='#warn' + ++lastWarn; document.getElementById('prevWarn').href='#warn' + (lastWarn-1);}\">Next</a>";
+	}
+}
+
+function setHeight(){
+	var winHeight = getWindowHeight();
+	var headerHeight = getComputedHeight('header');
+
+	var resultHeight = winHeight - headerHeight - 50;
+	
+	document.getElementById('content').style.height = resultHeight + "px";
+	
+}
+
+function getComputedHeight(elementId){
+
+	var browserName=navigator.appName;
+	var is_ie;
+	
+	if (browserName=="Microsoft Internet Explorer"){
+		is_ie=true;
+	} else {
+		is_ie=false;
+	}
+	
+	if(is_ie){
+		tmphght = document.getElementById(elementId).offsetHeight;
+	} else {
+		docObj = document.getElementById(elementId);
+		var tmphght1 = document.defaultView.getComputedStyle(docObj, "").getPropertyValue("height");
+		tmphght = tmphght1.split('px');
+		tmphght = tmphght[0];
+	}
+	
+	return tmphght;
+}
+
+function getWindowHeight(){
+	
+	var viewportheight;
+ 
+	// the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+ 
+	if (typeof window.innerWidth != 'undefined')
+	{
+      viewportheight = window.innerHeight
+	}
+ 
+		// IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
+
+	else if (typeof document.documentElement != 'undefined'
+		&& typeof document.documentElement.clientWidth !=
+		'undefined' && document.documentElement.clientWidth != 0)
+	{
+       viewportheight = document.documentElement.clientHeight
+	}
+ 
+	// older versions of IE
+	else
+	{
+       viewportheight = document.getElementsByTagName('body')[0].clientHeight
+	}
+	
+	return viewportheight;
+
+}
+
+</script>
+</head>
+<body bgcolor="#FFFFFF" topmargin="6" leftmargin="6" onload="countErrors(); countWarnings(); hideAllDebug();setHeight();">
+<div id="header">
+	<hr size="1" noshade>Log session start time Tue Jul 05 12:40:21 EEST 2011<br>
+	<br>
+	<input type="checkbox" onclick="if (this.checked) showAllDebug(); else hideAllDebug();"/>Показать DEBUG сообщения<br/>
+	<p>
+	<h2>
+		<span id='errorsLabel'>Ошибок за время выполнения: <span id='errorsCount'></span>
+		</span>
+		
+	</h2>
+	</p>
+	<p>
+	<h2>
+		<span id='warnsLabel'>Предупреждений за время выполнения: <span id='warnsCount'></span>
+		</span>
+	</h2>
+	</p>
+	
+</div>
+<div id="content" style="width:100%;height:800px;overflow:auto">
+<table cellspacing="0" cellpadding="4" border="1" bordercolor="#224466" width="100%">
+<tr>
+<th>Time</th>
+<th>Thread</th>
+<th>Level</th>
+<th>Category</th>
+<th>Message</th>
+</tr>
+

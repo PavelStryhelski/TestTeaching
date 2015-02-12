@@ -4,8 +4,8 @@
   <test verbose="1" name="—ценарий 1" annotations="JDK" preserve-order="true">
 	<parameter name="Login" value="admin"/>
 	<parameter name="Password" value="password"/> 
-	<parameter name="HeadlineValue" value="HeadLineAuto"/>
-	<parameter name="TextValue" value="TestAuto"/>  
+	<parameter name="HeadlineValue" value="Today"/>
+	<parameter name="TextValue" value="My first text value"/>
     <classes>
 		<class name="com.qulix.ft.teachingSite.tests.Test1">
 			<methods>

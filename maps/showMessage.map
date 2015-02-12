@@ -1,2 +1,2 @@
-labelShowMessage=xpath://H1[text()="Show Message"]
+labelShowMessage=xpath://h1[text()="Show Message"]
 buttonMessageList=xpath://a[text()="Message List"]

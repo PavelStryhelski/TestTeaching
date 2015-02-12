@@ -33,7 +33,7 @@ public class ShowMessage extends AbstractPage{
      * Убедиться, что открыта страница Show message
      */
     public static void assertPageIsOpened(){
-        assertPageIsOpened(_labelShowMessage, "Show message");
+        assertPageIsOpened(_labelShowMessage, "Show Message");
     }
 
     /**

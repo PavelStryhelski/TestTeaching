@@ -17,6 +17,12 @@ public class Environment {
      * URL приложения
      */
     public static final String URL = getURL();
+
+    /**
+     * Chrome driver
+     */
+    public static final String CHROME_DRIVER = "src" + File.separator + "com" + File.separator + "qulix" + File.separator + "ft" + File.separator + "drivers" + File.separator + "chromedriver.exe";
+
     /**
      * Перечень карт объектов
      *

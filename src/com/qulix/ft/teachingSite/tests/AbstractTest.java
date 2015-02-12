@@ -1,5 +1,6 @@
 package com.qulix.ft.teachingSite.tests;
 
+import com.qulix.ft.logging.WebDriverFactory;
 import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.logging.SuiteLogger;
 import com.thoughtworks.selenium.Selenium;
@@ -33,7 +34,8 @@ public abstract class AbstractTest {
      */
     @BeforeSuite
     public static void beforeSuite(ITestContext context) {
-        driver = new InternetExplorerDriver();
+        WebDriverFactory.init(WebDriverFactory.Browser.CHROME);
+        driver = WebDriverFactory.instance().openNewBrowser();
         SuiteLogger.startLogSuite(context.getSuite().getName() + ". URL: " + Environment.URL); //вывод в лог сообщения о начале выполнения
     }
 

@@ -5,13 +5,13 @@
     </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../Tools/log4j-1.2.16.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Tools/selenium-java-2.0rc2.jar!/" />
       <root url="file://$PROJECT_DIR$/../Tools/libs" />
+      <root url="jar://$PROJECT_DIR$/../Tools/selenium-java-2.0rc3.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../Tools/selenium-java-2.0rc2-srcs.jar!/" />
       <root url="file://$PROJECT_DIR$/../Tools/libs" />
+      <root url="jar://$PROJECT_DIR$/../Tools/selenium-java-2.0rc2-srcs.jar!/" />
     </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/../Tools/libs" recursive="false" />
     <jarDirectory url="file://$PROJECT_DIR$/../Tools/libs" recursive="false" type="SOURCES" />

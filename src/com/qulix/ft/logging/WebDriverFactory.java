@@ -2,8 +2,6 @@ package com.qulix.ft.logging;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.remote.*;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import java.io.File;
 
@@ -61,8 +59,7 @@ public class WebDriverFactory {
                 case CHROME:
                     file = new File("drivers" + File.separator + "ChromeDriver.exe");
                     System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-                    ChromeDriverService service = new ChromeDriverService.Builder().usingChromeDriverExecutable(file).usingPort(8080).build();
-                    activeDriver = new ChromeDriver(service);
+                    activeDriver = new ChromeDriver();
                     break;
                 default:
                     file = new File("drivers" + File.separator + "IEDriverServer.exe");

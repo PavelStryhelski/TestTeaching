@@ -47,6 +47,11 @@ public class Environment {
          * Карта объектов Show Message
          */
         public final static String SHOW_MESSAGE = mapsFolder + "showMessage.map";
+
+        /**
+         * Карта объектов Edit Message
+         */
+        public final static String EDIT_MESSAGE = mapsFolder + "editMessage.map";
     }
 
     private static String getURL() {

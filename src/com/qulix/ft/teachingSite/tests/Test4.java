@@ -8,8 +8,8 @@ import org.testng.annotations.Test;
 /***
  * Сценарий 2
  */
-public class Test2  extends AbstractTest{
-    @Test(description = "Сценарий 2. Create and View message")
+public class Test4 extends AbstractTest{
+    @Test(description = "Сценарий 4. Create and Delete message")
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue"})
     public void Test(String login, String password, String headline, String text){
 
@@ -26,7 +26,7 @@ public class Test2  extends AbstractTest{
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
-         //Нажать New Message
+       /*  //Нажать New Message
         MessageList.clickNewMessage();
 
         //Открыта форма создания Create message
@@ -48,23 +48,11 @@ public class Test2  extends AbstractTest{
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
         MessageList.assertMessageIsInList(headline, text);
 
-        //Нажать View для созданного ранее сообщения
-        MessageList.clickViewButton(headline, text);
+        //Удалить ранее созданное сообщение
+        MessageList.clickDeleteButton(headline, text);*/
 
-        //Открыта страница Show message
-        ShowMessage.assertPageIsOpened();
-
-        //Проверить форма содержит такое же сообщение
-        ShowMessage.assertMessageIsCorrect(headline,text);
-
-        //Нажать кнопку Message list
-        ShowMessage.clickMessageList();
-
-        //Отображен список.
-        MessageList.assertPageIsOpened();
-
-        //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        MessageList.assertMessageIsInList(headline, text);
+        //Чекнуть, что удаленное сообщение не присутствует в списке
+        MessageList.assertMessageIsNotInList(headline, text);
 
     }
 }

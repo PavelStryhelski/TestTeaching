@@ -1,2 +1,4 @@
 labelShowMessage=xpath://h1[text()="Show Message"]
 buttonMessageList=xpath://a[text()="Message List"]
+headline=xpath://div[@class='dialog']//tr[.//td[text() ='Headline']]//td[@class='value']
+text=xpath://div[@class='dialog']//tr[.//td[text() ='Text']]//td[@class='value']

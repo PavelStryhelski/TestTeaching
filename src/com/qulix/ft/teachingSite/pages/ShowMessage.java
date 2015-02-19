@@ -21,6 +21,16 @@ public class ShowMessage extends AbstractPage{
     private static final By _buttonMessageList = Locators.get(Environment.MAPS.SHOW_MESSAGE, "buttonMessageList");
 
     /**
+     * Локатор Headline
+     */
+    private static final By _headline = Locators.get(Environment.MAPS.SHOW_MESSAGE, "headline");
+
+    /**
+     * Локатор Text
+     */
+    private static final By _text = Locators.get(Environment.MAPS.SHOW_MESSAGE, "text");
+
+    /**
      * Кнопка MessageList
      *
      * @return кнопка MessageList
@@ -43,5 +53,15 @@ public class ShowMessage extends AbstractPage{
         SuiteLogger.logMessage("Click button Message List");
         buttonMessageList().click();
     }
+
+    /**
+     * Убедиться, что открыта сообщение совпадает
+     */
+    public static void assertMessageIsCorrect(String headline,String text){
+        assertElementHasCorrectText(_headline, headline);
+        assertElementHasCorrectText(_text, text);
+    }
+
+
 
 }

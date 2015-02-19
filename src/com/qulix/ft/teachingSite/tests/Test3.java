@@ -5,15 +5,15 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
-/***
+/**
  * Сценарий 2
  */
-public class Test2  extends AbstractTest{
-    @Test(description = "Сценарий 2. Create and View message")
-    @Parameters({"Login", "Password", "HeadlineValue", "TextValue"})
-    public void Test(String login, String password, String headline, String text){
+public class Test3 extends AbstractTest {
+    @Test(description = "Сценарий 3. Create and Edit message")
+    @Parameters({"Login", "Password", "HeadlineValue", "TextValue", "NewHeadlineValue", "NewTextValue"})
+    public void Test(String login, String password, String headline, String text, String headlineNew, String textNew) {
 
-       //Открыта главная страница
+        //Открыта главная страница
         MainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
@@ -26,7 +26,7 @@ public class Test2  extends AbstractTest{
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
-         //Нажать New Message
+      /*   //Нажать New Message
         MessageList.clickNewMessage();
 
         //Открыта форма создания Create message
@@ -43,19 +43,31 @@ public class Test2  extends AbstractTest{
         ShowMessage.clickMessageList();
 
         //Отображен список.
-        MessageList.assertPageIsOpened();
+        MessageList.assertPageIsOpened();  */
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
         MessageList.assertMessageIsInList(headline, text);
 
-        //Нажать View для созданного ранее сообщения
-        MessageList.clickViewButton(headline, text);
+        //Отредактировать данное сообщение
+        MessageList.clickEditButton(headline, text);
+
+        //Открыта страница Edit message
+        EditPage.assertPageIsOpened();
+
+        //Проверить что содержится данное сообщение
+        EditPage.assertMessageIsCorrect(headline, text);
+
+        //Установить новые значения в поля Headline и Text
+        EditPage.setNewValuesForHeadlineAndText(headlineNew, textNew);
+
+        //Сохранить данные
+        EditPage.save();
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
 
         //Проверить форма содержит такое же сообщение
-        ShowMessage.assertMessageIsCorrect(headline,text);
+        ShowMessage.assertMessageIsCorrect(headlineNew, textNew);
 
         //Нажать кнопку Message list
         ShowMessage.clickMessageList();
@@ -63,8 +75,7 @@ public class Test2  extends AbstractTest{
         //Отображен список.
         MessageList.assertPageIsOpened();
 
-        //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        MessageList.assertMessageIsInList(headline, text);
-
+        //В списке содержится созданный объект, в колонках Headline и  Text отображены новые значения
+        MessageList.assertMessageIsInList(headlineNew, textNew);
     }
 }

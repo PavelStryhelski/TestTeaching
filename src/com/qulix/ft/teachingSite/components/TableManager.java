@@ -1,7 +1,9 @@
 package com.qulix.ft.teachingSite.components;
 
 import com.qulix.ft.logging.SuiteLogger;
+import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.utils.CollectionUtils;
+import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -42,6 +44,9 @@ public class TableManager extends AbstractComponent{
         List<WebElement> rows = table.findElements(rowLocator);
         return rows;
     }
+
+
+
 
     /**
      * Получение текста ячейки
@@ -215,7 +220,7 @@ public class TableManager extends AbstractComponent{
 
         }
 
-        logDebug("Row not found");
+        /*logDebug("Row not found");*/
 
         return -1;
     }

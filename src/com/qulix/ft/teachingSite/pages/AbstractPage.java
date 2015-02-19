@@ -24,4 +24,23 @@ public class AbstractPage extends AbstractComponent {
             SuiteLogger.logError("Page " + formName + " is not opened");
         }
     }
+
+    /**
+     * Убедиться, что есть данный данный элемент с данным текстом
+     */
+    public static void assertElementHasCorrectText(By element, String text){
+
+            if (driver.findElement(element).getText().equals(text)){
+            SuiteLogger.logMessage("Element " + element + "`s text equals to " + text, GetScreenshot.fromDriver());
+            }
+
+            else if (driver.findElement(element).getAttribute("value").equals(text)){
+                SuiteLogger.logMessage("Element " + element + "`s value equals to " + text, GetScreenshot.fromDriver());
+            }
+
+            else {
+            SuiteLogger.logError("Element " + element + "`s value/text does not equal to " + text);
+            }
+
+    }
 }

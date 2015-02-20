@@ -1,4 +1,3 @@
 buttonNewMessage=xpath://a[@class="create"]
 table=xpath://div[@class="list"]/table
 labelMessageList=xpath://H1[text()="Message List"]
-nextPage=xpath://a[@class='nextLink']

@@ -1,9 +1,7 @@
 package com.qulix.ft.teachingSite.components;
 
 import com.qulix.ft.logging.SuiteLogger;
-import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.utils.CollectionUtils;
-import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -13,17 +11,18 @@ import java.util.Properties;
 /**
  * Класс для работы с таблицами
  */
-public class TableManager extends AbstractComponent{
+public class TableManager extends AbstractComponent {
 
-     private By tableLocator;
-     private static final By rowLocator = By.tagName("tr");
-     private static final By cellLocator = By.tagName("td");
+    private By tableLocator;
+    private static final By rowLocator = By.tagName("tr");
+    private static final By cellLocator = By.tagName("td");
+    private static final By _pages = By.xpath("//a[@class='step']");
 
-     public TableManager(By locator){
+    public TableManager(By locator) {
         this.tableLocator = locator;
-     }
+    }
 
-     /**
+    /**
      * Получить строку таблицы (элемент tr)
      *
      * @param index Номер строки
@@ -45,7 +44,47 @@ public class TableManager extends AbstractComponent{
         return rows;
     }
 
+    /**
+     * Все страницы таблицы
+     *
+     * @return Все страницы
+     */
+    private List<WebElement> getPages() {
+        List<WebElement> pages = driver.findElements(_pages);
+        return pages;
+    }
 
+    /**
+     * Получить страницу
+     *
+     * @param index Номер строки
+     * @return страницу
+     */
+    private WebElement getPage(int index) {
+        logDebug("Getting page " + index);
+        return getPages().get(index);
+    }
+
+    /**
+     * Кликнуть на номер страницы
+     *
+     * @param index Номер страницы
+     */
+    private void clickOnThePage(int index) {
+        logDebug("Clicking on page " + index);
+        By newPage = By.xpath("//a[@class='step'][text()='" + index + "']");
+        driver.findElement(newPage).click();
+    }
+
+    /**
+     * Существует ли данный номер страницы
+     *
+     * @param index Номер страницы
+     */
+    private boolean assertPageIsPresent(int index) {
+        By newPage = By.xpath("//a[@class='step'][text()='" + index + "']");
+        return driver.findElement(newPage).isDisplayed();
+    }
 
 
     /**
@@ -60,7 +99,7 @@ public class TableManager extends AbstractComponent{
         return getCellText(getCell(row, index));
     }
 
-   /**
+    /**
      * Получение ячейки (элемент td)
      *
      * @param row   Cтрока в таблице
@@ -141,25 +180,26 @@ public class TableManager extends AbstractComponent{
             String cellText = getCellText(rows.get(i), cellIndex);
             logDebug("Got cell(" + (i + 1) + ", " + cellIndex + ") value:" + cellText);
 
-            if(cellText != null){
+            if (cellText != null) {
 
                 if (!cellText.equalsIgnoreCase(text)) {
                     notFound = true;
-                }else{
-                    notFound=false;
+                } else {
+                    notFound = false;
                 }
 
             } else {
-               notFound = true;
+                notFound = true;
             }
 
             if (!notFound) {
-                 return i + 1;
+                return i + 1;
             }
         }
 
         return -1;
     }
+
 
     /**
      * Поиск строки с возможностью задания множественного критерия
@@ -171,7 +211,7 @@ public class TableManager extends AbstractComponent{
         return getIndexOfRow(condition, 1);
     }
 
-   /**
+    /**
      * Получить номер строки, соответствующей условию
      *
      * @param condition    Условие отбора
@@ -182,20 +222,25 @@ public class TableManager extends AbstractComponent{
 
         Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
         Object[] cellValues = condition.getAllConditions().values().toArray();
-        List<WebElement> rows = getRows();
+        List<WebElement> pages = getPages();
         boolean notFound;
 
-        for (int i = startFromRow - 1; i < rows.size(); i++) {
+        for (int j = 0; j <= pages.size();) {
 
-            notFound = false;
-            logDebug("Checking row " + (i + 1));
+            List<WebElement> rows = getRows();
+            logDebug("Checking page " + (j + 1));
 
-            for (int k = 0; k < cellIndexes.length; k++) {
+            for (int i = startFromRow - 1; i < rows.size(); i++) {
 
-                String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
-                logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
+                notFound = false;
+                logDebug("Checking row " + (i + 1));
 
-                if (cellText != null) {
+                for (int k = 0; k < cellIndexes.length; k++) {
+
+                    String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
+                    logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
+
+                    if (cellText != null) {
 
                         if (cellValues[k] instanceof String[]) {
                             if (!CollectionUtils.contains((String[]) cellValues[k], cellText)) {
@@ -207,15 +252,24 @@ public class TableManager extends AbstractComponent{
                             }
                         }
 
-                } else {
-                    notFound = true;
+                    } else {
+                        notFound = true;
+                    }
+
+                    if (notFound){
+                        break;
+                    }
+
                 }
 
-                if (notFound) break;
+                if (!notFound) {
+                    return i + 1;
+                }
             }
 
-            if (!notFound) {
-                return i + 1;
+            if (assertPageIsPresent(j+2)){
+                j++;
+                clickOnThePage(j+1);
             }
 
         }
@@ -224,6 +278,7 @@ public class TableManager extends AbstractComponent{
 
         return -1;
     }
+
     /**
      * Создание условия
      *

@@ -26,7 +26,7 @@ public class Test3 extends AbstractTest {
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
-      /*   //Нажать New Message
+         //Нажать New Message
         MessageList.clickNewMessage();
 
         //Открыта форма создания Create message
@@ -43,7 +43,7 @@ public class Test3 extends AbstractTest {
         ShowMessage.clickMessageList();
 
         //Отображен список.
-        MessageList.assertPageIsOpened();  */
+        MessageList.assertPageIsOpened();
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
         MessageList.assertMessageIsInList(headline, text);

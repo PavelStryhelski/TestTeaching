@@ -26,7 +26,7 @@ public class Test4 extends AbstractTest{
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
-       /*  //Нажать New Message
+         //Нажать New Message
         MessageList.clickNewMessage();
 
         //Открыта форма создания Create message
@@ -49,7 +49,7 @@ public class Test4 extends AbstractTest{
         MessageList.assertMessageIsInList(headline, text);
 
         //Удалить ранее созданное сообщение
-        MessageList.clickDeleteButton(headline, text);*/
+        MessageList.clickDeleteButton(headline, text);
 
         //Чекнуть, что удаленное сообщение не присутствует в списке
         MessageList.assertMessageIsNotInList(headline, text);

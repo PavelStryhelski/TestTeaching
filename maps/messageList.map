@@ -1,3 +1,4 @@
 buttonNewMessage=xpath://a[@class="create"]
 table=xpath://div[@class="list"]/table
 labelMessageList=xpath://H1[text()="Message List"]
+messageListButton=xpath://a[@class='list' and text()='Message List']

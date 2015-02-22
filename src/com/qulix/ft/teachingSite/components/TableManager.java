@@ -59,11 +59,11 @@ public class TableManager extends AbstractComponent {
      *
      * @param index Номер строки
      * @return страницу
-     */
+
     private WebElement getPage(int index) {
         logDebug("Getting page " + index);
         return getPages().get(index);
-    }
+    } */
 
     /**
      * Кликнуть на номер страницы
@@ -80,11 +80,12 @@ public class TableManager extends AbstractComponent {
      * Существует ли данный номер страницы
      *
      * @param index Номер страницы
-     */
+
     private boolean assertPageIsPresent(int index) {
         By newPage = By.xpath("//a[@class='step'][text()='" + index + "']");
         return driver.findElement(newPage).isDisplayed();
-    }
+
+    }*/
 
 
     /**
@@ -225,7 +226,7 @@ public class TableManager extends AbstractComponent {
         List<WebElement> pages = getPages();
         boolean notFound;
 
-        for (int j = 0; j <= pages.size();) {
+        for (int j = 0; j <= pages.size(); j++) {
 
             List<WebElement> rows = getRows();
             logDebug("Checking page " + (j + 1));
@@ -256,7 +257,7 @@ public class TableManager extends AbstractComponent {
                         notFound = true;
                     }
 
-                    if (notFound){
+                    if (notFound) {
                         break;
                     }
 
@@ -267,10 +268,12 @@ public class TableManager extends AbstractComponent {
                 }
             }
 
-            if (assertPageIsPresent(j+2)){
-                j++;
-                clickOnThePage(j+1);
+            if (j != pages.size()) {
+                clickOnThePage(j + 2);
+            } else {
+                return -1;
             }
+
 
         }
 

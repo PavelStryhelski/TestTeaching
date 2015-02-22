@@ -20,6 +20,9 @@ public class ShowMessage extends AbstractPage{
     */
     private static final By _buttonMessageList = Locators.get(Environment.MAPS.SHOW_MESSAGE, "buttonMessageList");
 
+
+    private static final By _buttonNewMessage = Locators.get(Environment.MAPS.SHOW_MESSAGE, "buttonNewMessage");
+
     /**
      * Локатор Headline
      */
@@ -40,6 +43,15 @@ public class ShowMessage extends AbstractPage{
     }
 
     /**
+     * Кнопка New Message
+     *
+     * @return кнопка MessageList
+     */
+    private static WebElement buttonNewMessage() {
+        return driver.findElement(_buttonNewMessage);
+    }
+
+    /**
      * Убедиться, что открыта страница Show message
      */
     public static void assertPageIsOpened(){
@@ -52,6 +64,14 @@ public class ShowMessage extends AbstractPage{
     public static void clickMessageList(){
         SuiteLogger.logMessage("Click button Message List");
         buttonMessageList().click();
+    }
+
+    /**
+     * Нажать New Message
+     */
+    public static void clickCreateNewMessageButton(){
+        SuiteLogger.logMessage("Click button New Message");
+        buttonNewMessage().click();
     }
 
     /**

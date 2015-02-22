@@ -24,6 +24,11 @@ public class MessageList extends AbstractPage {
     private static final By _buttonNewMessage = Locators.get(Environment.MAPS.MESSAGE_LIST, "buttonNewMessage");
 
     /**
+     * Локатор кнопки MessageList
+     */
+    private static final By _messageListButton = Locators.get(Environment.MAPS.MESSAGE_LIST, "messageListButton");
+
+    /**
      * Номер колонки Headline
      */
     private static final int _headlineCol = 2;
@@ -58,6 +63,15 @@ public class MessageList extends AbstractPage {
         driver.findElement(_buttonNewMessage).click();
     }
 
+    /**
+     * Нажать MessageListButton
+     */
+    public static void clickMessageListButton() {
+        SuiteLogger.logMessage("Click button MessageList");
+        driver.findElement(_messageListButton).click();
+    }
+
+
     private static int returnRowIndex(String headline, String text){
 
         TableManager.RowCondition cond = TableManager.createCondition();
@@ -79,10 +93,11 @@ public class MessageList extends AbstractPage {
         int index = returnRowIndex(headline,text);
 
         if (index > 1) {
-            SuiteLogger.logMessage("Row is founded.");
+            SuiteLogger.logMessage("Row is found.");
 
         } else {
-            SuiteLogger.logFail("Row is not founded.");
+            SuiteLogger.logFail("Row is not found.");
+            throw new RuntimeException();
         }
 
 
@@ -94,9 +109,11 @@ public class MessageList extends AbstractPage {
         int index = returnRowIndex(headline,text);
 
         if (index > 1) {
-            SuiteLogger.logFail("Row is founded.");
+            SuiteLogger.logFail("Row is found.");
+            SuiteLogger.logError("Row is found.");
+            /*throw new RuntimeException();*/
         } else {
-            SuiteLogger.logMessage("Row is not founded.");
+            SuiteLogger.logMessage("Row is not found.");
         }
 
     }
@@ -111,6 +128,7 @@ public class MessageList extends AbstractPage {
                 driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='View']")).click();
             } else {
                 SuiteLogger.logFail("Cannot click View button.");
+                throw new RuntimeException();
             }
 
     }
@@ -125,6 +143,7 @@ public class MessageList extends AbstractPage {
             driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']")).click();
         } else {
             SuiteLogger.logFail("Cannot click Edit button.");
+            throw new RuntimeException();
         }
     }
 
@@ -139,6 +158,7 @@ public class MessageList extends AbstractPage {
 
         } else {
             SuiteLogger.logFail("Cannot click Delete button.");
+            throw new RuntimeException();
         }
 
     }

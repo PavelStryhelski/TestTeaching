@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestsAutomation">
+    <test verbose="1" name="Сценарий 6" annotations="JDK" preserve-order="true">
+        <parameter name="Login" value="admin"/>
+        <parameter name="Password" value="password"/>
+        <parameter name="HeadlineValue" value="HeadlineForTest6_1"/>
+        <parameter name="TextValue" value="Test6_1"/>
+        <parameter name="HeadlineValue_2" value="HeadlineForTest6_2"/>
+        <parameter name="TextValue_2" value="Test6_2"/>
+        <classes>
+            <class name="com.qulix.ft.teachingSite.tests.Test6">
+                <methods>
+                    <include name="Test"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

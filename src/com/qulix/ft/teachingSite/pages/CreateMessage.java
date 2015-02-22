@@ -83,4 +83,11 @@ public class CreateMessage extends AbstractPage{
         clickCreate();
 
     }
+
+    public static void fulfilMessageFieldsWithValues(String headline, String text){
+
+        SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
+        editHeadline().sendKeys(headline);
+        editText().sendKeys(text);
+    }
 }

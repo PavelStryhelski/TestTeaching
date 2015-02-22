@@ -4,14 +4,12 @@ import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import java.util.NoSuchElementException;
-
 
 /***
  * Сценарий 2
  */
-public class Test4 extends AbstractTest{
-    @Test(description = "Сценарий 4. Create and Delete message")
+public class Test5 extends AbstractTest{
+    @Test(description = "Сценарий 5. Create message and exit without saving")
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue"})
     public void Test(String login, String password, String headline, String text){
 
@@ -35,23 +33,13 @@ public class Test4 extends AbstractTest{
         CreateMessage.assertPageIsOpened();
 
         //Заполнить поля Headline и Text
-        //Нажать Create
-        CreateMessage.createMessage(headline, text);
+        CreateMessage.fulfilMessageFieldsWithValues(headline,text);
 
-        //Открыта страница Show message
-        ShowMessage.assertPageIsOpened();
-
-        //Нажать кнопку Message list
-        ShowMessage.clickMessageList();
+        //Нажать Message List
+        MessageList.clickMessageListButton();
 
         //Отображен список.
         MessageList.assertPageIsOpened();
-
-        //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        MessageList.assertMessageIsInList(headline, text);
-
-        //Удалить ранее созданное сообщение
-        MessageList.clickDeleteButton(headline, text);
 
         //Чекнуть, что удаленное сообщение не присутствует в списке
         MessageList.assertMessageIsNotInList(headline, text);

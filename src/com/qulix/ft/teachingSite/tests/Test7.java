@@ -5,15 +5,15 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
-/***
+/**
  * Сценарий 2
  */
-public class Test7 extends AbstractTest{
+public class Test7 extends AbstractTest {
     @Test(description = "Сценарий 7. Check another user`s messages")
-    @Parameters({"Login", "Password", "HeadlineValue", "TextValue","HeadlineValue_2", "TextValue_2"})
-    public void Test(String login, String password, String headline, String text,String headline_2, String text_2){
+    @Parameters({"Login", "Password", "HeadlineValue", "TextValue", "LoginJD", "PasswordJD", "UserNameJD", "HeadlineValueJD", "TextValueJD", "UserNameAdmin"})
+    public void Test(String login, String password, String headline, String text, String login_jd, String password_jd, String jd_name, String headline_jd, String text_jd, String admin_name) {
 
-       //Открыта главная страница
+        //Открыта главная страница
         MainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
@@ -26,7 +26,7 @@ public class Test7 extends AbstractTest{
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
-         //Нажать New Message
+        //Нажать New Message
         MessageList.clickNewMessage();
 
         //Открыта форма создания Create message
@@ -39,14 +39,139 @@ public class Test7 extends AbstractTest{
         ShowMessage.assertPageIsOpened();
 
         //Чекнуть, что сообщение правильное
-        ShowMessage.assertMessageIsCorrect(headline,text);
+        ShowMessage.assertMessageIsCorrect(headline, text);
 
+        //перейти на страницу Message List
         ShowMessage.clickMessageList();
 
-        MessageList.assertMessageIsInList(headline,text);
+        //Открыт список Message list
+        MessageList.assertPageIsOpened();
 
+        //Убедиться,что сообщение есть в таблице
+        MessageList.assertMessageIsInList(headline, text);
 
+        //Кликнуть созданное сообщение на View
+        MessageList.clickViewButton(headline, text);
 
+        //Убедиться,что открылась страница Show Message
+        ShowMessage.assertPageIsOpened();
+
+        //Проверить,что сообщение четенькое
+        ShowMessage.assertMessageIsCorrect(headline, text);
+
+        //перейти на страницу Message List
+        ShowMessage.clickMessageList();
+
+        //Открыт список Message list
+        MessageList.assertPageIsOpened();
+
+        //Убедиться,что сообщение есть в таблице
+        MessageList.assertMessageIsInList(headline, text);
+
+        //Log out
+        MessageList.LogOut();
+
+        //Открыта главная страница
+        Login.assertLoginPageIsOpened();
+
+        /**
+         *
+         * ACT AS JOHN DOE
+         *
+         */
+
+        //Ввести логин и пароль  admin/password, нажать Login
+        Login.signIn(login_jd, password_jd);
+
+        //Salut, Johny!
+        MessageList.assertGreetingIsCorrect(jd_name);
+
+        //Открыт список Message list
+        MessageList.assertPageIsOpened();
+
+        //Нажать New Message
+        MessageList.clickNewMessage();
+
+        //Открыта форма создания Create message
+        CreateMessage.assertPageIsOpened();
+
+        //Заполнить поля Headline и Text
+        CreateMessage.createMessage(headline_jd, text_jd);
+
+        //Открыта страница Show message
+        ShowMessage.assertPageIsOpened();
+
+        //Чекнуть, что сообщение правильное
+        ShowMessage.assertMessageIsCorrect(headline_jd, text_jd);
+
+        //перейти на страницу Message List
+        ShowMessage.clickMessageList();
+
+        //Открыт список Message list
+        MessageList.assertPageIsOpened();
+
+        //Set the checkbox
+        MessageList.checkCheckBox();
+
+        //Убедиться,что сообщение есть в таблице
+        MessageList.assertMessageIsInList(headline_jd, text_jd);
+
+        //Кликнуть созданное сообщение на View
+        MessageList.clickViewButton(headline_jd, text_jd);
+
+        //Убедиться,что открылась страница Show Message
+        ShowMessage.assertPageIsOpened();
+
+        //Проверить,что сообщение четенькое
+        ShowMessage.assertMessageIsCorrect(headline_jd, text_jd);
+
+        //перейти на страницу Message List
+        ShowMessage.clickMessageList();
+
+        //Открыт список Message list
+        MessageList.assertPageIsOpened();
+
+        //Убедиться,что сообщение есть в таблице
+        MessageList.assertMessageIsInList(headline_jd, text_jd);
+
+        //Remove checkbox
+        MessageList.uncheckCheckBox();
+
+        //Log out
+        MessageList.LogOut();
+
+        /**
+         *
+         * ACT AS ADMIN
+         *
+         */
+
+        //Ввести логин и пароль  admin/password, нажать Login
+        Login.signIn(login, password);
+
+        //Salut, Admin!
+        MessageList.assertGreetingIsCorrect(admin_name);
+
+        //Открыт список Message list
+        MessageList.assertPageIsOpened();
+
+        //Set the checkbox
+        MessageList.checkCheckBox();
+
+        //Убедиться,что сообщение есть в таблице от Админа
+        MessageList.assertMessageIsInList(headline, text);
+
+        //Убедиться,что сообщение есть в таблице от Джонни
+        MessageList.assertMessageIsInList(headline_jd, text_jd);
+
+        //Remove checkbox
+        MessageList.uncheckCheckBox();
+
+        //Убедиться,что сообщение есть в таблице от Админа
+        MessageList.assertMessageIsInList(headline, text);
+
+        //Убедиться,что сообщения в таблице от Джонни нет
+        MessageList.assertMessageIsNotInList(headline_jd, text_jd);
 
     }
 }

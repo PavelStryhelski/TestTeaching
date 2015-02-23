@@ -2,3 +2,5 @@ buttonNewMessage=xpath://a[@class="create"]
 table=xpath://div[@class="list"]/table
 labelMessageList=xpath://H1[text()="Message List"]
 messageListButton=xpath://a[@class='list' and text()='Message List']
+checkBox=xpath://div[@class='nav']//input[@type='checkbox' and @name='allUsers']
+greetingLocator=xpath://div[@class='body']//div[@class='message']

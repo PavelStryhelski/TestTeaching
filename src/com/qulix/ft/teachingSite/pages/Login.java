@@ -76,5 +76,6 @@ public class Login extends AbstractPage {
         buttonLogin().click();
         loggedUser = userName;
     }
+
 }
 

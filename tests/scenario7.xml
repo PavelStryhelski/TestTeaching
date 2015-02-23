@@ -4,10 +4,14 @@
     <test verbose="1" name="—ценарий 7" annotations="JDK" preserve-order="true">
         <parameter name="Login" value="admin"/>
         <parameter name="Password" value="password"/>
-        <parameter name="HeadlineValue" value="HeadlineForTest6_1"/>
-        <parameter name="TextValue" value="Test6_1"/>
-        <parameter name="HeadlineValue_2" value="HeadlineForTest6_2"/>
-        <parameter name="TextValue_2" value="Test6_2"/>
+        <parameter name="HeadlineValue" value="HeadlineForTest7_A"/>
+        <parameter name="TextValue" value="Test7_A"/>
+        <parameter name="LoginJD" value="jdoe"/>
+        <parameter name="PasswordJD" value="password"/>
+        <parameter name="UserNameJD" value="John Doe"/>
+        <parameter name="HeadlineValueJD" value="HeadlineForTest7_JD"/>
+        <parameter name="TextValueJD" value="Test7_JD"/>
+        <parameter name="UserNameAdmin" value="Administrator"/>
         <classes>
             <class name="com.qulix.ft.teachingSite.tests.Test7">
                 <methods>

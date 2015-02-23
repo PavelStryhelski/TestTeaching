@@ -12,6 +12,8 @@ import org.openqa.selenium.By;
 
 public class AbstractPage extends AbstractComponent {
 
+    private static final By _logoutLocator = By.xpath("//a[text()='Logout']");
+
     /**
      * Убедиться, что открыта форма
      */
@@ -43,4 +45,21 @@ public class AbstractPage extends AbstractComponent {
             }
 
     }
+
+
+    /**
+    Log out for all Pages except Login Page
+     */
+    public static void LogOut(){
+
+        try {
+            driver.findElement(_logoutLocator).click();
+            SuiteLogger.logMessage("Logout");
+        } catch (Exception e){
+            SuiteLogger.logError("You cannot logout from this page");
+        }
+
+    }
+
+
 }

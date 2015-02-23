@@ -29,6 +29,16 @@ public class MessageList extends AbstractPage {
     private static final By _messageListButton = Locators.get(Environment.MAPS.MESSAGE_LIST, "messageListButton");
 
     /**
+     * Локатор Checkbox
+     */
+    private static final By _checkbox = Locators.get(Environment.MAPS.MESSAGE_LIST, "checkBox");
+
+    /**
+     * Локатор Greeting
+     */
+    private static final By _userGreetingLocator =  Locators.get(Environment.MAPS.MESSAGE_LIST, "greetingLocator");
+
+    /**
      * Номер колонки Headline
      */
     private static final int _headlineCol = 2;
@@ -152,6 +162,32 @@ public class MessageList extends AbstractPage {
             SuiteLogger.logError("Cannot click Delete button.");
         }
 
+    }
+
+    public static void checkCheckBox(){
+        if (!driver.findElement(_checkbox).isSelected()) {
+            driver.findElement(_checkbox).click();
+            SuiteLogger.logMessage("Check checkbox 'All User`s messages'");
+        } else {
+            SuiteLogger.logError("CheckBox is already checked!");
+        }
+    }
+
+    public static void uncheckCheckBox(){
+        if (driver.findElement(_checkbox).isSelected()) {
+            driver.findElement(_checkbox).click();
+            SuiteLogger.logMessage("Uncheck checkbox 'All User`s messages'");
+        } else {
+            SuiteLogger.logError("CheckBox is already unchecked!");
+        }
+    }
+
+    public static void assertGreetingIsCorrect(String name){
+        if(driver.findElement(_userGreetingLocator).getText().equals("Hello " + name + "!")){
+            SuiteLogger.logMessage("Greeting is correct!");
+        } else {
+            SuiteLogger.logError("Greeting is not correct!");
+        }
     }
 
 }

@@ -18,7 +18,7 @@ public class Test2  extends AbstractTest{
 
         //ѕерейти по ссылке qulixteachingsite.UserController
         //ќткрыта страница логина
-        MainPage.clickMessageController();
+        MainPage.clickUserController();
 
         //¬вести логин и пароль  admin/password, нажать Login
         Login.signIn(login, password);

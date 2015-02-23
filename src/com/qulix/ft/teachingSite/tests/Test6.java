@@ -38,7 +38,7 @@ public class Test6 extends AbstractTest{
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
 
-        //Чекнуть, что удаленное сообщение правильное
+        //Чекнуть, что сообщение правильное
         ShowMessage.assertMessageIsCorrect(headline,text);
 
         //Нажать New Message
@@ -52,6 +52,9 @@ public class Test6 extends AbstractTest{
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
+
+        //Чекнуть, что сообщение правильное
+        ShowMessage.assertMessageIsCorrect(headline_2,text_2);
 
         //Нажать Message List
         ShowMessage.clickMessageList();

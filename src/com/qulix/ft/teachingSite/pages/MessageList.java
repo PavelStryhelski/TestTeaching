@@ -94,13 +94,9 @@ public class MessageList extends AbstractPage {
 
         if (index > 1) {
             SuiteLogger.logMessage("Row is found.");
-
         } else {
-            SuiteLogger.logFail("Row is not found.");
-            throw new RuntimeException();
+            SuiteLogger.logError("Row is not found.");
         }
-
-
     }
 
     public static void assertMessageIsNotInList(String headline, String text) {
@@ -109,9 +105,7 @@ public class MessageList extends AbstractPage {
         int index = returnRowIndex(headline,text);
 
         if (index > 1) {
-            SuiteLogger.logFail("Row is found.");
             SuiteLogger.logError("Row is found.");
-            /*throw new RuntimeException();*/
         } else {
             SuiteLogger.logMessage("Row is not found.");
         }
@@ -127,8 +121,7 @@ public class MessageList extends AbstractPage {
                 SuiteLogger.logMessage("Click!");
                 driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='View']")).click();
             } else {
-                SuiteLogger.logFail("Cannot click View button.");
-                throw new RuntimeException();
+                SuiteLogger.logError("Cannot click View button.");
             }
 
     }
@@ -142,8 +135,7 @@ public class MessageList extends AbstractPage {
             SuiteLogger.logMessage("Click!");
             driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']")).click();
         } else {
-            SuiteLogger.logFail("Cannot click Edit button.");
-            throw new RuntimeException();
+            SuiteLogger.logError("Cannot click Edit button.");
         }
     }
 
@@ -157,8 +149,7 @@ public class MessageList extends AbstractPage {
             driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='Delete']")).click();
 
         } else {
-            SuiteLogger.logFail("Cannot click Delete button.");
-            throw new RuntimeException();
+            SuiteLogger.logError("Cannot click Delete button.");
         }
 
     }

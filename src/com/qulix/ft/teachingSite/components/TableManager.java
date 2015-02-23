@@ -3,6 +3,7 @@ package com.qulix.ft.teachingSite.components;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.utils.CollectionUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -80,12 +81,18 @@ public class TableManager extends AbstractComponent {
      * Существует ли данный номер страницы
      *
      * @param index Номер страницы
-
+     */
     private boolean assertPageIsPresent(int index) {
         By newPage = By.xpath("//a[@class='step'][text()='" + index + "']");
-        return driver.findElement(newPage).isDisplayed();
+        try{
+            driver.findElement(newPage);
+            return true;
+        }
+        catch (NoSuchElementException e){
+            return false;
+        }
 
-    }*/
+    }
 
 
     /**
@@ -226,7 +233,11 @@ public class TableManager extends AbstractComponent {
         List<WebElement> pages = getPages();
         boolean notFound;
 
-        for (int j = 0; j <= pages.size(); j++) {
+        if (assertPageIsPresent(1)){
+            clickOnThePage(1);
+        }
+
+        for (int j = 0; j <= pages.size();j++) {
 
             List<WebElement> rows = getRows();
             logDebug("Checking page " + (j + 1));
@@ -268,12 +279,11 @@ public class TableManager extends AbstractComponent {
                 }
             }
 
-            if (j != pages.size()) {
-                clickOnThePage(j + 2);
-            } else {
-                return -1;
-            }
-
+              if (assertPageIsPresent(j+2)){
+                  clickOnThePage(j + 2);
+              } else {
+                  return -1;
+              }
 
         }
 

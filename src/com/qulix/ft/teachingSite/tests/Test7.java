@@ -161,14 +161,23 @@ public class Test7 extends AbstractTest {
         //Убедиться,что сообщение есть в таблице от Админа
         MessageList.assertMessageIsInList(headline, text);
 
+        //Убедиться,что автор  - Админ
+        MessageList.assertMessageIsInList(headline,text,admin_name);
+
         //Убедиться,что сообщение есть в таблице от Джонни
         MessageList.assertMessageIsInList(headline_jd, text_jd);
+
+        //Убедиться,что автор  - Джон Доу
+        MessageList.assertMessageIsInList(headline_jd,text_jd,jd_name);
 
         //Remove checkbox
         MessageList.uncheckCheckBox();
 
         //Убедиться,что сообщение есть в таблице от Админа
         MessageList.assertMessageIsInList(headline, text);
+
+        //Убедиться,что автор  - Админ
+        MessageList.assertMessageIsInList(headline,text,admin_name);
 
         //Убедиться,что сообщения в таблице от Джонни нет
         MessageList.assertMessageIsNotInList(headline_jd, text_jd);

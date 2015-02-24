@@ -5,6 +5,7 @@ import com.qulix.ft.teachingSite.components.TableManager;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Страница MessageList
@@ -47,6 +48,12 @@ public class MessageList extends AbstractPage {
      */
     private static final int _textCol = 3;
 
+    /**
+     * Номер колонки Author
+     */
+    private static final int _authorCol = 4;
+
+
 
     /**
      * Объект класса TableManager для работы с таблицей
@@ -63,6 +70,41 @@ public class MessageList extends AbstractPage {
      */
     public static void assertPageIsOpened() {
         assertPageIsOpened(_labelMessageList, "Message List");
+    }
+
+    /**
+     * Выбран ли чек-бокс
+     */
+    private static boolean assertCheckBoxIsChecked(){
+        return driver.findElement(_checkbox).isSelected();
+    }
+
+    /**
+     * Правильное ли приветствие на странице
+     */
+    private static boolean assertGretingIsCorrect(String name){
+       return driver.findElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
+    }
+
+    /**
+     * Правильный ли автор у сообщения
+     */
+    private static boolean assertAuthorNameIsCorrect(int index, String author) {
+
+        By authorText = By.xpath("//div[@class='list']//tr[" + --index + "]/td[" + _authorCol + "]");
+
+        if (driver.findElement(authorText).getText().equals(author)) {
+            return true;
+        }  else {
+            return false;
+        }
+    }
+
+    /**
+     * Нажать на чек-бокс
+     */
+    private static void clickCheckBox(){
+        driver.findElement(_checkbox).click();;
     }
 
     /**
@@ -104,6 +146,30 @@ public class MessageList extends AbstractPage {
 
         if (index > 1) {
             SuiteLogger.logMessage("Row is found.");
+        } else {
+            SuiteLogger.logError("Row is not found.");
+        }
+    }
+
+    /**
+     * Убедиться, что в табице есть строка с заданными значениями headline и  text и author
+     *
+     * @param headline значение столбца headline
+     * @param text     значение столбца text
+     * @param author   значение столбца author
+     */
+    public static void assertMessageIsInList(String headline, String text,String author) {
+        SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list with correct Author" + author);
+
+        int index = returnRowIndex(headline,text);
+
+        if (index > 1) {
+            SuiteLogger.logMessage("Row is found.");
+            if (assertAuthorNameIsCorrect(index,author)){
+                SuiteLogger.logMessage("Author is correct");
+            }   else {
+                SuiteLogger.logError("Author is not correct!");
+            }
         } else {
             SuiteLogger.logError("Row is not found.");
         }
@@ -165,8 +231,8 @@ public class MessageList extends AbstractPage {
     }
 
     public static void checkCheckBox(){
-        if (!driver.findElement(_checkbox).isSelected()) {
-            driver.findElement(_checkbox).click();
+        if (!assertCheckBoxIsChecked()) {
+            clickCheckBox();
             SuiteLogger.logMessage("Check checkbox 'All User`s messages'");
         } else {
             SuiteLogger.logError("CheckBox is already checked!");
@@ -174,8 +240,8 @@ public class MessageList extends AbstractPage {
     }
 
     public static void uncheckCheckBox(){
-        if (driver.findElement(_checkbox).isSelected()) {
-            driver.findElement(_checkbox).click();
+        if (assertCheckBoxIsChecked()) {
+            clickCheckBox();
             SuiteLogger.logMessage("Uncheck checkbox 'All User`s messages'");
         } else {
             SuiteLogger.logError("CheckBox is already unchecked!");
@@ -183,7 +249,7 @@ public class MessageList extends AbstractPage {
     }
 
     public static void assertGreetingIsCorrect(String name){
-        if(driver.findElement(_userGreetingLocator).getText().equals("Hello " + name + "!")){
+        if(assertGretingIsCorrect(name)){
             SuiteLogger.logMessage("Greeting is correct!");
         } else {
             SuiteLogger.logError("Greeting is not correct!");

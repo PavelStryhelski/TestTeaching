@@ -1,2 +1,2 @@
-linkMessageController=link:qulixteachingsite.MessageController
-linkUserController=link:qulixteachingsite.UserController
+linkMessageController=xpath://a[text()='qulixteachingsite.MessageController']
+linkUserController=xpath://a[text()='qulixteachingsite.UserController']

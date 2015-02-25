@@ -13,7 +13,7 @@ public class Test7 extends AbstractTest {
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue", "LoginJD", "PasswordJD", "UserNameJD", "HeadlineValueJD", "TextValueJD", "UserNameAdmin"})
     public void Test(String login, String password, String headline, String text, String login_jd, String password_jd, String jd_name, String headline_jd, String text_jd, String admin_name) {
 
-        //Открыта главная страница
+     /*   //Открыта главная страница
         MainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
@@ -74,11 +74,11 @@ public class Test7 extends AbstractTest {
         //Открыта главная страница
         Login.assertLoginPageIsOpened();
 
-        /**
+        *//**
          *
          * ACT AS JOHN DOE
          *
-         */
+         *//*
 
         //Ввести логин и пароль  admin/password, нажать Login
         Login.signIn(login_jd, password_jd);
@@ -140,11 +140,11 @@ public class Test7 extends AbstractTest {
         //Log out
         MessageList.LogOut();
 
-        /**
+        *//**
          *
          * ACT AS ADMIN
          *
-         */
+         *//*
 
         //Ввести логин и пароль  admin/password, нажать Login
         Login.signIn(login, password);
@@ -180,7 +180,32 @@ public class Test7 extends AbstractTest {
         MessageList.assertMessageIsInList(headline,text,admin_name);
 
         //Убедиться,что сообщения в таблице от Джонни нет
-        MessageList.assertMessageIsNotInList(headline_jd, text_jd);
+        MessageList.assertMessageIsNotInList(headline_jd, text_jd);*/
+
+
+        /* ------------------------------ Test for the same messages ------------------*/
+
+        //Открыта главная страница
+        MainPage.assertMainPageIsOpened();
+
+        //Перейти по ссылке qulixteachingsite.UserController
+        //Открыта страница логина
+        MainPage.clickUserController();
+
+        //Ввести логин и пароль  admin/password, нажать Login
+        Login.signIn(login, password);
+
+        //Открыт список Message list
+        MessageList.assertPageIsOpened();
+
+        //Set the checkbox
+        MessageList.checkCheckBox();
+
+        //Убедиться,что автор  - Админ
+        MessageList.assertMessageIsInList("Test","Test",admin_name);
+
+        //Убедиться,что автор  - Джон Доу
+        MessageList.assertMessageIsInList("Test","Test",jd_name);
 
     }
 }

@@ -18,6 +18,7 @@ public class TableManager extends AbstractComponent {
     private static final By rowLocator = By.tagName("tr");
     private static final By cellLocator = By.tagName("td");
     private static final By _pages = By.xpath("//a[@class='step']");
+    private static final int _authorCol = 4;
 
     public TableManager(By locator) {
         this.tableLocator = locator;
@@ -92,6 +93,14 @@ public class TableManager extends AbstractComponent {
             return false;
         }
 
+    }
+
+    private boolean assertAuthorIsCorrect(int index,String author){
+        if (driver.findElement(By.xpath("//div[@class='list']//tr[" + index +  "]/td[" + _authorCol + "]")).getText().equals(author)){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -219,6 +228,10 @@ public class TableManager extends AbstractComponent {
         return getIndexOfRow(condition, 1);
     }
 
+    public int getIndexOfRow(RowCondition condition, String author) {
+        return getIndexOfRow(condition, 1, author);
+    }
+
     /**
      * ѕолучить номер строки, соответствующей условию
      *
@@ -284,6 +297,76 @@ public class TableManager extends AbstractComponent {
               } else {
                   return -1;
               }
+
+        }
+
+        /*logDebug("Row not found");*/
+
+        return -1;
+    }
+
+    public int getIndexOfRow(RowCondition condition, int startFromRow, String author) {
+
+        Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
+        Object[] cellValues = condition.getAllConditions().values().toArray();
+        List<WebElement> pages = getPages();
+        boolean notFound;
+
+        if (assertPageIsPresent(1)){
+            clickOnThePage(1);
+        }
+
+        for (int j = 0; j <= pages.size();j++) {
+
+            List<WebElement> rows = getRows();
+            logDebug("Checking page " + (j + 1));
+
+            for (int i = startFromRow - 1; i < rows.size(); i++) {
+
+                notFound = false;
+                logDebug("Checking row " + (i + 1));
+
+                for (int k = 0; k < cellIndexes.length; k++) {
+
+                    String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
+                    logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
+
+                    if (cellText != null) {
+
+                        if (cellValues[k] instanceof String[]) {
+                            if (!CollectionUtils.contains((String[]) cellValues[k], cellText)) {
+                                notFound = true;
+                            }
+                        } else {
+                            if (!cellText.equalsIgnoreCase(cellValues[k].toString())) {
+                                notFound = true;
+                            }
+                        }
+
+                    } else {
+                        notFound = true;
+                    }
+
+                    if (notFound) {
+                        break;
+                    }
+
+                }
+
+                if (!notFound) {
+                    if (assertAuthorIsCorrect(i,author)){
+                    return i + 1;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+
+            if (assertPageIsPresent(j+2)){
+                clickOnThePage(j + 2);
+            } else {
+                return -1;
+            }
 
         }
 

@@ -49,13 +49,6 @@ public class MessageList extends AbstractPage {
     private static final int _textCol = 3;
 
     /**
-     * Номер колонки Author
-     */
-    private static final int _authorCol = 4;
-
-
-
-    /**
      * Объект класса TableManager для работы с таблицей
      *
      * @return TableManager
@@ -84,20 +77,6 @@ public class MessageList extends AbstractPage {
      */
     private static boolean assertGretingIsCorrect(String name){
        return driver.findElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
-    }
-
-    /**
-     * Правильный ли автор у сообщения
-     */
-    private static boolean assertAuthorNameIsCorrect(int index, String author) {
-
-        By authorText = By.xpath("//div[@class='list']//tr[" + --index + "]/td[" + _authorCol + "]");
-
-        if (driver.findElement(authorText).getText().equals(author)) {
-            return true;
-        }  else {
-            return false;
-        }
     }
 
     /**
@@ -133,6 +112,15 @@ public class MessageList extends AbstractPage {
         return tableMessages().getIndexOfRow(cond);
     }
 
+    private static int returnRowIndex(String headline, String text, String author){
+
+        TableManager.RowCondition cond = TableManager.createCondition();
+        cond.addCondition(_headlineCol, headline);
+        cond.addCondition(_textCol, text);
+
+        return tableMessages().getIndexOfRow(cond, author);
+    }
+
     /**
      * Убедиться, что в табице есть строка с заданными значениями headline и  text
      *
@@ -151,29 +139,18 @@ public class MessageList extends AbstractPage {
         }
     }
 
-    /**
-     * Убедиться, что в табице есть строка с заданными значениями headline и  text и author
-     *
-     * @param headline значение столбца headline
-     * @param text     значение столбца text
-     * @param author   значение столбца author
-     */
     public static void assertMessageIsInList(String headline, String text,String author) {
         SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list with correct Author" + author);
 
-        int index = returnRowIndex(headline,text);
+        int index = returnRowIndex(headline,text, author);
 
         if (index > 1) {
-            SuiteLogger.logMessage("Row is found.");
-            if (assertAuthorNameIsCorrect(index,author)){
-                SuiteLogger.logMessage("Author is correct");
-            }   else {
-                SuiteLogger.logError("Author is not correct!");
-            }
+            SuiteLogger.logMessage("Row is found. Author is correct");
         } else {
-            SuiteLogger.logError("Row is not found.");
+            SuiteLogger.logError("Row is not found or Author is not correct");
         }
     }
+
 
     public static void assertMessageIsNotInList(String headline, String text) {
         SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is not in list");

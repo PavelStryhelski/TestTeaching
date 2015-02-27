@@ -58,6 +58,11 @@ public class MessageList extends AbstractPage {
     }
 
 
+    private static WebElement findElement(By element){
+        return driver.findElement(element);
+    }
+
+
     /**
      * Убедиться, что открыта страница Message List
      */
@@ -69,21 +74,21 @@ public class MessageList extends AbstractPage {
      * Выбран ли чек-бокс
      */
     private static boolean assertCheckBoxIsChecked(){
-        return driver.findElement(_checkbox).isSelected();
+        return findElement(_checkbox).isSelected();
     }
 
     /**
      * Правильное ли приветствие на странице
      */
-    private static boolean assertGretingIsCorrect(String name){
-       return driver.findElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
+    private static boolean assertGreetingIsCorrect(String name){
+       return findElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
     }
 
     /**
      * Нажать на чек-бокс
      */
     private static void clickCheckBox(){
-        driver.findElement(_checkbox).click();;
+        findElement(_checkbox).click();
     }
 
     /**
@@ -91,7 +96,7 @@ public class MessageList extends AbstractPage {
      */
     public static void clickNewMessage() {
         SuiteLogger.logMessage("Click button NewMessage");
-        driver.findElement(_buttonNewMessage).click();
+        findElement(_buttonNewMessage).click();
     }
 
     /**
@@ -99,7 +104,8 @@ public class MessageList extends AbstractPage {
      */
     public static void clickMessageListButton() {
         SuiteLogger.logMessage("Click button MessageList");
-        driver.findElement(_messageListButton).click();
+        //TODO Move to superclass
+        findElement(_messageListButton).click();
     }
 
 
@@ -172,7 +178,7 @@ public class MessageList extends AbstractPage {
 
             if (index > 1) {
                 SuiteLogger.logMessage("Click!");
-                driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='View']")).click();
+                findElement(By.xpath("//tr[" + --index + "]//a[text()='View']")).click();
             } else {
                 SuiteLogger.logError("Cannot click View button.");
             }
@@ -186,7 +192,7 @@ public class MessageList extends AbstractPage {
 
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
-            driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']")).click();
+            findElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']")).click();
         } else {
             SuiteLogger.logError("Cannot click Edit button.");
         }
@@ -199,7 +205,7 @@ public class MessageList extends AbstractPage {
 
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
-            driver.findElement(By.xpath("//tr[" + --index + "]//a[text()='Delete']")).click();
+            findElement(By.xpath("//tr[" + --index + "]//a[text()='Delete']")).click();
 
         } else {
             SuiteLogger.logError("Cannot click Delete button.");
@@ -212,7 +218,7 @@ public class MessageList extends AbstractPage {
             clickCheckBox();
             SuiteLogger.logMessage("Check checkbox 'All User`s messages'");
         } else {
-            SuiteLogger.logError("CheckBox is already checked!");
+            SuiteLogger.logMessage("CheckBox is already checked!");
         }
     }
 
@@ -221,12 +227,12 @@ public class MessageList extends AbstractPage {
             clickCheckBox();
             SuiteLogger.logMessage("Uncheck checkbox 'All User`s messages'");
         } else {
-            SuiteLogger.logError("CheckBox is already unchecked!");
+            SuiteLogger.logMessage("CheckBox is already unchecked!");
         }
     }
 
-    public static void assertGreetingIsCorrect(String name){
-        if(assertGretingIsCorrect(name)){
+    public static void assertGreeting(String name){
+        if(assertGreetingIsCorrect(name)){
             SuiteLogger.logMessage("Greeting is correct!");
         } else {
             SuiteLogger.logError("Greeting is not correct!");

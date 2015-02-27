@@ -316,6 +316,12 @@ public class TableManager extends AbstractComponent {
             clickOnThePage(1);
         }
 
+        //TODO Remove duplicate
+
+
+        //TODO Check on current page and if not found goto first page
+        //TODO Use toNextPage instead of toPage(int)
+
         for (int j = 0; j <= pages.size();j++) {
 
             List<WebElement> rows = getRows();
@@ -356,8 +362,6 @@ public class TableManager extends AbstractComponent {
                 if (!notFound) {
                     if (assertAuthorIsCorrect(i,author)){
                     return i + 1;
-                    } else {
-                        continue;
                     }
                 }
             }

@@ -78,7 +78,7 @@ public class CreateMessage extends AbstractPage{
     public static void createMessage(String headline, String text){
 
         SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
-        editHeadline().sendKeys(headline);
+        editHeadline().sendKeys(headline);      //todo where clear
         editText().sendKeys(text);
         clickCreate();
 

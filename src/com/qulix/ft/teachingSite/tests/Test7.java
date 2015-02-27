@@ -13,7 +13,7 @@ public class Test7 extends AbstractTest {
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue", "LoginJD", "PasswordJD", "UserNameJD", "HeadlineValueJD", "TextValueJD", "UserNameAdmin"})
     public void Test(String login, String password, String headline, String text, String login_jd, String password_jd, String jd_name, String headline_jd, String text_jd, String admin_name) {
 
-     /*   //Открыта главная страница
+        //Открыта главная страница
         MainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
@@ -74,17 +74,17 @@ public class Test7 extends AbstractTest {
         //Открыта главная страница
         Login.assertLoginPageIsOpened();
 
-        *//**
+        /**
          *
          * ACT AS JOHN DOE
          *
-         *//*
+         */
 
         //Ввести логин и пароль  admin/password, нажать Login
         Login.signIn(login_jd, password_jd);
 
         //Salut, Johny!
-        MessageList.assertGreetingIsCorrect(jd_name);
+        MessageList.assertGreeting(jd_name);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -140,17 +140,17 @@ public class Test7 extends AbstractTest {
         //Log out
         MessageList.LogOut();
 
-        *//**
+        /**
          *
          * ACT AS ADMIN
          *
-         *//*
+         */
 
         //Ввести логин и пароль  admin/password, нажать Login
         Login.signIn(login, password);
 
         //Salut, Admin!
-        MessageList.assertGreetingIsCorrect(admin_name);
+        MessageList.assertGreeting(admin_name);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -162,13 +162,13 @@ public class Test7 extends AbstractTest {
         MessageList.assertMessageIsInList(headline, text);
 
         //Убедиться,что автор  - Админ
-        MessageList.assertMessageIsInList(headline,text,admin_name);
+        MessageList.assertMessageIsInList(headline, text, admin_name);
 
         //Убедиться,что сообщение есть в таблице от Джонни
         MessageList.assertMessageIsInList(headline_jd, text_jd);
 
         //Убедиться,что автор  - Джон Доу
-        MessageList.assertMessageIsInList(headline_jd,text_jd,jd_name);
+        MessageList.assertMessageIsInList(headline_jd, text_jd, jd_name);
 
         //Remove checkbox
         MessageList.uncheckCheckBox();
@@ -177,13 +177,13 @@ public class Test7 extends AbstractTest {
         MessageList.assertMessageIsInList(headline, text);
 
         //Убедиться,что автор  - Админ
-        MessageList.assertMessageIsInList(headline,text,admin_name);
+        MessageList.assertMessageIsInList(headline, text, admin_name);
 
         //Убедиться,что сообщения в таблице от Джонни нет
-        MessageList.assertMessageIsNotInList(headline_jd, text_jd);*/
+        MessageList.assertMessageIsNotInList(headline_jd, text_jd);
 
 
-        /* ------------------------------ Test for the same messages ------------------*/
+        /* ------------------------------ Test for the same messages ------------------
 
         //Открыта главная страница
         MainPage.assertMainPageIsOpened();
@@ -205,7 +205,7 @@ public class Test7 extends AbstractTest {
         MessageList.assertMessageIsInList("Test","Test",admin_name);
 
         //Убедиться,что автор  - Джон Доу
-        MessageList.assertMessageIsInList("Test","Test",jd_name);
+        MessageList.assertMessageIsInList("Test","Test",jd_name);   */
 
     }
 }

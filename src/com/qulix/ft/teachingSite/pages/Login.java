@@ -70,7 +70,7 @@ public class Login extends AbstractPage {
         SuiteLogger.logMessage("Log in user: " + userName + "\\" + userPassword);
 
         driver.switchTo().defaultContent();
-        editLogin().clear();
+        editLogin().clear(); //TODO Should be setText method
         editLogin().sendKeys(userName);
         editPassword().sendKeys(userPassword);
         buttonLogin().click();

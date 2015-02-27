@@ -9,6 +9,9 @@ import org.testng.annotations.Test;
  */
 public class Test1 extends AbstractTest{
 
+    //TODO: CreateMessagePage & EditMessagePage - common
+    //TODO Create Message and User classes
+
     @Test(description = "—ценарий 1. Create message")
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue"})
     public void Test(String login, String password, String headline, String text){

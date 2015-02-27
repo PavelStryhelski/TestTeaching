@@ -17,6 +17,7 @@ public class AbstractPage extends AbstractComponent {
     /**
      * Убедиться, что открыта форма
      */
+    //todo non public
     public static void assertPageIsOpened(By element, String formName){
 
         try{
@@ -30,6 +31,7 @@ public class AbstractPage extends AbstractComponent {
     /**
      * Убедиться, что есть данный данный элемент с данным текстом
      */
+    //todo non public
     public static void assertElementHasCorrectText(By element, String text){
 
             if (driver.findElement(element).getText().equals(text)){

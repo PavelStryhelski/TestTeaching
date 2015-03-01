@@ -7,105 +7,56 @@ import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-/**
- * Страница MessageList
- */
 public class MessageList extends AbstractPage {
-    /**
-     * Локатор таблицы
-     */
+
     private static final By _table = Locators.get(Environment.MAPS.MESSAGE_LIST, "table");
-    /**
-     * Локатор наименования страницы
-     */
+
     private static final By _labelMessageList = Locators.get(Environment.MAPS.MESSAGE_LIST, "labelMessageList");
-    /**
-     * Локатор кнопки NewMessage
-     */
+
     private static final By _buttonNewMessage = Locators.get(Environment.MAPS.MESSAGE_LIST, "buttonNewMessage");
 
-    /**
-     * Локатор кнопки MessageList
-     */
     private static final By _messageListButton = Locators.get(Environment.MAPS.MESSAGE_LIST, "messageListButton");
 
-    /**
-     * Локатор Checkbox
-     */
     private static final By _checkbox = Locators.get(Environment.MAPS.MESSAGE_LIST, "checkBox");
 
-    /**
-     * Локатор Greeting
-     */
     private static final By _userGreetingLocator =  Locators.get(Environment.MAPS.MESSAGE_LIST, "greetingLocator");
 
-    /**
-     * Номер колонки Headline
-     */
     private static final int _headlineCol = 2;
-    /**
-     * Номер колонки Text
-     */
+
     private static final int _textCol = 3;
 
-    /**
-     * Объект класса TableManager для работы с таблицей
-     *
-     * @return TableManager
-     */
+    private static final int _authorCol = 4;
+
+
+
     private static TableManager tableMessages() {
         return new TableManager(_table);
     }
 
-
-    private static WebElement findElement(By element){
-        return driver.findElement(element);
-    }
-
-
-    /**
-     * Убедиться, что открыта страница Message List
-     */
     public static void assertPageIsOpened() {
         assertPageIsOpened(_labelMessageList, "Message List");
     }
 
-    /**
-     * Выбран ли чек-бокс
-     */
     private static boolean assertCheckBoxIsChecked(){
-        return findElement(_checkbox).isSelected();
+        return assertElementIsSelected(_checkbox);
     }
 
-    /**
-     * Правильное ли приветствие на странице
-     */
     private static boolean assertGreetingIsCorrect(String name){
-       return findElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
+       return getElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
     }
 
-    /**
-     * Нажать на чек-бокс
-     */
     private static void clickCheckBox(){
-        findElement(_checkbox).click();
+        clickOnElement(_checkbox);
     }
 
-    /**
-     * Нажать NewMessage
-     */
-    public static void clickNewMessage() {
+    public static void goToNewMessage() {
         SuiteLogger.logMessage("Click button NewMessage");
-        findElement(_buttonNewMessage).click();
+        clickOnElement(_buttonNewMessage);
     }
 
-    /**
-     * Нажать MessageListButton
-     */
-    public static void clickMessageListButton() {
+    public static void goToMessageList() {
         SuiteLogger.logMessage("Click button MessageList");
-        //TODO Move to superclass
-        findElement(_messageListButton).click();
+        clickOnElement(_messageListButton);
     }
 
 
@@ -127,12 +78,6 @@ public class MessageList extends AbstractPage {
         return tableMessages().getIndexOfRow(cond, author);
     }
 
-    /**
-     * Убедиться, что в табице есть строка с заданными значениями headline и  text
-     *
-     * @param headline значение столбца headline
-     * @param text     значение столбца text
-     */
     public static void assertMessageIsInList(String headline, String text) {
         SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list");
 
@@ -178,7 +123,7 @@ public class MessageList extends AbstractPage {
 
             if (index > 1) {
                 SuiteLogger.logMessage("Click!");
-                findElement(By.xpath("//tr[" + --index + "]//a[text()='View']")).click();
+                clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='View']"));
             } else {
                 SuiteLogger.logError("Cannot click View button.");
             }
@@ -192,7 +137,7 @@ public class MessageList extends AbstractPage {
 
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
-            findElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']")).click();
+            clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']"));
         } else {
             SuiteLogger.logError("Cannot click Edit button.");
         }
@@ -205,7 +150,7 @@ public class MessageList extends AbstractPage {
 
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
-            findElement(By.xpath("//tr[" + --index + "]//a[text()='Delete']")).click();
+            clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='Delete']"));
 
         } else {
             SuiteLogger.logError("Cannot click Delete button.");

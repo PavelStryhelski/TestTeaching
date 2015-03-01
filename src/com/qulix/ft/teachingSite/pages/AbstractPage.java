@@ -4,6 +4,7 @@ import com.qulix.ft.teachingSite.components.AbstractComponent;
 import com.qulix.ft.logging.GetScreenshot;
 import com.qulix.ft.logging.SuiteLogger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Абстрактная страница.
@@ -14,31 +15,29 @@ public class AbstractPage extends AbstractComponent {
 
     private static final By _logoutLocator = By.xpath("//a[text()='Logout']");
 
-    /**
-     * Убедиться, что открыта форма
-     */
-    //todo non public
-    public static void assertPageIsOpened(By element, String formName){
+
+    protected static WebElement getElement(By element){
+        return driver.findElement(element);
+    }
+
+
+    protected static void assertPageIsOpened(By element, String formName){
 
         try{
-            driver.findElement(element);
+            getElement(element);
             SuiteLogger.logMessage("Page " + formName + " is opened", GetScreenshot.fromDriver());
         }catch(Exception e){
             SuiteLogger.logError("Page " + formName + " is not opened");
         }
     }
 
-    /**
-     * Убедиться, что есть данный данный элемент с данным текстом
-     */
-    //todo non public
-    public static void assertElementHasCorrectText(By element, String text){
+    protected static void assertElementHasCorrectText(By element, String text){
 
-            if (driver.findElement(element).getText().equals(text)){
+            if (getElement(element).getText().equals(text)){
             SuiteLogger.logMessage("Element " + element + "`s text equals to " + text, GetScreenshot.fromDriver());
             }
 
-            else if (driver.findElement(element).getAttribute("value").equals(text)){
+            else if (getElement(element).getAttribute("value").equals(text)){
                 SuiteLogger.logMessage("Element " + element + "`s value equals to " + text, GetScreenshot.fromDriver());
             }
 
@@ -48,19 +47,32 @@ public class AbstractPage extends AbstractComponent {
 
     }
 
+    protected static void sendTextToTheField(By element,String text){
+        clearField(element);
+        getElement(element).sendKeys(text);
+    }
 
-    /**
-    Log out for all Pages except Login Page
-     */
-    public static void LogOut(){
+    public static void logOut(){
 
         try {
-            driver.findElement(_logoutLocator).click();
+            clickOnElement(_logoutLocator);
             SuiteLogger.logMessage("Logout");
         } catch (Exception e){
             SuiteLogger.logError("You cannot logout from this page");
         }
 
+    }
+
+    protected static void clearField(By element){
+        getElement(element).clear();
+    }
+
+    protected static void clickOnElement (By element) {
+        getElement(element).click();
+    }
+
+    protected static boolean assertElementIsSelected(By element){
+        return getElement(element).isSelected();
     }
 
 

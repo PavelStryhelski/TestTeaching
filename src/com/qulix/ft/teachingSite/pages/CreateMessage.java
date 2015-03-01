@@ -11,83 +11,33 @@ import org.openqa.selenium.WebElement;
  */
 public class CreateMessage extends AbstractPage{
 
-    /**
-     * Локатор наименования страницы
-    */
     private static final By _labelCreateMessage = Locators.get(Environment.MAPS.CREATE_MESSAGE, "labelCreateMessage");
-    /**
-     * Локатор кнопки Create
-    */
+
     private static final By _buttonCreate = Locators.get(Environment.MAPS.CREATE_MESSAGE, "buttonCreate");
-    /**
-     * Локатор поля HeadLine
-    */
-    private static final By _editHeadline = Locators.get(Environment.MAPS.CREATE_MESSAGE, "editHeadline");
-    /**
-     * Локатор поля Text
-    */
-    private static final By _editText = Locators.get(Environment.MAPS.CREATE_MESSAGE, "editText");
 
-    /**
-     * Поле HeadLine
-     *
-     * @return поле логина
-     */
-    private static WebElement editHeadline() {
-        return driver.findElement(_editHeadline);
+    private static final By _editHeadline = Locators.get(Environment.MAPS.CREATE_MESSAGE, "headlineField");
+
+    private static final By _editText = Locators.get(Environment.MAPS.CREATE_MESSAGE, "textField");
+
+    private static void clickCreateButton(){
+        SuiteLogger.logMessage("Click button Create");
+        clickOnElement(_buttonCreate);
     }
 
-    /**
-     * Поле Text
-     *
-     * @return поле Text
-     */
-    private static WebElement editText() {
-        return driver.findElement(_editText);
-    }
-
-    /**
-     * Кнопка Create
-     *
-     * @return кнопка Create
-     */
-    private static WebElement buttonCreate() {
-        return driver.findElement(_buttonCreate);
-    }
-
-    /**
-     * Убедиться, что открыта страница Create Message
-     */
     public static void assertPageIsOpened(){
         assertPageIsOpened(_labelCreateMessage, "Create Message");
     }
 
-    /**
-     * Нажать Create
-     */
-    public static void clickCreate(){
-        SuiteLogger.logMessage("Click button Create");
-        buttonCreate().click();
-    }
-
-    /**
-     * Заполнить форму Create message: ввести headline и text, нажать Create
-     * @param headline значение headline
-     * @param text значение text
-     */
     public static void createMessage(String headline, String text){
-
         SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
-        editHeadline().sendKeys(headline);      //todo where clear
-        editText().sendKeys(text);
-        clickCreate();
-
+        sendTextToTheField(_editHeadline,headline);
+        sendTextToTheField(_editText,text);
+        clickCreateButton();
     }
 
     public static void fulfilMessageFieldsWithValues(String headline, String text){
-
         SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
-        editHeadline().sendKeys(headline);
-        editText().sendKeys(text);
+        sendTextToTheField(_editHeadline,headline);
+        sendTextToTheField(_editText,text);
     }
 }

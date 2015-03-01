@@ -1,5 +1,6 @@
 package com.qulix.ft.teachingSite.tests;
 
+import com.qulix.ft.teachingSite.User;
 import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,7 +15,7 @@ public class Test1 extends AbstractTest{
 
     @Test(description = "Сценарий 1. Create message")
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue"})
-    public void Test(String login, String password, String headline, String text){
+    public void Test(User user, String headline, String text){
 
         //Открыта главная страница
         MainPage.assertMainPageIsOpened();
@@ -24,13 +25,13 @@ public class Test1 extends AbstractTest{
         MainPage.clickUserController();
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(login, password);
+        Login.signIn(user);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
         //Нажать New Message
-        MessageList.clickNewMessage();
+        MessageList.goToNewMessage();
 
         //Открыта форма создания Create message
         CreateMessage.assertPageIsOpened();
@@ -43,7 +44,7 @@ public class Test1 extends AbstractTest{
         ShowMessage.assertPageIsOpened();
 
         //Нажать кнопку Message list
-        ShowMessage.clickMessageList();
+        ShowMessage.showMessageList();
 
         //Отображен список.
         MessageList.assertPageIsOpened();

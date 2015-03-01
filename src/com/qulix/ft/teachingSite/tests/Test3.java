@@ -1,5 +1,6 @@
 package com.qulix.ft.teachingSite.tests;
 
+import com.qulix.ft.teachingSite.User;
 import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,7 +12,7 @@ import org.testng.annotations.Test;
 public class Test3 extends AbstractTest {
     @Test(description = "Сценарий 3. Create and Edit message")
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue", "NewHeadlineValue", "NewTextValue"})
-    public void Test(String login, String password, String headline, String text, String headlineNew, String textNew) {
+    public void Test(User user, String headline, String text, String headlineNew, String textNew) {
 
         //Открыта главная страница
         MainPage.assertMainPageIsOpened();
@@ -21,13 +22,13 @@ public class Test3 extends AbstractTest {
         MainPage.clickUserController();
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(login, password);
+        Login.signIn(user);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
          //Нажать New Message
-        MessageList.clickNewMessage();
+        MessageList.goToNewMessage();
 
         //Открыта форма создания Create message
         CreateMessage.assertPageIsOpened();
@@ -40,7 +41,7 @@ public class Test3 extends AbstractTest {
         ShowMessage.assertPageIsOpened();
 
         //Нажать кнопку Message list
-        ShowMessage.clickMessageList();
+        ShowMessage.showMessageList();
 
         //Отображен список.
         MessageList.assertPageIsOpened();
@@ -61,7 +62,7 @@ public class Test3 extends AbstractTest {
         EditPage.setNewValuesForHeadlineAndText(headlineNew, textNew);
 
         //Сохранить данные
-        EditPage.save();
+        EditPage.saveMessage();
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
@@ -70,7 +71,7 @@ public class Test3 extends AbstractTest {
         ShowMessage.assertMessageIsCorrect(headlineNew, textNew);
 
         //Нажать кнопку Message list
-        ShowMessage.clickMessageList();
+        ShowMessage.showMessageList();
 
         //Отображен список.
         MessageList.assertPageIsOpened();

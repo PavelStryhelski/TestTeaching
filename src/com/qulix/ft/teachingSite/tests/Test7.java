@@ -1,5 +1,6 @@
 package com.qulix.ft.teachingSite.tests;
 
+import com.qulix.ft.teachingSite.User;
 import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,7 +12,7 @@ import org.testng.annotations.Test;
 public class Test7 extends AbstractTest {
     @Test(description = "Сценарий 7. Check another user`s messages")
     @Parameters({"Login", "Password", "HeadlineValue", "TextValue", "LoginJD", "PasswordJD", "UserNameJD", "HeadlineValueJD", "TextValueJD", "UserNameAdmin"})
-    public void Test(String login, String password, String headline, String text, String login_jd, String password_jd, String jd_name, String headline_jd, String text_jd, String admin_name) {
+    public void Test(User user_admin, String headline, String text, User user_jd, String jd_name, String headline_jd, String text_jd, String admin_name) {
 
         //Открыта главная страница
         MainPage.assertMainPageIsOpened();
@@ -21,13 +22,13 @@ public class Test7 extends AbstractTest {
         MainPage.clickUserController();
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(login, password);
+        Login.signIn(user_admin);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
         //Нажать New Message
-        MessageList.clickNewMessage();
+        MessageList.goToNewMessage();
 
         //Открыта форма создания Create message
         CreateMessage.assertPageIsOpened();
@@ -42,7 +43,7 @@ public class Test7 extends AbstractTest {
         ShowMessage.assertMessageIsCorrect(headline, text);
 
         //перейти на страницу Message List
-        ShowMessage.clickMessageList();
+        ShowMessage.showMessageList();
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -60,7 +61,7 @@ public class Test7 extends AbstractTest {
         ShowMessage.assertMessageIsCorrect(headline, text);
 
         //перейти на страницу Message List
-        ShowMessage.clickMessageList();
+        ShowMessage.showMessageList();
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -69,7 +70,7 @@ public class Test7 extends AbstractTest {
         MessageList.assertMessageIsInList(headline, text);
 
         //Log out
-        MessageList.LogOut();
+        MessageList.logOut();
 
         //Открыта главная страница
         Login.assertLoginPageIsOpened();
@@ -81,7 +82,7 @@ public class Test7 extends AbstractTest {
          */
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(login_jd, password_jd);
+        Login.signIn(user_jd);
 
         //Salut, Johny!
         MessageList.assertGreeting(jd_name);
@@ -90,7 +91,7 @@ public class Test7 extends AbstractTest {
         MessageList.assertPageIsOpened();
 
         //Нажать New Message
-        MessageList.clickNewMessage();
+        MessageList.goToNewMessage();
 
         //Открыта форма создания Create message
         CreateMessage.assertPageIsOpened();
@@ -105,7 +106,7 @@ public class Test7 extends AbstractTest {
         ShowMessage.assertMessageIsCorrect(headline_jd, text_jd);
 
         //перейти на страницу Message List
-        ShowMessage.clickMessageList();
+        ShowMessage.showMessageList();
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -126,7 +127,7 @@ public class Test7 extends AbstractTest {
         ShowMessage.assertMessageIsCorrect(headline_jd, text_jd);
 
         //перейти на страницу Message List
-        ShowMessage.clickMessageList();
+        ShowMessage.showMessageList();
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -138,7 +139,7 @@ public class Test7 extends AbstractTest {
         MessageList.uncheckCheckBox();
 
         //Log out
-        MessageList.LogOut();
+        MessageList.logOut();
 
         /**
          *
@@ -147,7 +148,7 @@ public class Test7 extends AbstractTest {
          */
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(login, password);
+        Login.signIn(user_admin);
 
         //Salut, Admin!
         MessageList.assertGreeting(admin_name);

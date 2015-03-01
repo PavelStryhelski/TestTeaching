@@ -13,9 +13,7 @@ public class Environment {
      * Файл настроек
      */
     public static final String PROP_FILE = "settings.properties";
-   /**
-     * URL приложения
-     */
+
     public static final String URL = getURL();
 
     /**
@@ -27,30 +25,16 @@ public class Environment {
 
         private final static String mapsFolder = "maps" + File.separator;
 
-        /**
-         * Карта страницы логина
-         */
         public final static String LOGIN = mapsFolder + "login.map";
-        /**
-         * Карта объектов главной страницы
-         */
+
         public final static String MAIN = mapsFolder + "main.map";
-         /**
-         * Карта объектов Message List
-         */
+
         public final static String MESSAGE_LIST = mapsFolder + "messageList.map";
-         /**
-         * Карта объектов Create Message
-         */
+
         public final static String CREATE_MESSAGE = mapsFolder + "createMessage.map";
-         /**
-         * Карта объектов Show Message
-         */
+
         public final static String SHOW_MESSAGE = mapsFolder + "showMessage.map";
 
-        /**
-         * Карта объектов Edit Message
-         */
         public final static String EDIT_MESSAGE = mapsFolder + "editMessage.map";
     }
 

@@ -15,10 +15,11 @@ import java.util.Properties;
 public class TableManager extends AbstractComponent {
 
     private By tableLocator;
-    private static final By rowLocator = By.tagName("tr");
-    private static final By cellLocator = By.tagName("td");
-    private static final By _pages = By.xpath("//a[@class='step']");
-    private static final int _authorCol = 4;
+    private static final By _rowLocator = By.tagName("tr");
+    private static final By _cellLocator = By.tagName("td");
+    private static final By _firstPage = By.xpath("//a[@class='step' and text()='1']");
+    private static final By _nextPageButton = By.xpath("//div[@class='paginateButtons']//a[@class='nextLink']");
+
 
     public TableManager(By locator) {
         this.tableLocator = locator;
@@ -41,68 +42,31 @@ public class TableManager extends AbstractComponent {
      * @return Все строки таблицы (tr)
      */
     private List<WebElement> getRows() {
-        WebElement table = driver.findElement(tableLocator);
-        List<WebElement> rows = table.findElements(rowLocator);
+        WebElement table = getElement(tableLocator);
+        List<WebElement> rows = table.findElements(_rowLocator);
         return rows;
     }
 
     /**
-     * Все страницы таблицы
-     *
-     * @return Все страницы
-     */
-    private List<WebElement> getPages() {
-        List<WebElement> pages = driver.findElements(_pages);
-        return pages;
-    }
-
-    /**
-     * Получить страницу
-     *
-     * @param index Номер строки
-     * @return страницу
-
-    private WebElement getPage(int index) {
-        logDebug("Getting page " + index);
-        return getPages().get(index);
-    } */
-
-    /**
      * Кликнуть на номер страницы
-     *
-     * @param index Номер страницы
      */
-    private void clickOnThePage(int index) {
-        logDebug("Clicking on page " + index);
-        By newPage = By.xpath("//a[@class='step'][text()='" + index + "']");
-        driver.findElement(newPage).click();
+    private void clickOnThePage(By element) {
+        logDebug("Clicking on page " + element.toString());
+        clickOnElement(element);
     }
 
     /**
      * Существует ли данный номер страницы
-     *
-     * @param index Номер страницы
      */
-    private boolean assertPageIsPresent(int index) {
-        By newPage = By.xpath("//a[@class='step'][text()='" + index + "']");
-        try{
-            driver.findElement(newPage);
+    private boolean assertNextPageIsPresent(By element) {
+        try {
+            getElement(element);
             return true;
-        }
-        catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             return false;
         }
 
     }
-
-    private boolean assertAuthorIsCorrect(int index,String author){
-        if (driver.findElement(By.xpath("//div[@class='list']//tr[" + index +  "]/td[" + _authorCol + "]")).getText().equals(author)){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
     /**
      * Получение текста ячейки
@@ -139,7 +103,7 @@ public class TableManager extends AbstractComponent {
      * @return Все ячейки строки
      */
     private List<WebElement> getCells(WebElement row) {
-        List<WebElement> cells = row.findElements(cellLocator);
+        List<WebElement> cells = row.findElements(_cellLocator);
         return cells;
     }
 
@@ -228,10 +192,6 @@ public class TableManager extends AbstractComponent {
         return getIndexOfRow(condition, 1);
     }
 
-    public int getIndexOfRow(RowCondition condition, String author) {
-        return getIndexOfRow(condition, 1, author);
-    }
-
     /**
      * Получить номер строки, соответствующей условию
      *
@@ -243,17 +203,13 @@ public class TableManager extends AbstractComponent {
 
         Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
         Object[] cellValues = condition.getAllConditions().values().toArray();
-        List<WebElement> pages = getPages();
         boolean notFound;
 
-        if (assertPageIsPresent(1)){
-            clickOnThePage(1);
-        }
-
-        for (int j = 0; j <= pages.size();j++) {
+        //TODO complete the circle
+        do {
 
             List<WebElement> rows = getRows();
-            logDebug("Checking page " + (j + 1));
+            logDebug("Checking page " );
 
             for (int i = startFromRow - 1; i < rows.size(); i++) {
 
@@ -292,91 +248,13 @@ public class TableManager extends AbstractComponent {
                 }
             }
 
-              if (assertPageIsPresent(j+2)){
-                  clickOnThePage(j + 2);
-              } else {
-                  return -1;
-              }
-
-        }
-
-        /*logDebug("Row not found");*/
-
-        return -1;
-    }
-
-    public int getIndexOfRow(RowCondition condition, int startFromRow, String author) {
-
-        Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
-        Object[] cellValues = condition.getAllConditions().values().toArray();
-        List<WebElement> pages = getPages();
-        boolean notFound;
-
-        if (assertPageIsPresent(1)){
-            clickOnThePage(1);
-        }
-
-        //TODO Remove duplicate
-
-
-        //TODO Check on current page and if not found goto first page
-        //TODO Use toNextPage instead of toPage(int)
-
-        for (int j = 0; j <= pages.size();j++) {
-
-            List<WebElement> rows = getRows();
-            logDebug("Checking page " + (j + 1));
-
-            for (int i = startFromRow - 1; i < rows.size(); i++) {
-
-                notFound = false;
-                logDebug("Checking row " + (i + 1));
-
-                for (int k = 0; k < cellIndexes.length; k++) {
-
-                    String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
-                    logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
-
-                    if (cellText != null) {
-
-                        if (cellValues[k] instanceof String[]) {
-                            if (!CollectionUtils.contains((String[]) cellValues[k], cellText)) {
-                                notFound = true;
-                            }
-                        } else {
-                            if (!cellText.equalsIgnoreCase(cellValues[k].toString())) {
-                                notFound = true;
-                            }
-                        }
-
-                    } else {
-                        notFound = true;
-                    }
-
-                    if (notFound) {
-                        break;
-                    }
-
-                }
-
-                if (!notFound) {
-                    if (assertAuthorIsCorrect(i,author)){
-                    return i + 1;
-                    }
-                }
-            }
-
-            if (assertPageIsPresent(j+2)){
-                clickOnThePage(j + 2);
+            if (assertNextPageIsPresent(_nextPageButton)) {
+                clickOnThePage(_nextPageButton);
             } else {
                 return -1;
             }
 
-        }
-
-        /*logDebug("Row not found");*/
-
-        return -1;
+        } while(true);
     }
 
     /**

@@ -92,7 +92,7 @@ public class MessageList extends AbstractPage {
     }
 
     public static void assertMessageIsInList(String headline, String text,String author) {
-        SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list with correct Author" + author);
+        SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list with correct Author " + author);
 
         int index = returnRowIndex(headline,text, author);
 
@@ -162,7 +162,7 @@ public class MessageList extends AbstractPage {
     public static void checkCheckBox(){
         if (!assertCheckBoxIsChecked()) {
             clickCheckBox();
-            SuiteLogger.logMessage("Check checkbox 'All User`s messages'");
+            SuiteLogger.logMessage("Check checkbox 'All Users` messages'");
         } else {
             SuiteLogger.logMessage("CheckBox is already checked!");
         }
@@ -171,7 +171,7 @@ public class MessageList extends AbstractPage {
     public static void uncheckCheckBox(){
         if (assertCheckBoxIsChecked()) {
             clickCheckBox();
-            SuiteLogger.logMessage("Uncheck checkbox 'All User`s messages'");
+            SuiteLogger.logMessage("Uncheck checkbox 'All Users` messages'");
         } else {
             SuiteLogger.logMessage("CheckBox is already unchecked!");
         }

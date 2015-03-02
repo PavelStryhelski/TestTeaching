@@ -10,9 +10,9 @@ public class Login extends AbstractPage {
 
     private static final By _labelLogin = Locators.get(Environment.MAPS.LOGIN, "labelLogin");
 
-    private static final By _editLogin = Locators.get(Environment.MAPS.LOGIN, "username");
+    private static final By _editLogin = Locators.get(Environment.MAPS.LOGIN, "userName");
 
-    private static final By _editPassword = Locators.get(Environment.MAPS.LOGIN, "userpassword");
+    private static final By _editPassword = Locators.get(Environment.MAPS.LOGIN, "userPassword");
 
     private static final By _buttonLogin = Locators.get(Environment.MAPS.LOGIN, "buttonLogin");
 

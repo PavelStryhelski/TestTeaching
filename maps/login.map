@@ -1,4 +1,4 @@
-username=id:login
-userpassword=id:password
+userName=id:login
+userPassword=id:password
 buttonLogin=class:save
 labelLogin=xpath://h1[text()='Login']

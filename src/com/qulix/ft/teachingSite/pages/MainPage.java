@@ -8,31 +8,25 @@ import org.openqa.selenium.WebElement;
 
 public class MainPage extends AbstractPage {
 
+    private static final By _labelMainPage = Locators.get(Environment.MAPS.MAIN, "labelMainPage");
+
     private static final By _linkMessageController = Locators.get(Environment.MAPS.MAIN, "linkMessageController");
 
     private static final By _linkUserController = Locators.get(Environment.MAPS.MAIN, "linkUserController");
 
-    private static  WebElement linkMessageController() {
-        return getElement(_linkMessageController);
-    }
-
-    private static  WebElement linkUserController() {
-        return getElement(_linkUserController);
-    }
-
-    public static void clickMessageController(){
+    public static void goToMessageController(){
         SuiteLogger.logMessage("Select link qulixteachingsite.MessageController");
-        linkMessageController().click();
+        clickOnElement(_linkUserController);
         Login.assertLoginPageIsOpened();
     }
 
-    public static void clickUserController(){
+    public static void goToUserController(){
         SuiteLogger.logMessage("Select link qulixteachingsite.UserController");
-        linkUserController().click();
+        clickOnElement(_linkMessageController);
         Login.assertLoginPageIsOpened();
     }
 
     public static void assertMainPageIsOpened(){
-        assertPageIsOpened(_linkMessageController, "Home Page");
+        assertPageIsOpened(_labelMainPage, "Welcome to Grails");
     }
 }

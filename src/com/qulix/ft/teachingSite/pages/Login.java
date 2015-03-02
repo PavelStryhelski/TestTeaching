@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 
 public class Login extends AbstractPage {
 
+    private static final By _labelLogin = Locators.get(Environment.MAPS.LOGIN, "labelLogin");
+
     private static final By _editLogin = Locators.get(Environment.MAPS.LOGIN, "username");
 
     private static final By _editPassword = Locators.get(Environment.MAPS.LOGIN, "userpassword");
@@ -17,17 +19,17 @@ public class Login extends AbstractPage {
     private static String loggedUser = null;
 
     public static void assertLoginPageIsOpened(){
-        assertPageIsOpened(_editLogin, "Login");
+        assertPageIsOpened(_labelLogin, "Login");
     }
 
     public static void signIn(User user) {
-        SuiteLogger.logMessage("Log in user: " + user.getUserName() + "\\" + user.getPassword());
+        SuiteLogger.logMessage("Log in user: " + user.getUserLoginName() + "\\" + user.getPassword());
 
         driver.switchTo().defaultContent();
-        sendTextToTheField(_editLogin, user.getUserName());
+        sendTextToTheField(_editLogin, user.getUserLoginName());
         sendTextToTheField(_editPassword, user.getPassword());
         clickOnElement(_buttonLogin);
-        loggedUser = user.getUserName();
+        loggedUser = user.getName();
     }
 
 }

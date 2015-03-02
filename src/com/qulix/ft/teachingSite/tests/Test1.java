@@ -14,24 +14,24 @@ public class Test1 extends AbstractTest{
     //TODO Create Message and User classes
 
     @Test(description = "Сценарий 1. Create message")
-    @Parameters({"Login", "Password", "HeadlineValue", "TextValue"})
-    public void Test(User user, String headline, String text){
+    @Parameters({"HeadlineValue", "TextValue"})
+    public void Test(String headline, String text){
 
         //Открыта главная страница
         MainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
         //Открыта страница логина
-        MainPage.clickUserController();
+        MainPage.goToUserController();
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(user);
+        Login.signIn(User.ADMIN);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
         //Нажать New Message
-        MessageList.goToNewMessage();
+        MessageList.createNewMessage();
 
         //Открыта форма создания Create message
         CreateMessage.assertPageIsOpened();

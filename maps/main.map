@@ -1,2 +1,3 @@
 linkMessageController=xpath://a[text()='qulixteachingsite.MessageController']
 linkUserController=xpath://a[text()='qulixteachingsite.UserController']
+labelMainPage=xpath://h1[text()='Welcome to Grails']

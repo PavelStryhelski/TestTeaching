@@ -1,4 +1,4 @@
 labelCreateMessage=xpath://h1[text()="Create Message"]
-buttonCreate=xpath://input[(@class="save") and (@id="create")]
+buttonCreate=id:create
 editHeadline=id:headline
 editText=id:text

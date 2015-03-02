@@ -23,10 +23,9 @@ public class AbstractPage extends AbstractComponent {
 
     protected static void assertPageIsOpened(By element, String formName){
 
-        try{
-            getElement(element);
+        if (getElement(element).getText().equals(formName)){
             SuiteLogger.logMessage("Page " + formName + " is opened", GetScreenshot.fromDriver());
-        }catch(Exception e){
+        } else {
             SuiteLogger.logError("Page " + formName + " is not opened");
         }
     }

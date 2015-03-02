@@ -2,16 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="TestsAutomation">
     <test verbose="1" name="—ценарий 7" annotations="JDK" preserve-order="true">
-        <parameter name="Login" value="admin"/>
-        <parameter name="Password" value="password"/>
         <parameter name="HeadlineValue" value="HeadlineForTest7_A"/>
         <parameter name="TextValue" value="Test7_A"/>
-        <parameter name="LoginJD" value="jdoe"/>
-        <parameter name="PasswordJD" value="password"/>
-        <parameter name="UserNameJD" value="John Doe"/>
         <parameter name="HeadlineValueJD" value="HeadlineForTest7_JD"/>
         <parameter name="TextValueJD" value="Test7_JD"/>
-        <parameter name="UserNameAdmin" value="Administrator"/>
         <classes>
             <class name="com.qulix.ft.teachingSite.tests.Test7">
                 <methods>

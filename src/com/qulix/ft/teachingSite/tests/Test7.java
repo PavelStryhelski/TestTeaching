@@ -11,24 +11,24 @@ import org.testng.annotations.Test;
  */
 public class Test7 extends AbstractTest {
     @Test(description = "Сценарий 7. Check another user`s messages")
-    @Parameters({"Login", "Password", "HeadlineValue", "TextValue", "LoginJD", "PasswordJD", "UserNameJD", "HeadlineValueJD", "TextValueJD", "UserNameAdmin"})
-    public void Test(User user_admin, String headline, String text, User user_jd, String jd_name, String headline_jd, String text_jd, String admin_name) {
+    @Parameters({"HeadlineValue", "TextValue", "HeadlineValueJD", "TextValueJD"})
+    public void Test(String headline, String text, String headline_jd, String text_jd) {
 
-        //Открыта главная страница
+     /*   //Открыта главная страница
         MainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
         //Открыта страница логина
-        MainPage.clickUserController();
+        MainPage.goToUserController();
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(user_admin);
+        Login.signIn(User.ADMIN);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
         //Нажать New Message
-        MessageList.goToNewMessage();
+        MessageList.createNewMessage();
 
         //Открыта форма создания Create message
         CreateMessage.assertPageIsOpened();
@@ -75,23 +75,23 @@ public class Test7 extends AbstractTest {
         //Открыта главная страница
         Login.assertLoginPageIsOpened();
 
-        /**
+        *//**
          *
          * ACT AS JOHN DOE
          *
-         */
+         *//*
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(user_jd);
+        Login.signIn(User.J_DOE);
 
         //Salut, Johny!
-        MessageList.assertGreeting(jd_name);
+        MessageList.assertGreeting(User.J_DOE.getName());
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
 
         //Нажать New Message
-        MessageList.goToNewMessage();
+        MessageList.createNewMessage();
 
         //Открыта форма создания Create message
         CreateMessage.assertPageIsOpened();
@@ -141,17 +141,17 @@ public class Test7 extends AbstractTest {
         //Log out
         MessageList.logOut();
 
-        /**
+        *//**
          *
          * ACT AS ADMIN
          *
-         */
+         *//*
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(user_admin);
+        Login.signIn(User.ADMIN);
 
         //Salut, Admin!
-        MessageList.assertGreeting(admin_name);
+        MessageList.assertGreeting(User.ADMIN.getName());
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -163,13 +163,13 @@ public class Test7 extends AbstractTest {
         MessageList.assertMessageIsInList(headline, text);
 
         //Убедиться,что автор  - Админ
-        MessageList.assertMessageIsInList(headline, text, admin_name);
+        MessageList.assertMessageIsInList(headline, text, User.ADMIN.getName());
 
         //Убедиться,что сообщение есть в таблице от Джонни
         MessageList.assertMessageIsInList(headline_jd, text_jd);
 
         //Убедиться,что автор  - Джон Доу
-        MessageList.assertMessageIsInList(headline_jd, text_jd, jd_name);
+        MessageList.assertMessageIsInList(headline_jd, text_jd, User.J_DOE.getName());
 
         //Remove checkbox
         MessageList.uncheckCheckBox();
@@ -178,23 +178,23 @@ public class Test7 extends AbstractTest {
         MessageList.assertMessageIsInList(headline, text);
 
         //Убедиться,что автор  - Админ
-        MessageList.assertMessageIsInList(headline, text, admin_name);
+        MessageList.assertMessageIsInList(headline, text, User.ADMIN.getName());
 
         //Убедиться,что сообщения в таблице от Джонни нет
-        MessageList.assertMessageIsNotInList(headline_jd, text_jd);
+        MessageList.assertMessageIsNotInList(headline_jd, text_jd);*/
 
 
-        /* ------------------------------ Test for the same messages ------------------
+        /* ------------------------------ Test for the same messages ------------------    */
 
         //Открыта главная страница
         MainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
         //Открыта страница логина
-        MainPage.clickUserController();
+        MainPage.goToUserController();
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(login, password);
+        Login.signIn(User.ADMIN);
 
         //Открыт список Message list
         MessageList.assertPageIsOpened();
@@ -203,10 +203,10 @@ public class Test7 extends AbstractTest {
         MessageList.checkCheckBox();
 
         //Убедиться,что автор  - Админ
-        MessageList.assertMessageIsInList("Test","Test",admin_name);
+        MessageList.assertMessageIsInList("Test","Test",User.ADMIN.getName());
 
         //Убедиться,что автор  - Джон Доу
-        MessageList.assertMessageIsInList("Test","Test",jd_name);   */
+        MessageList.assertMessageIsInList("Test","Test",User.J_DOE.getName());
 
     }
 }

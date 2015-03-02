@@ -49,7 +49,7 @@ public class MessageList extends AbstractPage {
         clickOnElement(_checkbox);
     }
 
-    public static void goToNewMessage() {
+    public static void createNewMessage() {
         SuiteLogger.logMessage("Click button NewMessage");
         clickOnElement(_buttonNewMessage);
     }
@@ -74,8 +74,9 @@ public class MessageList extends AbstractPage {
         TableManager.RowCondition cond = TableManager.createCondition();
         cond.addCondition(_headlineCol, headline);
         cond.addCondition(_textCol, text);
+        cond.addCondition(_authorCol, author);
 
-        return tableMessages().getIndexOfRow(cond, author);
+        return tableMessages().getIndexOfRow(cond);
     }
 
     public static void assertMessageIsInList(String headline, String text) {
@@ -103,10 +104,10 @@ public class MessageList extends AbstractPage {
     }
 
 
-    public static void assertMessageIsNotInList(String headline, String text) {
+    public static void assertMessageIsNotInList(String headline, String text, String author) {
         SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is not in list");
 
-        int index = returnRowIndex(headline,text);
+        int index = returnRowIndex(headline,text, author);
 
         if (index > 1) {
             SuiteLogger.logError("Row is found.");

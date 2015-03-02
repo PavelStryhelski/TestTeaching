@@ -15,9 +15,9 @@ public class CreateMessage extends AbstractPage{
 
     private static final By _buttonCreate = Locators.get(Environment.MAPS.CREATE_MESSAGE, "buttonCreate");
 
-    private static final By _editHeadline = Locators.get(Environment.MAPS.CREATE_MESSAGE, "headlineField");
+    private static final By _editHeadline = Locators.get(Environment.MAPS.CREATE_MESSAGE, "editHeadline");
 
-    private static final By _editText = Locators.get(Environment.MAPS.CREATE_MESSAGE, "textField");
+    private static final By _editText = Locators.get(Environment.MAPS.CREATE_MESSAGE, "editText");
 
     private static void clickCreateButton(){
         SuiteLogger.logMessage("Click button Create");

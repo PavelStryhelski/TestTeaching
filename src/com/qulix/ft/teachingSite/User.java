@@ -2,19 +2,28 @@ package com.qulix.ft.teachingSite;
 
 public class User {
 
-    private String userName;
-    private String password;
+    public static final User ADMIN = new User("admin", "password", "Administrator");
+    public static final User J_DOE = new User("jdoe", "password", "John Doe");
 
-    public User(String userName,String password){
-        this.userName = userName;
+    private String userLoginName;
+    private String password;
+    private String name;
+
+    public User(String userLoginName,String password, String name){
+        this.userLoginName = userLoginName;
         this.password = password;
+        this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserLoginName() {
+        return userLoginName;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -19,6 +19,7 @@ public class TableManager extends AbstractComponent {
     private static final By _cellLocator = By.tagName("td");
     private static final By _firstPage = By.xpath("//a[@class='step' and text()='1']");
     private static final By _nextPageButton = By.xpath("//div[@class='paginateButtons']//a[@class='nextLink']");
+    private static final By _currentPage = By.xpath("//div[@class='paginateButtons']//span[@class='currentStep']");
 
 
     public TableManager(By locator) {
@@ -45,6 +46,10 @@ public class TableManager extends AbstractComponent {
         WebElement table = getElement(tableLocator);
         List<WebElement> rows = table.findElements(_rowLocator);
         return rows;
+    }
+
+    private String whatPageAreWeAt(){
+        return getElement(_currentPage).getText();
     }
 
     /**
@@ -196,7 +201,7 @@ public class TableManager extends AbstractComponent {
 
             stop = false;
             List<WebElement> rows = getRows();
-            logDebug("Checking page ");
+            logDebug("Checking page " + whatPageAreWeAt());
 
             for (int i = startFromRow - 1; i < rows.size(); i++) {
 
@@ -205,29 +210,31 @@ public class TableManager extends AbstractComponent {
 
                 for (int k = 0; k < cellIndexes.length; k++) {
 
-                    String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
-                    logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
+                    if (!cellValues[k].equals("")) {
 
-                    if (cellText != null) {
+                        String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
+                        logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
 
-                        if (cellValues[k] instanceof String[]) {
-                            if (!CollectionUtils.contains((String[]) cellValues[k], cellText)) {
-                                notFound = true;
+                        if (cellText != null) {
+
+                            if (cellValues[k] instanceof String[]) {
+                                if (!CollectionUtils.contains((String[]) cellValues[k], cellText)) {
+                                    notFound = true;
+                                }
+                            } else {
+                                if (!cellText.equalsIgnoreCase(cellValues[k].toString())) {
+                                    notFound = true;
+                                }
                             }
+
                         } else {
-                            if (!cellText.equalsIgnoreCase(cellValues[k].toString())) {
-                                notFound = true;
-                            }
+                            notFound = true;
                         }
 
-                    } else {
-                        notFound = true;
+                        if (notFound) {
+                            break;
+                        }
                     }
-
-                    if (notFound) {
-                        break;
-                    }
-
                 }
 
                 if (!notFound) {

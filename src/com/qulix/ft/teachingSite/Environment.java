@@ -31,11 +31,10 @@ public class Environment {
 
         public final static String MESSAGE_LIST = mapsFolder + "messageList.map";
 
-        public final static String CREATE_MESSAGE = mapsFolder + "createMessage.map";
+        public final static String MESSAGE = mapsFolder + "message.map";
 
         public final static String SHOW_MESSAGE = mapsFolder + "showMessage.map";
 
-        public final static String EDIT_MESSAGE = mapsFolder + "editMessage.map";
     }
 
     private static String getURL() {

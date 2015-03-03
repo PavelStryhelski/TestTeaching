@@ -31,10 +31,10 @@ public class Test6 extends AbstractTest{
         MessageList.createNewMessage();
 
         //Открыта форма создания Create message
-        CreateMessage.assertPageIsOpened();
+        Message.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        CreateMessage.createMessage(headline, text);
+        Message.createMessage(headline, text);
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
@@ -46,10 +46,10 @@ public class Test6 extends AbstractTest{
         ShowMessage.createNewMessage();
 
         //Открыта форма создания Create message
-        CreateMessage.assertPageIsOpened();
+        Message.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        CreateMessage.createMessage(headline_2, text_2);
+        Message.createMessage(headline_2, text_2);
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();

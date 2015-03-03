@@ -104,10 +104,10 @@ public class MessageList extends AbstractPage {
     }
 
 
-    public static void assertMessageIsNotInList(String headline, String text, String author) {
+    public static void assertMessageIsNotInList(String headline, String text) {
         SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is not in list");
 
-        int index = returnRowIndex(headline,text, author);
+        int index = returnRowIndex(headline,text);
 
         if (index > 1) {
             SuiteLogger.logError("Row is found.");
@@ -117,7 +117,7 @@ public class MessageList extends AbstractPage {
 
     }
 
-    public static void clickViewButton(String headline, String text) {
+    public static void viewMessage(String headline, String text) {
         SuiteLogger.logMessage("Clicking View button for Headline: " + headline + "and Text: " + text);
 
         int index = returnRowIndex(headline,text);
@@ -131,7 +131,7 @@ public class MessageList extends AbstractPage {
 
     }
 
-    public static void clickEditButton(String headline, String text) {
+    public static void editMessage(String headline, String text) {
         SuiteLogger.logMessage("Clicking Edit button for Headline: " + headline + "and Text: " + text);
 
         int index = returnRowIndex(headline,text);
@@ -144,7 +144,7 @@ public class MessageList extends AbstractPage {
         }
     }
 
-    public static void clickDeleteButton(String headline, String text) {
+    public static void deleteMessage(String headline, String text) {
         SuiteLogger.logMessage("Clicking Delete button for Headline: " + headline + "and Text: " + text);
 
         int index = returnRowIndex(headline,text);

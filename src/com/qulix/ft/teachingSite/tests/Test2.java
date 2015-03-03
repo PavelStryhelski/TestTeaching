@@ -31,11 +31,11 @@ public class Test2  extends AbstractTest{
         MessageList.createNewMessage();
 
         //Открыта форма создания Create message
-        CreateMessage.assertPageIsOpened();
+        Message.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        CreateMessage.createMessage(headline, text);
+        Message.createMessage(headline, text);
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
@@ -50,7 +50,7 @@ public class Test2  extends AbstractTest{
         MessageList.assertMessageIsInList(headline, text);
 
         //Нажать View для созданного ранее сообщения
-        MessageList.clickViewButton(headline, text);
+        MessageList.viewMessage(headline, text);
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();

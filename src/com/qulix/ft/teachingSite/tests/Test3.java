@@ -31,11 +31,11 @@ public class Test3 extends AbstractTest {
         MessageList.createNewMessage();
 
         //Открыта форма создания Create message
-        CreateMessage.assertPageIsOpened();
+        Message.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        CreateMessage.createMessage(headline, text);
+        Message.createMessage(headline, text);
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
@@ -50,19 +50,19 @@ public class Test3 extends AbstractTest {
         MessageList.assertMessageIsInList(headline, text);
 
         //Отредактировать данное сообщение
-        MessageList.clickEditButton(headline, text);
+        MessageList.editMessage(headline, text);
 
         //Открыта страница Edit message
-        EditPage.assertPageIsOpened();
+        Message.assertEditPageIsOpened();
 
         //Проверить что содержится данное сообщение
-        EditPage.assertMessageIsCorrect(headline, text);
+        Message.assertMessageIsCorrect(headline, text);
 
         //Установить новые значения в поля Headline и Text
-        EditPage.setNewValuesForHeadlineAndText(headlineNew, textNew);
+        Message.setNewValuesForHeadlineAndText(headlineNew, textNew);
 
         //Сохранить данные
-        EditPage.saveMessage();
+        Message.saveMessage();
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();

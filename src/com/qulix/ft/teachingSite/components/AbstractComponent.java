@@ -3,6 +3,7 @@ package com.qulix.ft.teachingSite.components;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.teachingSite.tests.AbstractTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -28,4 +29,14 @@ public abstract class AbstractComponent{
     protected static void logDebug(String message) {
         SuiteLogger.debug(Thread.currentThread().getStackTrace()[2].getClassName() + "." + Thread.currentThread().getStackTrace()[2].getMethodName() + ":" + message);
     }
+
+    protected static boolean assertElementIsDisplayed(By element){
+        try {
+            getElement(element).isDisplayed();
+            return true;
+        }  catch (NoSuchElementException e){
+            return false;
+        }
+    }
+
 }

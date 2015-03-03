@@ -31,10 +31,10 @@ public class Test5 extends AbstractTest{
         MessageList.createNewMessage();
 
         //Открыта форма создания Create message
-        CreateMessage.assertPageIsOpened();
+        Message.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        CreateMessage.fulfilMessageFieldsWithValues(headline,text);
+        Message.fulfilMessageFieldsWithValues(headline,text);
 
         //Нажать Message List
         MessageList.goToMessageList();
@@ -43,7 +43,7 @@ public class Test5 extends AbstractTest{
         MessageList.assertPageIsOpened();
 
         //Чекнуть, что удаленное сообщение не присутствует в списке
-        MessageList.assertMessageIsNotInList(headline, text,User.ADMIN.getName());
+        MessageList.assertMessageIsNotInList(headline, text);
 
     }
 }

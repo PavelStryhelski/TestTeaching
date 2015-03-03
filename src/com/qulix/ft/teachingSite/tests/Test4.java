@@ -31,11 +31,11 @@ public class Test4 extends AbstractTest{
         MessageList.createNewMessage();
 
         //Открыта форма создания Create message
-        CreateMessage.assertPageIsOpened();
+        Message.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        CreateMessage.createMessage(headline, text);
+        Message.createMessage(headline, text);
 
         //Открыта страница Show message
         ShowMessage.assertPageIsOpened();
@@ -50,10 +50,10 @@ public class Test4 extends AbstractTest{
         MessageList.assertMessageIsInList(headline, text);
 
         //Удалить ранее созданное сообщение
-        MessageList.clickDeleteButton(headline, text);
+        MessageList.deleteMessage(headline, text);
 
         //Чекнуть, что удаленное сообщение не присутствует в списке
-        MessageList.assertMessageIsNotInList(headline, text, User.ADMIN.getName());
+        MessageList.assertMessageIsNotInList(headline, text);
 
     }
 }

@@ -1,0 +1,8 @@
+labelCreateMessage=xpath://h1[text()="Create Message"]
+buttonCreate=id:create
+editHeadlineWhenCreate=id:headline
+editTextWhenCreate=id:text
+labelEditMessage=xpath://h1[text()="Edit Message"]
+headlineEdit=id:headline
+textEdit=id:text
+saveButton=xpath://div[@class='buttons']//input[@class='save']

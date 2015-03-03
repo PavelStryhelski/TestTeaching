@@ -48,27 +48,6 @@ public class TableManager extends AbstractComponent {
     }
 
     /**
-     * Кликнуть на номер страницы
-     */
-    private void clickOnThePage(By element) {
-        logDebug("Clicking on page " + element.toString());
-        clickOnElement(element);
-    }
-
-    /**
-     * Существует ли данный номер страницы
-     */
-    private boolean assertNextPageIsPresent(By element) {
-        try {
-            getElement(element);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-
-    }
-
-    /**
      * Получение текста ячейки
      *
      * @param row   Строка (элемент tr)
@@ -204,12 +183,20 @@ public class TableManager extends AbstractComponent {
         Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
         Object[] cellValues = condition.getAllConditions().values().toArray();
         boolean notFound;
+        boolean isThisFirstPage;
+        boolean stop;
 
-        //TODO complete the circle
+        if (assertElementIsDisplayed(_firstPage)) {
+            isThisFirstPage = false;
+        } else {
+            isThisFirstPage = true;
+        }
+
         do {
 
+            stop = false;
             List<WebElement> rows = getRows();
-            logDebug("Checking page " );
+            logDebug("Checking page ");
 
             for (int i = startFromRow - 1; i < rows.size(); i++) {
 
@@ -248,13 +235,18 @@ public class TableManager extends AbstractComponent {
                 }
             }
 
-            if (assertNextPageIsPresent(_nextPageButton)) {
-                clickOnThePage(_nextPageButton);
+            if (!isThisFirstPage) {
+                isThisFirstPage = true;
+                clickOnElement(_firstPage);
+            } else if (assertElementIsDisplayed(_nextPageButton)) {
+                clickOnElement(_nextPageButton);
             } else {
-                return -1;
+                stop  = true;
             }
 
-        } while(true);
+        } while (!stop);
+
+        return -1;
     }
 
     /**

@@ -10,12 +10,15 @@ import org.testng.annotations.Test;
  */
 public class Test1 extends AbstractTest{
 
-    //TODO: CreateMessagePage & EditMessagePage - common
+    //TODO: Create nested classes
     //TODO Create Message and User classes
 
     @Test(description = "Сценарий 1. Create message")
     @Parameters({"HeadlineValue", "TextValue"})
     public void Test(String headline, String text){
+
+        /*MainPage mainPage = new MainPage(driver);
+        Login loginPage = mainPage.goToUserController();*/
 
         //Открыта главная страница
         MainPage.assertMainPageIsOpened();

@@ -17,12 +17,13 @@ public class AbstractPage extends AbstractComponent {
     private static final By _logoutLocator = By.xpath("//a[text()='Logout']");
 
 
-    protected static WebElement getElement(By element) {
+
+    protected  WebElement getElement(By element) {
         return driver.findElement(element);
     }
 
 
-    protected static void assertPageIsOpened(By element, String formName) {
+    protected  void assertPageIsOpened(By element, String formName) {
 
         if (getElement(element).getText().equals(formName)) {
             SuiteLogger.logMessage("Page " + formName + " is opened", GetScreenshot.fromDriver());
@@ -31,7 +32,7 @@ public class AbstractPage extends AbstractComponent {
         }
     }
 
-    protected static void assertElementHasCorrectText(By element, String text) {
+    protected  void assertElementHasCorrectText(By element, String text) {
 
         if (getElement(element).getText().equals(text)) {
             SuiteLogger.logMessage("Element " + element + "`s text equals to " + text, GetScreenshot.fromDriver());
@@ -43,12 +44,12 @@ public class AbstractPage extends AbstractComponent {
 
     }
 
-    protected static void sendTextToTheField(By element, String text) {
+    protected  void sendTextToTheField(By element, String text) {
         clearField(element);
         getElement(element).sendKeys(text);
     }
 
-    public static void logOut() {
+    public  void logOut() {
 
         try {
             clickOnElement(_logoutLocator);
@@ -59,15 +60,15 @@ public class AbstractPage extends AbstractComponent {
 
     }
 
-    protected static void clearField(By element) {
+    protected  void clearField(By element) {
         getElement(element).clear();
     }
 
-    protected static void clickOnElement(By element) {
+    protected  void clickOnElement(By element) {
         getElement(element).click();
     }
 
-    protected static boolean assertElementIsSelected(By element) {
+    protected  boolean assertElementIsSelected(By element) {
         return getElement(element).isSelected();
 
     }

@@ -11,26 +11,30 @@ import java.util.List;
 
 public abstract class AbstractComponent{
 
-    protected static WebDriver driver = AbstractTest.driver;
+    //TODO Create driver, initialize and create getter
+    /*private final WebDriver driver;
 
+    protected WebDriver getDriver() {
+        return driver;
+    }*/
 
-    protected static WebElement getElement(By element){
+    protected  WebElement getElement(By element){
         return driver.findElement(element);
     }
 
-    protected static List<WebElement> getElements(By element){
+    protected  List<WebElement> getElements(By element){
         return driver.findElements(element);
     }
 
-    protected static void clickOnElement (By element) {
+    protected  void clickOnElement (By element) {
         getElement(element).click();
     }
 
-    protected static void logDebug(String message) {
+    protected  void logDebug(String message) {
         SuiteLogger.debug(Thread.currentThread().getStackTrace()[2].getClassName() + "." + Thread.currentThread().getStackTrace()[2].getMethodName() + ":" + message);
     }
 
-    protected static boolean assertElementIsDisplayed(By element){
+    protected  boolean assertElementIsDisplayed(By element){
         try {
             getElement(element).isDisplayed();
             return true;

@@ -14,58 +14,61 @@ public class Test2  extends AbstractTest{
     @Parameters({"HeadlineValue", "TextValue"})
     public void Test(String headline, String text){
 
+        MainPage mainPage = new MainPage(driver);
+
        //Открыта главная страница
-        MainPage.assertMainPageIsOpened();
+        mainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
         //Открыта страница логина
-        MainPage.goToUserController();
+        Login loginPage = mainPage.goToUserController();
+        loginPage.assertLoginPageIsOpened();
 
         //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(User.ADMIN);
+        MessageList messageList = loginPage.signIn(User.ADMIN);
 
         //Открыт список Message list
-        MessageList.assertPageIsOpened();
+        messageList.assertPageIsOpened();
 
          //Нажать New Message
-        MessageList.createNewMessage();
+        Message createNewMessagePage = messageList.createNewMessage();
 
         //Открыта форма создания Create message
-        Message.assertCreateMessagePageIsOpened();
+        createNewMessagePage.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        Message.createMessage(headline, text);
+        ShowMessage showMessage = createNewMessagePage.createMessage(headline, text);
 
         //Открыта страница Show message
-        ShowMessage.assertPageIsOpened();
+        showMessage.assertPageIsOpened();
 
         //Нажать кнопку Message list
-        ShowMessage.showMessageList();
+        messageList = showMessage.showMessageList();
 
         //Отображен список.
-        MessageList.assertPageIsOpened();
+        messageList.assertPageIsOpened();
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        MessageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(headline, text);
 
         //Нажать View для созданного ранее сообщения
-        MessageList.viewMessage(headline, text);
+        showMessage = messageList.viewMessage(headline, text);
 
         //Открыта страница Show message
-        ShowMessage.assertPageIsOpened();
+        showMessage.assertPageIsOpened();
 
         //Проверить форма содержит такое же сообщение
-        ShowMessage.assertMessageIsCorrect(headline,text);
+        showMessage.assertMessageIsCorrect(headline,text);
 
         //Нажать кнопку Message list
-        ShowMessage.showMessageList();
+        messageList = showMessage.showMessageList();
 
         //Отображен список.
-        MessageList.assertPageIsOpened();
+        messageList.assertPageIsOpened();
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        MessageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(headline, text);
 
     }
 }

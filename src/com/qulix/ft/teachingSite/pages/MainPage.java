@@ -4,6 +4,7 @@ import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class MainPage extends AbstractPage {
@@ -14,19 +15,27 @@ public class MainPage extends AbstractPage {
 
     private static final By _linkUserController = Locators.get(Environment.MAPS.MAIN, "linkUserController");
 
-    public static void goToMessageController(){
+    private final WebDriver driver;
+
+    public MainPage(WebDriver driver){
+        this.driver = driver;
+        setDriver(driver);
+    }
+
+
+    public Login goToMessageController(){
         SuiteLogger.logMessage("Select link qulixteachingsite.MessageController");
         clickOnElement(_linkUserController);
-        Login.assertLoginPageIsOpened();
+        return new Login(driver);
     }
 
-    public static void goToUserController(){
+    public Login goToUserController(){
         SuiteLogger.logMessage("Select link qulixteachingsite.UserController");
         clickOnElement(_linkMessageController);
-        Login.assertLoginPageIsOpened();
+        return new Login(driver);
     }
 
-    public static void assertMainPageIsOpened(){
+    public void assertMainPageIsOpened(){
         assertPageIsOpened(_labelMainPage, "Welcome to Grails");
     }
 }

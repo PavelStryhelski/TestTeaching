@@ -1,10 +1,10 @@
 package com.qulix.ft.teachingSite.pages;
 
-import com.qulix.ft.teachingSite.components.AbstractComponent;
+
 import com.qulix.ft.logging.GetScreenshot;
 import com.qulix.ft.logging.SuiteLogger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -12,14 +12,22 @@ import org.openqa.selenium.WebElement;
  * В тестах можно вызывать только объекты-потомки этого класса
  */
 
-public class AbstractPage extends AbstractComponent {
+public abstract class AbstractPage {
 
     private static final By _logoutLocator = By.xpath("//a[text()='Logout']");
 
+    private static WebDriver driver;
 
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    protected WebDriver getDriver() {
+        return driver;
+    }
 
     protected  WebElement getElement(By element) {
-        return driver.findElement(element);
+        return getDriver().findElement(element);
     }
 
 

@@ -1,6 +1,7 @@
 package com.qulix.ft.teachingSite.components;
 
 import com.qulix.ft.logging.SuiteLogger;
+import com.qulix.ft.logging.WebDriverFactory;
 import com.qulix.ft.teachingSite.tests.AbstractTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,12 +12,15 @@ import java.util.List;
 
 public abstract class AbstractComponent{
 
-    //TODO Create driver, initialize and create getter
-    /*private final WebDriver driver;
+    private final WebDriver driver;
+
+    protected AbstractComponent(){
+        driver = WebDriverFactory.instance().get();
+    }
 
     protected WebDriver getDriver() {
         return driver;
-    }*/
+    }
 
     protected  WebElement getElement(By element){
         return driver.findElement(element);

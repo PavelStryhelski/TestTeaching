@@ -5,7 +5,7 @@ import com.qulix.ft.teachingSite.components.TableManager;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebDriver;
 
 public class MessageList extends AbstractPage {
 
@@ -27,38 +27,45 @@ public class MessageList extends AbstractPage {
 
     private static final int _authorCol = 4;
 
+    private final WebDriver driver;
 
-    private static TableManager tableMessages() {
+    public MessageList(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    private  TableManager tableMessages() {
         return new TableManager(_table);
     }
 
-    public static void assertPageIsOpened() {
+    public void assertPageIsOpened() {
         assertPageIsOpened(_labelMessageList, "Message List");
     }
 
-    private static boolean assertCheckBoxIsChecked() {
+    private boolean assertCheckBoxIsChecked() {
         return assertElementIsSelected(_checkbox);
     }
 
-    private static boolean assertGreetingIsCorrect(String name) {
+    private boolean assertGreetingIsCorrect(String name) {
         return getElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
     }
 
-    private static void clickCheckBox() {
+    private  void clickCheckBox() {
         clickOnElement(_checkbox);
     }
 
-    public static void createNewMessage() {
+    public Message createNewMessage() {
         SuiteLogger.logMessage("Click button NewMessage");
         clickOnElement(_buttonNewMessage);
+        return new Message(driver);
+
     }
 
-    public static void goToMessageList() {
+    public void goToMessageList() {
         SuiteLogger.logMessage("Click button MessageList");
         clickOnElement(_messageListButton);
     }
 
-    private static int returnRowIndex(String headline, String text, String author) {
+    private int returnRowIndex(String headline, String text, String author) {
 
         TableManager.RowCondition cond = TableManager.createCondition();
         cond.addCondition(_headlineCol, headline);
@@ -68,13 +75,13 @@ public class MessageList extends AbstractPage {
         return tableMessages().getIndexOfRow(cond);
     }
 
-    public static void assertMessageIsInList(String headline, String text) {
+    public void assertMessageIsInList(String headline, String text) {
         SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list");
 
         assertMessageIsInList(headline, text, "");
     }
 
-    public static void assertMessageIsInList(String headline, String text, String author) {
+    public void assertMessageIsInList(String headline, String text, String author) {
 
         if (!author.equals("")) {
             SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list with correct Author " + author);
@@ -90,13 +97,13 @@ public class MessageList extends AbstractPage {
     }
 
 
-    public static void assertMessageIsNotInList(String headline, String text) {
+    public  void assertMessageIsNotInList(String headline, String text) {
         SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is not in list");
 
         assertMessageIsNotInList(headline, text, "");
     }
 
-    public static void assertMessageIsNotInList(String headline, String text, String author) {
+    public  void assertMessageIsNotInList(String headline, String text, String author) {
 
         if (!author.equals("")) {
             SuiteLogger.logMessage("Checking that message with Headline " + headline + ", " + text + " and Author " + author + " is not in a list");
@@ -112,14 +119,14 @@ public class MessageList extends AbstractPage {
 
     }
 
-    public static void viewMessage(String headline, String text) {
+    public  ShowMessage viewMessage(String headline, String text) {
 
         SuiteLogger.logMessage("Clicking View button for Headline: " + headline + "and Text: " + text);
 
-        viewMessage(headline, text, "");
+        return  viewMessage(headline, text, "");
     }
 
-    public static void viewMessage(String headline, String text, String author) {
+    public  ShowMessage viewMessage(String headline, String text, String author) {
 
         if (!author.equals("")) {
             SuiteLogger.logMessage("Clicking View button for Headline: " + headline + " Text: " + text + " and Author: " + author);
@@ -130,20 +137,22 @@ public class MessageList extends AbstractPage {
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
             clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='View']"));
+            return new ShowMessage(driver);
         } else {
             SuiteLogger.logError("Cannot click View button.");
+            return null;
         }
 
     }
 
-    public static void editMessage(String headline, String text) {
+    public  Message editMessage(String headline, String text) {
 
         SuiteLogger.logMessage("Clicking Edit button for Headline: " + headline + "and Text: " + text);
 
-        editMessage(headline, text, "");
+        return editMessage(headline, text, "");
     }
 
-    public static void editMessage(String headline, String text, String author) {
+    public Message editMessage(String headline, String text, String author) {
 
         if (!author.equals("")) {
             SuiteLogger.logMessage("Clicking Edit button for Headline: " + headline + "and Text: " + text + " and Author: " + author);
@@ -154,19 +163,21 @@ public class MessageList extends AbstractPage {
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
             clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']"));
+            return new Message(driver);
         } else {
             SuiteLogger.logError("Cannot click Edit button.");
+            return null;
         }
     }
 
-    public static void deleteMessage(String headline, String text) {
+    public void deleteMessage(String headline, String text) {
 
         SuiteLogger.logMessage("Clicking Delete button for Headline: " + headline + "and Text: " + text);
 
         deleteMessage(headline, text, "");
     }
 
-    public static void deleteMessage(String headline, String text, String author) {
+    public void deleteMessage(String headline, String text, String author) {
 
         if (!author.equals("")) {
             SuiteLogger.logMessage("Clicking Delete button for Headline: " + headline + "and Text: " + text + " and Author: " + author);
@@ -184,7 +195,7 @@ public class MessageList extends AbstractPage {
 
     }
 
-    public static void checkCheckBox() {
+    public void checkCheckBox() {
         if (!assertCheckBoxIsChecked()) {
             clickCheckBox();
             SuiteLogger.logMessage("Check checkbox 'All Users` messages'");
@@ -193,7 +204,7 @@ public class MessageList extends AbstractPage {
         }
     }
 
-    public static void uncheckCheckBox() {
+    public void uncheckCheckBox() {
         if (assertCheckBoxIsChecked()) {
             clickCheckBox();
             SuiteLogger.logMessage("Uncheck checkbox 'All Users` messages'");
@@ -202,7 +213,7 @@ public class MessageList extends AbstractPage {
         }
     }
 
-    public static void assertGreeting(String name) {
+    public void assertGreeting(String name) {
         if (assertGreetingIsCorrect(name)) {
             SuiteLogger.logMessage("Greeting is correct!");
         } else {

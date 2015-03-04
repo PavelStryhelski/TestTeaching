@@ -3,6 +3,7 @@ package com.qulix.ft.teachingSite.tests;
 import com.qulix.ft.logging.WebDriverFactory;
 import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.logging.SuiteLogger;
+import com.qulix.ft.teachingSite.pages.AbstractPage;
 import com.thoughtworks.selenium.Selenium;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;

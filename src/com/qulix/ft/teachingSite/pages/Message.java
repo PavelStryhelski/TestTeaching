@@ -5,6 +5,7 @@ import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class Message extends AbstractPage{
 
@@ -24,47 +25,54 @@ public class Message extends AbstractPage{
 
     private static final By _saveButton = Locators.get(Environment.MAPS.MESSAGE, "saveButton");
 
+    private final WebDriver driver;
 
-    private static void clickCreateButton(){
+    public Message(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    private void clickCreateButton(){
         SuiteLogger.logMessage("Click button Create");
         clickOnElement(_buttonCreate);
     }
 
-    public static void assertCreateMessagePageIsOpened(){
+    public void assertCreateMessagePageIsOpened(){
         assertPageIsOpened(_labelCreateMessage, "Create Message");
     }
 
-    public static void createMessage(String headline, String text){
+    public ShowMessage createMessage(String headline, String text){
         SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
         sendTextToTheField(_editHeadlineWhenCreate,headline);
         sendTextToTheField(_editTextWhenCreate,text);
         clickCreateButton();
+        return new ShowMessage(driver);
     }
 
-    public static void fulfilMessageFieldsWithValues(String headline, String text){
+    public void fulfilMessageFieldsWithValues(String headline, String text){
         SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
         sendTextToTheField(_editHeadlineWhenCreate,headline);
         sendTextToTheField(_editTextWhenCreate,text);
     }
 
 
-    public static void assertEditPageIsOpened() {
+    public void assertEditPageIsOpened() {
         assertPageIsOpened(_labelEditMessage, "Edit Message");
     }
 
-    public static void assertMessageIsCorrect(String headline,String text){
+    public void assertMessageIsCorrect(String headline,String text){
         assertElementHasCorrectText(_headlineEdit, headline);
         assertElementHasCorrectText(_textEdit, text);
     }
 
-    public static void setNewValuesForHeadlineAndText(String headlineNew, String textNew){
+    public void setNewValuesForHeadlineAndText(String headlineNew, String textNew){
         sendTextToTheField(_headlineEdit, headlineNew);
         sendTextToTheField(_textEdit,textNew);
     }
 
-    public static void saveMessage()
+    public ShowMessage saveMessage()
     {
         clickOnElement(_saveButton);
+        return new ShowMessage(driver);
     }
 
 }

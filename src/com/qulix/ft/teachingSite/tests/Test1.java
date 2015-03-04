@@ -10,50 +10,48 @@ import org.testng.annotations.Test;
  */
 public class Test1 extends AbstractTest{
 
-    //TODO: Create nested classes
-    //TODO Create Message and User classes
-
     @Test(description = "Сценарий 1. Create message")
     @Parameters({"HeadlineValue", "TextValue"})
     public void Test(String headline, String text){
 
-        /*MainPage mainPage = new MainPage(driver);
-        Login loginPage = mainPage.goToUserController();*/
+        MainPage mainPage = new MainPage(driver);
 
         //Открыта главная страница
-        MainPage.assertMainPageIsOpened();
+        mainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
+        Login loginPage = mainPage.goToUserController();
+
         //Открыта страница логина
-        MainPage.goToUserController();
+        loginPage.assertLoginPageIsOpened();
 
-        //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(User.ADMIN);
+       //Ввести логин и пароль  admin/password, нажать Login
+        MessageList messageList = loginPage.signIn(User.ADMIN);
 
-        //Открыт список Message list
-        MessageList.assertPageIsOpened();
+         //Открыт список Message list
+        messageList.assertPageIsOpened();
 
-        //Нажать New Message
-        MessageList.createNewMessage();
+       //Нажать New Message
+        Message createNewMessagePage = messageList.createNewMessage();
 
         //Открыта форма создания Create message
-        Message.assertCreateMessagePageIsOpened();
+        createNewMessagePage.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        Message.createMessage(headline, text);
+        ShowMessage showMessage = createNewMessagePage.createMessage(headline, text);
 
         //Открыта страница Show message
-        ShowMessage.assertPageIsOpened();
+        showMessage.assertPageIsOpened();
 
-        //Нажать кнопку Message list
-        ShowMessage.showMessageList();
+         //Нажать кнопку Message list
+        messageList = showMessage.showMessageList();
 
         //Отображен список.
-        MessageList.assertPageIsOpened();
+        messageList.assertPageIsOpened();
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        MessageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(headline, text);
 
     }
 }

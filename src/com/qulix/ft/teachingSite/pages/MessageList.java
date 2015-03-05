@@ -66,7 +66,7 @@ public class MessageList extends AbstractPage {
         TableManager.RowCondition cond = TableManager.createCondition();
         cond.addCondition(_headlineCol, headline);
         cond.addCondition(_textCol, text);
-        if (!author.equals(EMPTY_FIELD) && author != null) {
+        if (!author.equals(EMPTY_FIELD)) {
             cond.addCondition(_authorCol, author);
         }
 

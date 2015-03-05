@@ -4,6 +4,7 @@ import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.utils.CollectionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public class TableManager extends AbstractComponent {
     private static final By _nextPageButton = By.xpath("//div[@class='paginateButtons']//a[@class='nextLink']");
     private static final By _currentPage = By.xpath("//div[@class='paginateButtons']//span[@class='currentStep']");
 
+    public TableManager(WebDriver driver){
+
+    }
 
     public TableManager(By locator) {
         this.tableLocator = locator;
@@ -48,7 +52,7 @@ public class TableManager extends AbstractComponent {
         return rows;
     }
 
-    private String whatPageAreWeAt(){
+    private String whatPageAreWeAt() {
         return getElement(_currentPage).getText();
     }
 
@@ -185,56 +189,27 @@ public class TableManager extends AbstractComponent {
      */
     public int getIndexOfRow(RowCondition condition, int startFromRow) {
 
-        Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
-        Object[] cellValues = condition.getAllConditions().values().toArray();
-        boolean notFound;
-        boolean isThisFirstPage = false;
+        boolean isThisFirstPage;
         boolean stop;
 
-        do {
+        Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
+        Object[] cellValues = condition.getAllConditions().values().toArray();
 
-         //TODO move to independent method
+
+        if (getElement(_currentPage).getText().equals("1")) {
+            isThisFirstPage = true;
+        } else {
+            isThisFirstPage = false;
+        }
+
+        do {
             stop = false;
-            List<WebElement> rows = getRows();
             logDebug("Checking page " + whatPageAreWeAt());
 
-            for (int i = startFromRow - 1; i < rows.size(); i++) {
+            int i = returnRowIndexOfTheCurrentPage(startFromRow, cellIndexes, cellValues);
 
-                notFound = false;
-                logDebug("Checking row " + (i + 1));
-
-                for (int k = 0; k < cellIndexes.length; k++) {
-
-                    if (!cellValues[k].equals("")) {
-
-                        String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
-                        logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
-
-                        if (cellText != null) {
-
-                            if (cellValues[k] instanceof String[]) {
-                                if (!CollectionUtils.contains((String[]) cellValues[k], cellText)) {
-                                    notFound = true;
-                                }
-                            } else {
-                                if (!cellText.equalsIgnoreCase(cellValues[k].toString())) {
-                                    notFound = true;
-                                }
-                            }
-
-                        } else {
-                            notFound = true;
-                        }
-
-                        if (notFound) {
-                            break;
-                        }
-                    }
-                }
-
-                if (!notFound) {
-                    return i + 1;
-                }
+            if (i != -1){
+                return i;
             }
 
             if (!isThisFirstPage) {
@@ -243,13 +218,58 @@ public class TableManager extends AbstractComponent {
             } else if (assertElementIsDisplayed(_nextPageButton)) {
                 clickOnElement(_nextPageButton);
             } else {
-                stop  = true;
+                stop = true;
             }
 
         } while (!stop);
 
         return -1;
     }
+
+    private int returnRowIndexOfTheCurrentPage(int startFromRow, Object[] cellIndexes, Object[] cellValues) {
+
+        List<WebElement> rows = getRows();
+        boolean notFound;
+
+        for (int i = startFromRow - 1; i < rows.size(); i++) {
+
+            notFound = false;
+            logDebug("Checking row " + (i + 1));
+
+            for (int k = 0; k < cellIndexes.length; k++) {
+
+                    String cellText = getCellText(rows.get(i), Integer.valueOf(cellIndexes[k].toString()));
+                    logDebug("Got cell(" + i + ", " + Integer.valueOf(cellIndexes[k].toString()) + ") value:" + cellText);
+
+                    if (cellText != null) {
+
+                        if (cellValues[k] instanceof String[]) {
+                            if (!CollectionUtils.contains((String[]) cellValues[k], cellText)) {
+                                notFound = true;
+                            }
+                        } else {
+                            if (!cellText.equalsIgnoreCase(cellValues[k].toString())) {
+                                notFound = true;
+                            }
+                        }
+
+                    } else {
+                        notFound = true;
+                    }
+
+                    if (notFound) {
+                        break;
+                    }
+            }
+
+            if (!notFound) {
+                return i + 1;
+            }
+        }
+
+        return -1;
+    }
+
 
     /**
      * Создание условия

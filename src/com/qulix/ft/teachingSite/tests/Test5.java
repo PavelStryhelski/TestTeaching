@@ -1,6 +1,7 @@
 package com.qulix.ft.teachingSite.tests;
 
 import com.qulix.ft.teachingSite.User;
+import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,10 +12,9 @@ import org.testng.annotations.Test;
  */
 public class Test5 extends AbstractTest{
     @Test(description = "Сценарий 5. Create message and exit without saving")
-    @Parameters({"HeadlineValue", "TextValue"})
-    public void Test(String headline, String text){
+    public void Test(){
 
-        MainPage mainPage = new MainPage();
+        MainPage mainPage = new MainPage(driver);
 
         //Открыта главная страница
         mainPage.assertMainPageIsOpened();
@@ -38,7 +38,8 @@ public class Test5 extends AbstractTest{
         createNewMessagePage.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        createNewMessagePage.fulfilMessageFieldsWithValues(headline, text);
+        UserMessage userMessage = new UserMessage();
+        createNewMessagePage.fulfilMessageFieldsWithValues(userMessage);
 
         //Нажать Message List
         messageList = createNewMessagePage.goToMessageList();
@@ -47,7 +48,7 @@ public class Test5 extends AbstractTest{
         messageList.assertPageIsOpened();
 
         //Чекнуть, что удаленное сообщение не присутствует в списке
-        messageList.assertMessageIsNotInList(headline, text);
+        messageList.assertMessageIsNotInList(userMessage);
 
     }
 }

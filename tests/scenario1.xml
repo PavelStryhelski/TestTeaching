@@ -2,8 +2,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="TestsAutomation">
   <test verbose="1" name="—ценарий 1" annotations="JDK" preserve-order="true">
-	<parameter name="HeadlineValue" value="HeadlineForTest1"/>
-	<parameter name="TextValue" value="Test1"/>
     <classes>
 		<class name="com.qulix.ft.teachingSite.tests.Test1">
 			<methods>

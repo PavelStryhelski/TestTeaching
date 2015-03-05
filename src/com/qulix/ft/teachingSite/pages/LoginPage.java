@@ -17,22 +17,27 @@ public class LoginPage extends AbstractPage {
 
     private static final By _buttonLogin = Locators.get(Environment.MAPS.LOGIN, "buttonLogin");
 
-    private final WebDriver driver = getDriver();
+    private final WebDriver driver;
+
+    public LoginPage(WebDriver driver) {
+        super(driver);
+        this.driver = getDriver();
+    }
 
     private static String loggedUser = null;
 
     public void assertLoginPageIsOpened(){
-        assertPageIsOpened(_labelLogin, "LoginPage");
+        assertPageIsOpened(_labelLogin, "Login");
     }
 
     public MessageList signIn(User user) {
-        SuiteLogger.logMessage("Log in user: " + user.getUserLoginName() + "\\" + user.getPassword());
+        SuiteLogger.logMessage("Log in user: " + user.toString());
         driver.switchTo().defaultContent();
         sendTextToTheField(_editLogin, user.getUserLoginName());
         sendTextToTheField(_editPassword, user.getPassword());
         clickOnElement(_buttonLogin);
         loggedUser = user.getName();
-        return new MessageList();
+        return new MessageList(driver);
     }
 
 }

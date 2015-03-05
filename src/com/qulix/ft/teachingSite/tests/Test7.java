@@ -1,6 +1,7 @@
 package com.qulix.ft.teachingSite.tests;
 
 import com.qulix.ft.teachingSite.User;
+import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,11 +12,9 @@ import org.testng.annotations.Test;
  */
 public class Test7 extends AbstractTest {
     @Test(description = "Сценарий 7. Check another user`s messages")
-    @Parameters({"HeadlineValue", "TextValue", "HeadlineValueJD", "TextValueJD"})
-    public void Test(String headline, String text, String headline_jd, String text_jd) {
+    public void Test() {
 
-
-        MainPage mainPage = new MainPage();
+        MainPage mainPage = new MainPage(driver);
 
         //Открыта главная страница
         mainPage.assertMainPageIsOpened();
@@ -40,13 +39,14 @@ public class Test7 extends AbstractTest {
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(headline, text);
+        UserMessage userMessage = new UserMessage();
+        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(userMessage);
 
         //Открыта страница Show message
         showMessagePage.assertPageIsOpened();
 
         //Чекнуть, что сообщение правильное
-        showMessagePage.assertMessageIsCorrect(headline, text);
+        showMessagePage.assertMessageIsCorrect(userMessage);
 
         //перейти на страницу Message List
         messageList = showMessagePage.showMessageList();
@@ -55,16 +55,16 @@ public class Test7 extends AbstractTest {
         messageList.assertPageIsOpened();
 
         //Убедиться,что сообщение есть в таблице
-        messageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(userMessage);
 
         //Кликнуть созданное сообщение на View
-        showMessagePage = messageList.viewMessage(headline, text);
+        showMessagePage = messageList.viewMessage(userMessage);
 
         //Убедиться,что открылась страница Show Message
         showMessagePage.assertPageIsOpened();
 
         //Проверить,что сообщение четенькое
-        showMessagePage.assertMessageIsCorrect(headline, text);
+        showMessagePage.assertMessageIsCorrect(userMessage);
 
         //перейти на страницу Message List
         messageList = showMessagePage.showMessageList();
@@ -73,7 +73,7 @@ public class Test7 extends AbstractTest {
         messageList.assertPageIsOpened();
 
         //Убедиться,что сообщение есть в таблице
-        messageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(userMessage);
 
         //Log out
         loginPagePage = messageList.logOut();
@@ -103,13 +103,14 @@ public class Test7 extends AbstractTest {
         createNewMessagePage.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        showMessagePage = createNewMessagePage.createMessage(headline_jd, text_jd);
+        UserMessage userMessageJD = new UserMessage();
+        showMessagePage = createNewMessagePage.createMessage(userMessageJD);
 
         //Открыта страница Show message
         showMessagePage.assertPageIsOpened();
 
         //Чекнуть, что сообщение правильное
-        showMessagePage.assertMessageIsCorrect(headline_jd, text_jd);
+        showMessagePage.assertMessageIsCorrect(userMessageJD);
 
         //перейти на страницу Message List
         messageList = showMessagePage.showMessageList();
@@ -121,16 +122,16 @@ public class Test7 extends AbstractTest {
         messageList.checkCheckBox();
 
         //Убедиться,что сообщение есть в таблице
-        messageList.assertMessageIsInList(headline_jd, text_jd);
+        messageList.assertMessageIsInList(userMessageJD);
 
         //Кликнуть созданное сообщение на View
-        showMessagePage = messageList.viewMessage(headline_jd, text_jd);
+        showMessagePage = messageList.viewMessage(userMessageJD);
 
         //Убедиться,что открылась страница Show Message
         showMessagePage.assertPageIsOpened();
 
         //Проверить,что сообщение четенькое
-        showMessagePage.assertMessageIsCorrect(headline_jd, text_jd);
+        showMessagePage.assertMessageIsCorrect(userMessageJD);
 
         //перейти на страницу Message List
         messageList = showMessagePage.showMessageList();
@@ -139,7 +140,7 @@ public class Test7 extends AbstractTest {
         messageList.assertPageIsOpened();
 
         //Убедиться,что сообщение есть в таблице
-        messageList.assertMessageIsInList(headline_jd, text_jd);
+        messageList.assertMessageIsInList(userMessageJD);
 
         //Remove checkbox
         messageList.uncheckCheckBox();
@@ -166,19 +167,19 @@ public class Test7 extends AbstractTest {
         messageList.checkCheckBox();
 
         //Убедиться,что автор  - Админ
-        messageList.assertMessageIsInList(headline, text, User.ADMIN.getName());
+        messageList.assertMessageIsInList(userMessage, User.ADMIN.getName());
 
         //Убедиться,что автор  - Джон Доу
-        messageList.assertMessageIsInList(headline_jd, text_jd, User.J_DOE.getName());
+        messageList.assertMessageIsInList(userMessageJD, User.J_DOE.getName());
 
         //Remove checkbox
         messageList.uncheckCheckBox();
 
         //Убедиться,что автор  - Админ
-        messageList.assertMessageIsInList(headline, text, User.ADMIN.getName());
+        messageList.assertMessageIsInList(userMessage, User.ADMIN.getName());
 
         //Убедиться,что сообщения в таблице от Джонни нет
-        messageList.assertMessageIsNotInList(headline_jd, text_jd);
+        messageList.assertMessageIsNotInList(userMessageJD);
 
 
         /* ------------------------------ Test for the same messages ------------------

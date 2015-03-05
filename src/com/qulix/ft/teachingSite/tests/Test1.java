@@ -1,6 +1,7 @@
 package com.qulix.ft.teachingSite.tests;
 
 import com.qulix.ft.teachingSite.User;
+import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,10 +12,9 @@ import org.testng.annotations.Test;
 public class Test1 extends AbstractTest{
 
     @Test(description = "Сценарий 1. Create message")
-    @Parameters({"HeadlineValue", "TextValue"})
-    public void Test(String headline, String text){
+    public void Test(){
 
-        MainPage mainPage = new MainPage();
+        MainPage mainPage = new MainPage(driver);
 
         //Открыта главная страница
         mainPage.assertMainPageIsOpened();
@@ -39,7 +39,8 @@ public class Test1 extends AbstractTest{
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(headline, text);
+        UserMessage userMessage = new UserMessage();
+        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(userMessage);
 
         //Открыта страница Show message
         showMessagePage.assertPageIsOpened();
@@ -51,7 +52,7 @@ public class Test1 extends AbstractTest{
         messageList.assertPageIsOpened();
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        messageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(userMessage);
 
     }
 }

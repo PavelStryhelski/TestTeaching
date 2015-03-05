@@ -19,8 +19,8 @@ public abstract class AbstractPage {
 
     private final WebDriver driver;
 
-    protected AbstractPage() {
-        driver = WebDriverFactory.instance().get();
+    protected AbstractPage(WebDriver driver) {
+        this.driver = driver;
     }
 
     protected WebDriver getDriver() {
@@ -63,7 +63,7 @@ public abstract class AbstractPage {
         try {
             clickOnElement(_logoutLocator);
             SuiteLogger.logMessage("Logout");
-            return new LoginPage();
+            return new LoginPage(driver);
         } catch (Exception e) {
             SuiteLogger.logError("You cannot logout from this page");
             return null;

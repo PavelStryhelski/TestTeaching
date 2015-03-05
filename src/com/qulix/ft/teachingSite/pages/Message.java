@@ -3,11 +3,12 @@ package com.qulix.ft.teachingSite.pages;
 
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.teachingSite.Environment;
+import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class Message extends AbstractPage{
+public class Message extends AbstractPage {
 
     private static final By _labelCreateMessage = Locators.get(Environment.MAPS.MESSAGE, "labelCreateMessage");
 
@@ -27,30 +28,40 @@ public class Message extends AbstractPage{
 
     private static final By _messageListButton = Locators.get(Environment.MAPS.MESSAGE, "messageListButton");
 
-    private final WebDriver driver = getDriver();
+    private final WebDriver driver;
 
+    public Message(WebDriver driver) {
+        super(driver);
+        this.driver = getDriver();
+    }
 
-    private void clickCreateButton(){
+    private void clickCreateButton() {
         SuiteLogger.logMessage("Click button Create");
         clickOnElement(_buttonCreate);
     }
 
-    public void assertCreateMessagePageIsOpened(){
+    public void assertCreateMessagePageIsOpened() {
         assertPageIsOpened(_labelCreateMessage, "Create Message");
     }
 
-    public ShowMessagePage createMessage(String headline, String text){
-        SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
-        sendTextToTheField(_editHeadlineWhenCreate,headline);
-        sendTextToTheField(_editTextWhenCreate,text);
+    public ShowMessagePage createMessage(UserMessage userMessage) {
+        SuiteLogger.logMessage("Fill in form Create message with values Headline: " + userMessage.getHeadline() + ", Text: " + userMessage.getText());
+        sendTextToTheField(_editHeadlineWhenCreate, userMessage.getHeadline());
+        sendTextToTheField(_editTextWhenCreate, userMessage.getText());
         clickCreateButton();
-        return new ShowMessagePage();
+        return new ShowMessagePage(driver);
     }
 
-    public void fulfilMessageFieldsWithValues(String headline, String text){
-        SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
-        sendTextToTheField(_editHeadlineWhenCreate,headline);
-        sendTextToTheField(_editTextWhenCreate,text);
+    public void fulfilMessageFieldsWithValues(UserMessage userMessage) {
+        SuiteLogger.logMessage("Fill in form Create message with values Headline: " + userMessage.getHeadline() + ", Text: " + userMessage.getText());
+        sendTextToTheField(_editHeadlineWhenCreate, userMessage.getHeadline());
+        sendTextToTheField(_editTextWhenCreate, userMessage.getText());
+    }
+
+    public MessageList goToMessageList() {
+        SuiteLogger.logMessage("Click button MessageList");
+        clickOnElement(_messageListButton);
+        return new MessageList(driver);
     }
 
 
@@ -58,27 +69,21 @@ public class Message extends AbstractPage{
         assertPageIsOpened(_labelEditMessage, "Edit Message");
     }
 
-    public void assertMessageIsCorrect(String headline,String text){
-        assertElementHasCorrectText(_headlineEdit, headline);
-        assertElementHasCorrectText(_textEdit, text);
+    public void assertMessageIsCorrect(UserMessage userMessage) {
+        assertElementHasCorrectText(_headlineEdit, userMessage.getHeadline());
+        assertElementHasCorrectText(_textEdit, userMessage.getText());
     }
 
-    public void setNewValuesForHeadlineAndText(String headlineNew, String textNew){
-        sendTextToTheField(_headlineEdit, headlineNew);
-        sendTextToTheField(_textEdit,textNew);
+    public void setNewValuesForHeadlineAndText(UserMessage userMessage) {
+        sendTextToTheField(_headlineEdit, userMessage.getHeadline());
+        sendTextToTheField(_textEdit, userMessage.getText());
     }
 
-    public ShowMessagePage saveMessage()
-    {
+    public ShowMessagePage saveMessage() {
         clickOnElement(_saveButton);
-        return new ShowMessagePage();
-    }
-
-
-    public MessageList goToMessageList() {
-        SuiteLogger.logMessage("Click button MessageList");
-        clickOnElement(_messageListButton);
-        return new MessageList();
+        return new ShowMessagePage(driver);
     }
 
 }
+
+

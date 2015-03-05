@@ -188,17 +188,12 @@ public class TableManager extends AbstractComponent {
         Object[] cellIndexes = condition.getAllConditions().keySet().toArray();
         Object[] cellValues = condition.getAllConditions().values().toArray();
         boolean notFound;
-        boolean isThisFirstPage;
+        boolean isThisFirstPage = false;
         boolean stop;
-
-        if (assertElementIsDisplayed(_firstPage)) {
-            isThisFirstPage = false;
-        } else {
-            isThisFirstPage = true;
-        }
 
         do {
 
+         //TODO move to independent method
             stop = false;
             List<WebElement> rows = getRows();
             logDebug("Checking page " + whatPageAreWeAt());

@@ -21,8 +21,15 @@ public class GetScreenshot {
      * @return Файл скриншота
      * @see org.openqa.selenium.TakesScreenshot
      */
+    private static WebDriver driver;
+
+    public static void setWebDriver(WebDriver driver){
+        GetScreenshot.driver = driver;
+    }
+
+
     public static File fromDriver() {
-        return fromDriver(AbstractTest.driver);
+        return fromDriver(driver);
     }
 
     /**

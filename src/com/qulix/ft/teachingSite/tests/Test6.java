@@ -1,6 +1,7 @@
 package com.qulix.ft.teachingSite.tests;
 
 import com.qulix.ft.teachingSite.User;
+import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.pages.*;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,10 +12,9 @@ import org.testng.annotations.Test;
  */
 public class Test6 extends AbstractTest {
     @Test(description = "Сценарий 6. Create 2 messages")
-    @Parameters({"HeadlineValue", "TextValue", "HeadlineValue_2", "TextValue_2"})
-    public void Test(String headline, String text, String headline_2, String text_2) {
+    public void Test() {
 
-        MainPage mainPage = new MainPage();
+        MainPage mainPage = new MainPage(driver);
 
         //Открыта главная страница
         mainPage.assertMainPageIsOpened();
@@ -39,28 +39,30 @@ public class Test6 extends AbstractTest {
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(headline, text);
+        UserMessage userMessage = new UserMessage();
+        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(userMessage);
 
         //Открыта страница Show message
         showMessagePage.assertPageIsOpened();
 
         //Чекнуть, что сообщение правильное
-        showMessagePage.assertMessageIsCorrect(headline, text);
+        showMessagePage.assertMessageIsCorrect(userMessage);
 
         //Нажать New Message
-        Message createNewMessage = showMessagePage.createNewMessage();
+        createNewMessagePage = messageList.createNewMessage();
 
         //Открыта форма создания Create message
-        createNewMessage.assertCreateMessagePageIsOpened();
+        createNewMessagePage.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        showMessagePage = createNewMessage.createMessage(headline_2, text_2);
+        UserMessage userMessageNew = new UserMessage();
+        showMessagePage = createNewMessagePage.createMessage(userMessageNew);
 
         //Открыта страница Show message
         showMessagePage.assertPageIsOpened();
 
         //Чекнуть, что сообщение правильное
-        showMessagePage.assertMessageIsCorrect(headline_2, text_2);
+        showMessagePage.assertMessageIsCorrect(userMessageNew);
 
         //Нажать Message List
         messageList = showMessagePage.showMessageList();
@@ -69,9 +71,9 @@ public class Test6 extends AbstractTest {
         messageList.assertPageIsOpened();
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        messageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(userMessage);
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 8
-        messageList.assertMessageIsInList(headline_2, text_2);
+        messageList.assertMessageIsInList(userMessageNew);
     }
 }

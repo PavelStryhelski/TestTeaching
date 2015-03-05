@@ -1,6 +1,7 @@
 package com.qulix.ft.teachingSite.pages;
 
 import com.qulix.ft.teachingSite.Environment;
+import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.components.TableManager;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.utils.Locators;
@@ -25,9 +26,16 @@ public class MessageList extends AbstractPage {
 
     private static final int _authorCol = 4;
 
-    private final WebDriver driver = getDriver();
+    public static final String EMPTY_FIELD = "";
 
-    private  TableManager tableMessages() {
+    private final WebDriver driver;
+
+    public MessageList(WebDriver driver) {
+        super(driver);
+        this.driver = getDriver();
+    }
+
+    private TableManager tableMessages() {
         return new TableManager(_table);
     }
 
@@ -43,15 +51,14 @@ public class MessageList extends AbstractPage {
         return getElement(_userGreetingLocator).getText().equals("Hello " + name + "!");
     }
 
-    private  void clickCheckBox() {
+    private void clickCheckBox() {
         clickOnElement(_checkbox);
     }
 
     public Message createNewMessage() {
         SuiteLogger.logMessage("Click button NewMessage");
         clickOnElement(_buttonNewMessage);
-        return new Message();
-
+        return new Message(driver);
     }
 
     private int returnRowIndex(String headline, String text, String author) {
@@ -59,24 +66,27 @@ public class MessageList extends AbstractPage {
         TableManager.RowCondition cond = TableManager.createCondition();
         cond.addCondition(_headlineCol, headline);
         cond.addCondition(_textCol, text);
-        cond.addCondition(_authorCol, author);
+        if (!author.equals(EMPTY_FIELD) && author != null) {
+            cond.addCondition(_authorCol, author);
+        }
+
 
         return tableMessages().getIndexOfRow(cond);
     }
 
-    public void assertMessageIsInList(String headline, String text) {
-        SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list");
+    public void assertMessageIsInList(UserMessage userMessage) {
+        SuiteLogger.logMessage("Checking that message with Headline " + userMessage.getHeadline() + " and Text " + userMessage.getText() + " is in list");
 
-        assertMessageIsInList(headline, text, "");
+        assertMessageIsInList(userMessage, EMPTY_FIELD);
     }
 
-    public void assertMessageIsInList(String headline, String text, String author) {
+    public void assertMessageIsInList(UserMessage userMessage, String author) {
 
         if (!author.equals("")) {
-            SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is in list with correct Author " + author);
+            SuiteLogger.logMessage("Checking that message with Headline " + userMessage.getHeadline() + " and Text " + userMessage.getText() + " is in list with correct Author " + author);
         }
 
-        int index = returnRowIndex(headline, text, author);
+        int index = returnRowIndex(userMessage.getHeadline(), userMessage.getText(), author);
 
         if (index > 1) {
             SuiteLogger.logMessage("Row is found. All is correct");
@@ -86,19 +96,19 @@ public class MessageList extends AbstractPage {
     }
 
 
-    public  void assertMessageIsNotInList(String headline, String text) {
-        SuiteLogger.logMessage("Checking that message with Headline " + headline + " and Text " + text + " is not in list");
+    public void assertMessageIsNotInList(UserMessage userMessage) {
+        SuiteLogger.logMessage("Checking that message with Headline " + userMessage.getHeadline() + " and Text " + userMessage.getText() + " is not in list");
 
-        assertMessageIsNotInList(headline, text, "");
+        assertMessageIsNotInList(userMessage, EMPTY_FIELD);
     }
 
-    public  void assertMessageIsNotInList(String headline, String text, String author) {
+    public void assertMessageIsNotInList(UserMessage userMessage, String author) {
 
         if (!author.equals("")) {
-            SuiteLogger.logMessage("Checking that message with Headline " + headline + ", " + text + " and Author " + author + " is not in a list");
+            SuiteLogger.logMessage("Checking that message with Headline " + userMessage.getHeadline() + ", " + userMessage.getText() + " and Author " + author + " is not in a list");
         }
 
-        int index = returnRowIndex(headline, text, author);
+        int index = returnRowIndex(userMessage.getHeadline(), userMessage.getText(), author);
 
         if (index > 1) {
             SuiteLogger.logError("Row is found.");
@@ -108,25 +118,25 @@ public class MessageList extends AbstractPage {
 
     }
 
-    public ShowMessagePage viewMessage(String headline, String text) {
+    public ShowMessagePage viewMessage(UserMessage userMessage) {
 
-        SuiteLogger.logMessage("Clicking View button for Headline: " + headline + "and Text: " + text);
+        SuiteLogger.logMessage("Clicking View button for Headline: " + userMessage.getHeadline() + "and Text: " + userMessage.getText());
 
-        return  viewMessage(headline, text, "");
+        return viewMessage(userMessage, EMPTY_FIELD);
     }
 
-    public ShowMessagePage viewMessage(String headline, String text, String author) {
+    public ShowMessagePage viewMessage(UserMessage userMessage, String author) {
 
         if (!author.equals("")) {
-            SuiteLogger.logMessage("Clicking View button for Headline: " + headline + " Text: " + text + " and Author: " + author);
+            SuiteLogger.logMessage("Clicking View button for Headline: " + userMessage.getHeadline() + " Text: " + userMessage.getText() + " and Author: " + author);
         }
 
-        int index = returnRowIndex(headline, text, author);
+        int index = returnRowIndex(userMessage.getHeadline(), userMessage.getText(), author);
 
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
             clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='View']"));
-            return new ShowMessagePage();
+            return new ShowMessagePage(driver);
         } else {
             SuiteLogger.logError("Cannot click View button.");
             return null;
@@ -134,45 +144,45 @@ public class MessageList extends AbstractPage {
 
     }
 
-    public  Message editMessage(String headline, String text) {
+    public Message editMessage(UserMessage userMessage) {
 
-        SuiteLogger.logMessage("Clicking Edit button for Headline: " + headline + "and Text: " + text);
+        SuiteLogger.logMessage("Clicking Edit button for Headline: " + userMessage.getHeadline() + "and Text: " + userMessage.getText());
 
-        return editMessage(headline, text, "");
+        return editMessage(userMessage, EMPTY_FIELD);
     }
 
-    public Message editMessage(String headline, String text, String author) {
+    public Message editMessage(UserMessage userMessage, String author) {
 
         if (!author.equals("")) {
-            SuiteLogger.logMessage("Clicking Edit button for Headline: " + headline + "and Text: " + text + " and Author: " + author);
+            SuiteLogger.logMessage("Clicking Edit button for Headline: " + userMessage.getHeadline() + "and Text: " + userMessage.getText() + " and Author: " + author);
         }
 
-        int index = returnRowIndex(headline, text, author);
+        int index = returnRowIndex(userMessage.getHeadline(), userMessage.getText(), author);
 
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
             clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']"));
-            return new Message();
+            return new Message(driver);
         } else {
             SuiteLogger.logError("Cannot click Edit button.");
             return null;
         }
     }
 
-    public void deleteMessage(String headline, String text) {
+    public void deleteMessage(UserMessage userMessage) {
 
-        SuiteLogger.logMessage("Clicking Delete button for Headline: " + headline + "and Text: " + text);
+        SuiteLogger.logMessage("Clicking Delete button for Headline: " + userMessage.getHeadline() + "and Text: " + userMessage.getText());
 
-        deleteMessage(headline, text, "");
+        deleteMessage(userMessage, EMPTY_FIELD);
     }
 
-    public void deleteMessage(String headline, String text, String author) {
+    public void deleteMessage(UserMessage userMessage, String author) {
 
         if (!author.equals("")) {
-            SuiteLogger.logMessage("Clicking Delete button for Headline: " + headline + "and Text: " + text + " and Author: " + author);
+            SuiteLogger.logMessage("Clicking Delete button for Headline: " + userMessage.getHeadline() + "and Text: " + userMessage.getText() + " and Author: " + author);
         }
 
-        int index = returnRowIndex(headline, text, author);
+        int index = returnRowIndex(userMessage.getHeadline(), userMessage.getText(), author);
 
         if (index > 1) {
             SuiteLogger.logMessage("Click!");

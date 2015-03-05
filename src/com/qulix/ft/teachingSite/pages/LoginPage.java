@@ -7,7 +7,7 @@ import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class Login extends AbstractPage {
+public class LoginPage extends AbstractPage {
 
     private static final By _labelLogin = Locators.get(Environment.MAPS.LOGIN, "labelLogin");
 
@@ -17,16 +17,12 @@ public class Login extends AbstractPage {
 
     private static final By _buttonLogin = Locators.get(Environment.MAPS.LOGIN, "buttonLogin");
 
-    private final WebDriver driver;
+    private final WebDriver driver = getDriver();
 
     private static String loggedUser = null;
 
-    public Login(WebDriver driver) {
-        this.driver = driver;
-    }
-
     public void assertLoginPageIsOpened(){
-        assertPageIsOpened(_labelLogin, "Login");
+        assertPageIsOpened(_labelLogin, "LoginPage");
     }
 
     public MessageList signIn(User user) {
@@ -36,7 +32,7 @@ public class Login extends AbstractPage {
         sendTextToTheField(_editPassword, user.getPassword());
         clickOnElement(_buttonLogin);
         loggedUser = user.getName();
-        return new MessageList(driver);
+        return new MessageList();
     }
 
 }

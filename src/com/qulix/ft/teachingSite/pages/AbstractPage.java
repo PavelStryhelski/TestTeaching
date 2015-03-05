@@ -3,6 +3,7 @@ package com.qulix.ft.teachingSite.pages;
 
 import com.qulix.ft.logging.GetScreenshot;
 import com.qulix.ft.logging.SuiteLogger;
+import com.qulix.ft.logging.WebDriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,10 +17,10 @@ public abstract class AbstractPage {
 
     private static final By _logoutLocator = By.xpath("//a[text()='Logout']");
 
-    private static WebDriver driver;
+    private final WebDriver driver;
 
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
+    protected AbstractPage() {
+        driver = WebDriverFactory.instance().get();
     }
 
     protected WebDriver getDriver() {
@@ -57,13 +58,15 @@ public abstract class AbstractPage {
         getElement(element).sendKeys(text);
     }
 
-    public  void logOut() {
+    public LoginPage logOut() {
 
         try {
             clickOnElement(_logoutLocator);
             SuiteLogger.logMessage("Logout");
+            return new LoginPage();
         } catch (Exception e) {
             SuiteLogger.logError("You cannot logout from this page");
+            return null;
         }
 
     }

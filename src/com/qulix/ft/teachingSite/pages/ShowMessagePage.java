@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class ShowMessage extends AbstractPage{
+public class ShowMessagePage extends AbstractPage{
 
     private static final By _labelShowMessage = Locators.get(Environment.MAPS.SHOW_MESSAGE, "labelShowMessage");
 
@@ -19,11 +19,7 @@ public class ShowMessage extends AbstractPage{
 
     private static final By _text = Locators.get(Environment.MAPS.SHOW_MESSAGE, "text");
 
-    private final WebDriver driver;
-
-    public ShowMessage(WebDriver driver) {
-        this.driver = driver;
-    }
+    private final WebDriver driver = getDriver();
 
     public void assertPageIsOpened(){
         assertPageIsOpened(_labelShowMessage, "Show Message");
@@ -32,12 +28,13 @@ public class ShowMessage extends AbstractPage{
     public MessageList showMessageList(){
         SuiteLogger.logMessage("Click button Message List");
         clickOnElement(_buttonMessageList);
-        return new MessageList(driver);
+        return new MessageList();
     }
 
-    public void createNewMessage(){
+    public Message createNewMessage(){
         SuiteLogger.logMessage("Click button New Message");
         clickOnElement(_buttonNewMessage);
+        return new Message();
     }
 
     public void assertMessageIsCorrect(String headline,String text){

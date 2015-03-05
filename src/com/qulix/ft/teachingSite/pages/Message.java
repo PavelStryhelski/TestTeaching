@@ -25,11 +25,10 @@ public class Message extends AbstractPage{
 
     private static final By _saveButton = Locators.get(Environment.MAPS.MESSAGE, "saveButton");
 
-    private final WebDriver driver;
+    private static final By _messageListButton = Locators.get(Environment.MAPS.MESSAGE, "messageListButton");
 
-    public Message(WebDriver driver) {
-        this.driver = driver;
-    }
+    private final WebDriver driver = getDriver();
+
 
     private void clickCreateButton(){
         SuiteLogger.logMessage("Click button Create");
@@ -40,12 +39,12 @@ public class Message extends AbstractPage{
         assertPageIsOpened(_labelCreateMessage, "Create Message");
     }
 
-    public ShowMessage createMessage(String headline, String text){
+    public ShowMessagePage createMessage(String headline, String text){
         SuiteLogger.logMessage("Fill in form Create message with values Headline: " + headline + ", Text: " + text);
         sendTextToTheField(_editHeadlineWhenCreate,headline);
         sendTextToTheField(_editTextWhenCreate,text);
         clickCreateButton();
-        return new ShowMessage(driver);
+        return new ShowMessagePage();
     }
 
     public void fulfilMessageFieldsWithValues(String headline, String text){
@@ -69,10 +68,17 @@ public class Message extends AbstractPage{
         sendTextToTheField(_textEdit,textNew);
     }
 
-    public ShowMessage saveMessage()
+    public ShowMessagePage saveMessage()
     {
         clickOnElement(_saveButton);
-        return new ShowMessage(driver);
+        return new ShowMessagePage();
+    }
+
+
+    public MessageList goToMessageList() {
+        SuiteLogger.logMessage("Click button MessageList");
+        clickOnElement(_messageListButton);
+        return new MessageList();
     }
 
 }

@@ -15,8 +15,6 @@ public class MessageList extends AbstractPage {
 
     private static final By _buttonNewMessage = Locators.get(Environment.MAPS.MESSAGE_LIST, "buttonNewMessage");
 
-    private static final By _messageListButton = Locators.get(Environment.MAPS.MESSAGE_LIST, "messageListButton");
-
     private static final By _checkbox = Locators.get(Environment.MAPS.MESSAGE_LIST, "checkBox");
 
     private static final By _userGreetingLocator = Locators.get(Environment.MAPS.MESSAGE_LIST, "greetingLocator");
@@ -27,11 +25,7 @@ public class MessageList extends AbstractPage {
 
     private static final int _authorCol = 4;
 
-    private final WebDriver driver;
-
-    public MessageList(WebDriver driver) {
-        this.driver = driver;
-    }
+    private final WebDriver driver = getDriver();
 
     private  TableManager tableMessages() {
         return new TableManager(_table);
@@ -56,13 +50,8 @@ public class MessageList extends AbstractPage {
     public Message createNewMessage() {
         SuiteLogger.logMessage("Click button NewMessage");
         clickOnElement(_buttonNewMessage);
-        return new Message(driver);
+        return new Message();
 
-    }
-
-    public void goToMessageList() {
-        SuiteLogger.logMessage("Click button MessageList");
-        clickOnElement(_messageListButton);
     }
 
     private int returnRowIndex(String headline, String text, String author) {
@@ -119,14 +108,14 @@ public class MessageList extends AbstractPage {
 
     }
 
-    public  ShowMessage viewMessage(String headline, String text) {
+    public ShowMessagePage viewMessage(String headline, String text) {
 
         SuiteLogger.logMessage("Clicking View button for Headline: " + headline + "and Text: " + text);
 
         return  viewMessage(headline, text, "");
     }
 
-    public  ShowMessage viewMessage(String headline, String text, String author) {
+    public ShowMessagePage viewMessage(String headline, String text, String author) {
 
         if (!author.equals("")) {
             SuiteLogger.logMessage("Clicking View button for Headline: " + headline + " Text: " + text + " and Author: " + author);
@@ -137,7 +126,7 @@ public class MessageList extends AbstractPage {
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
             clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='View']"));
-            return new ShowMessage(driver);
+            return new ShowMessagePage();
         } else {
             SuiteLogger.logError("Cannot click View button.");
             return null;
@@ -163,7 +152,7 @@ public class MessageList extends AbstractPage {
         if (index > 1) {
             SuiteLogger.logMessage("Click!");
             clickOnElement(By.xpath("//tr[" + --index + "]//a[text()='Edit']"));
-            return new Message(driver);
+            return new Message();
         } else {
             SuiteLogger.logError("Cannot click Edit button.");
             return null;

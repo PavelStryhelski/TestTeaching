@@ -14,18 +14,18 @@ public class Test2  extends AbstractTest{
     @Parameters({"HeadlineValue", "TextValue"})
     public void Test(String headline, String text){
 
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage();
 
        //Открыта главная страница
         mainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
         //Открыта страница логина
-        Login loginPage = mainPage.goToUserController();
-        loginPage.assertLoginPageIsOpened();
+        LoginPage loginPagePage = mainPage.goToUserController();
+        loginPagePage.assertLoginPageIsOpened();
 
-        //Ввести логин и пароль  admin/password, нажать Login
-        MessageList messageList = loginPage.signIn(User.ADMIN);
+        //Ввести логин и пароль  admin/password, нажать LoginPage
+        MessageList messageList = loginPagePage.signIn(User.ADMIN);
 
         //Открыт список Message list
         messageList.assertPageIsOpened();
@@ -38,13 +38,13 @@ public class Test2  extends AbstractTest{
 
         //Заполнить поля Headline и Text
         //Нажать Create
-        ShowMessage showMessage = createNewMessagePage.createMessage(headline, text);
+        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(headline, text);
 
         //Открыта страница Show message
-        showMessage.assertPageIsOpened();
+        showMessagePage.assertPageIsOpened();
 
         //Нажать кнопку Message list
-        messageList = showMessage.showMessageList();
+        messageList = showMessagePage.showMessageList();
 
         //Отображен список.
         messageList.assertPageIsOpened();
@@ -53,16 +53,16 @@ public class Test2  extends AbstractTest{
         messageList.assertMessageIsInList(headline, text);
 
         //Нажать View для созданного ранее сообщения
-        showMessage = messageList.viewMessage(headline, text);
+        showMessagePage = messageList.viewMessage(headline, text);
 
         //Открыта страница Show message
-        showMessage.assertPageIsOpened();
+        showMessagePage.assertPageIsOpened();
 
         //Проверить форма содержит такое же сообщение
-        showMessage.assertMessageIsCorrect(headline,text);
+        showMessagePage.assertMessageIsCorrect(headline,text);
 
         //Нажать кнопку Message list
-        messageList = showMessage.showMessageList();
+        messageList = showMessagePage.showMessageList();
 
         //Отображен список.
         messageList.assertPageIsOpened();

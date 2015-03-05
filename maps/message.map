@@ -6,3 +6,4 @@ labelEditMessage=xpath://h1[text()="Edit Message"]
 headlineEdit=id:headline
 textEdit=id:text
 saveButton=xpath://div[@class='buttons']//input[@class='save']
+messageListButton=xpath://a[@class='list' and text()='Message List']

@@ -14,36 +14,40 @@ public class Test5 extends AbstractTest{
     @Parameters({"HeadlineValue", "TextValue"})
     public void Test(String headline, String text){
 
-      /* //Открыта главная страница
-        MainPage.assertMainPageIsOpened();
+        MainPage mainPage = new MainPage();
+
+        //Открыта главная страница
+        mainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
-        //Открыта страница логина
-        MainPage.goToUserController();
+        LoginPage loginPagePage = mainPage.goToUserController();
 
-        //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(User.ADMIN);
+        //Открыта страница логина
+        loginPagePage.assertLoginPageIsOpened();
+
+        //Ввести логин и пароль  admin/password, нажать LoginPage
+        MessageList messageList = loginPagePage.signIn(User.ADMIN);
 
         //Открыт список Message list
-        MessageList.assertPageIsOpened();
+        messageList.assertPageIsOpened();
 
-         //Нажать New Message
-        MessageList.createNewMessage();
+        //Нажать New Message
+        Message createNewMessagePage = messageList.createNewMessage();
 
         //Открыта форма создания Create message
-        Message.assertCreateMessagePageIsOpened();
+        createNewMessagePage.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        Message.fulfilMessageFieldsWithValues(headline,text);
+        createNewMessagePage.fulfilMessageFieldsWithValues(headline, text);
 
         //Нажать Message List
-        MessageList.goToMessageList();
+        messageList = createNewMessagePage.goToMessageList();
 
         //Отображен список.
-        MessageList.assertPageIsOpened();
+        messageList.assertPageIsOpened();
 
         //Чекнуть, что удаленное сообщение не присутствует в списке
-        MessageList.assertMessageIsNotInList(headline, text);*/
+        messageList.assertMessageIsNotInList(headline, text);
 
     }
 }

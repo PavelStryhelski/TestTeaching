@@ -6,67 +6,72 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
-/***
+/**
  * Сценарий 2
  */
-public class Test6 extends AbstractTest{
+public class Test6 extends AbstractTest {
     @Test(description = "Сценарий 6. Create 2 messages")
-    @Parameters({"HeadlineValue", "TextValue","HeadlineValue_2", "TextValue_2"})
-    public void Test(String headline, String text,String headline_2, String text_2){
+    @Parameters({"HeadlineValue", "TextValue", "HeadlineValue_2", "TextValue_2"})
+    public void Test(String headline, String text, String headline_2, String text_2) {
 
-       /*//Открыта главная страница
-        MainPage.assertMainPageIsOpened();
+        MainPage mainPage = new MainPage();
+
+        //Открыта главная страница
+        mainPage.assertMainPageIsOpened();
 
         //Перейти по ссылке qulixteachingsite.UserController
-        //Открыта страница логина
-        MainPage.goToUserController();
+        LoginPage loginPagePage = mainPage.goToUserController();
 
-        //Ввести логин и пароль  admin/password, нажать Login
-        Login.signIn(User.ADMIN);
+        //Открыта страница логина
+        loginPagePage.assertLoginPageIsOpened();
+
+        //Ввести логин и пароль  admin/password, нажать LoginPage
+        MessageList messageList = loginPagePage.signIn(User.ADMIN);
 
         //Открыт список Message list
-        MessageList.assertPageIsOpened();
-
-         //Нажать New Message
-        MessageList.createNewMessage();
-
-        //Открыта форма создания Create message
-        Message.assertCreateMessagePageIsOpened();
-
-        //Заполнить поля Headline и Text
-        Message.createMessage(headline, text);
-
-        //Открыта страница Show message
-        ShowMessage.assertPageIsOpened();
-
-        //Чекнуть, что сообщение правильное
-        ShowMessage.assertMessageIsCorrect(headline,text);
+        messageList.assertPageIsOpened();
 
         //Нажать New Message
-        ShowMessage.createNewMessage();
+        Message createNewMessagePage = messageList.createNewMessage();
 
         //Открыта форма создания Create message
-        Message.assertCreateMessagePageIsOpened();
+        createNewMessagePage.assertCreateMessagePageIsOpened();
 
         //Заполнить поля Headline и Text
-        Message.createMessage(headline_2, text_2);
+        //Нажать Create
+        ShowMessagePage showMessagePage = createNewMessagePage.createMessage(headline, text);
 
         //Открыта страница Show message
-        ShowMessage.assertPageIsOpened();
+        showMessagePage.assertPageIsOpened();
 
         //Чекнуть, что сообщение правильное
-        ShowMessage.assertMessageIsCorrect(headline_2,text_2);
+        showMessagePage.assertMessageIsCorrect(headline, text);
+
+        //Нажать New Message
+        Message createNewMessage = showMessagePage.createNewMessage();
+
+        //Открыта форма создания Create message
+        createNewMessage.assertCreateMessagePageIsOpened();
+
+        //Заполнить поля Headline и Text
+        showMessagePage = createNewMessage.createMessage(headline_2, text_2);
+
+        //Открыта страница Show message
+        showMessagePage.assertPageIsOpened();
+
+        //Чекнуть, что сообщение правильное
+        showMessagePage.assertMessageIsCorrect(headline_2, text_2);
 
         //Нажать Message List
-        ShowMessage.showMessageList();
+        messageList = showMessagePage.showMessageList();
 
         //Отображен список.
-        MessageList.assertPageIsOpened();
+        messageList.assertPageIsOpened();
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
-        MessageList.assertMessageIsInList(headline, text);
+        messageList.assertMessageIsInList(headline, text);
 
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 8
-        MessageList.assertMessageIsInList(headline_2, text_2);*/
+        messageList.assertMessageIsInList(headline_2, text_2);
     }
 }

@@ -4,8 +4,6 @@ import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.utils.Locators;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public class MainPage extends AbstractPage {
 
@@ -15,24 +13,16 @@ public class MainPage extends AbstractPage {
 
     private static final By _linkUserController = Locators.get(Environment.MAPS.MAIN, "linkUserController");
 
-    private final WebDriver driver;
-
-    public MainPage(WebDriver driver){
-        this.driver = driver;
-        setDriver(driver);
-    }
-
-
-    public Login goToMessageController(){
+    public LoginPage goToMessageController(){
         SuiteLogger.logMessage("Select link qulixteachingsite.MessageController");
         clickOnElement(_linkUserController);
-        return new Login(driver);
+        return new LoginPage();
     }
 
-    public Login goToUserController(){
+    public LoginPage goToUserController(){
         SuiteLogger.logMessage("Select link qulixteachingsite.UserController");
         clickOnElement(_linkMessageController);
-        return new Login(driver);
+        return new LoginPage();
     }
 
     public void assertMainPageIsOpened(){

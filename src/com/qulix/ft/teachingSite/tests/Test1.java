@@ -3,17 +3,17 @@ package com.qulix.ft.teachingSite.tests;
 import com.qulix.ft.teachingSite.User;
 import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.pages.*;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-/***
+/**
  * Сценарий 1
  */
-public class Test1 extends AbstractTest{
+public class Test1 extends AbstractTest {
 
     @Test(description = "Сценарий 1. Create message")
-    public void Test(){
+    public void Test() {
 
+//        ADMIN
         MainPage mainPage = new MainPage(driver);
 
         //Открыта главная страница
@@ -25,13 +25,22 @@ public class Test1 extends AbstractTest{
         //Открыта страница логина
         loginPagePage.assertLoginPageIsOpened();
 
-       //Ввести логин и пароль  admin/password, нажать LoginPage
+        //Ввести логин и пароль  admin/password, нажать LoginPage
         MessageList messageList = loginPagePage.signIn(User.ADMIN);
 
-         //Открыт список Message list
+//      JD
+        MainPage jdMainPage = new MainPage(jd_driver);
+        jdMainPage.assertMainPageIsOpened();
+        LoginPage jdLoginPagePage = jdMainPage.goToUserController();
+        jdLoginPagePage.assertLoginPageIsOpened();
+        //Ввести логин и пароль  admin/password, нажать LoginPage
+        MessageList jdMessageList = jdLoginPagePage.signIn(User.J_DOE);
+
+//        ADMIN
+        //Открыт список Message list
         messageList.assertPageIsOpened();
 
-       //Нажать New Message
+        //Нажать New Message
         Message createNewMessagePage = messageList.createNewMessage();
 
         //Открыта форма создания Create message
@@ -45,7 +54,7 @@ public class Test1 extends AbstractTest{
         //Открыта страница Show message
         showMessagePage.assertPageIsOpened();
 
-         //Нажать кнопку Message list
+        //Нажать кнопку Message list
         messageList = showMessagePage.showMessageList();
 
         //Отображен список.
@@ -54,5 +63,11 @@ public class Test1 extends AbstractTest{
         //В списке содержится созданный объект, в колонках Headline и  Text отображены значения, введенные на шаге 4
         messageList.assertMessageIsInList(userMessage);
 
+
+//      JD
+        jdMessageList.checkCheckBox();
+        jdMessageList.assertMessageIsInList(userMessage, User.ADMIN.getName());
+
     }
+
 }

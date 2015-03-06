@@ -17,7 +17,7 @@ public abstract class AbstractPage {
 
     private static final By _logoutLocator = By.xpath("//a[text()='Logout']");
 
-    private final WebDriver driver;
+    private WebDriver driver;
 
     protected AbstractPage(WebDriver driver) {
         this.driver = driver;

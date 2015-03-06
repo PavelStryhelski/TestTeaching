@@ -4,11 +4,9 @@ import com.qulix.ft.logging.GetScreenshot;
 import com.qulix.ft.logging.WebDriverFactory;
 import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.logging.SuiteLogger;
-import com.qulix.ft.teachingSite.pages.AbstractPage;
 import com.thoughtworks.selenium.Selenium;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -28,6 +26,8 @@ public abstract class AbstractTest {
      * Драйвер приложения
      */
     public WebDriver driver;
+    public WebDriver jd_driver;
+
 
     /**
      * Инициализация окружения и драйвера
@@ -35,9 +35,15 @@ public abstract class AbstractTest {
      * @param context @see ITestContext
      */
     @BeforeSuite
-    public void beforeSuite(ITestContext context) {
-        WebDriverFactory.init(WebDriverFactory.Browser.CHROME);
-        driver = WebDriverFactory.instance().openNewBrowser();
+    public void beforeSuite(ITestContext context) throws InterruptedException {
+        WebDriverFactory WDF_jd = new WebDriverFactory();
+        WDF_jd.openNewBrowser(WebDriverFactory.Browser.CHROME);
+        jd_driver = WDF_jd.get();
+
+        WebDriverFactory WDF_admin = new WebDriverFactory();
+        WDF_admin.openNewBrowser(WebDriverFactory.Browser.CHROME);
+        driver = WDF_admin.get();
+
         GetScreenshot.setWebDriver(driver);
         SuiteLogger.startLogSuite(context.getSuite().getName() + ". URL: " + Environment.URL); //вывод в лог сообщения о начале выполнения
     }
@@ -51,9 +57,11 @@ public abstract class AbstractTest {
     public void openStartPage(Method method) {
         SuiteLogger.logMessage("Start method  " + method.getName());
         driver.get(Environment.URL); //открытие стартовой страницы
-        //развернуть окно браузера
+        jd_driver.get(Environment.URL);
         Selenium selenium = new WebDriverBackedSelenium(driver, Environment.URL);
+        Selenium seleniumjd = new WebDriverBackedSelenium(jd_driver, Environment.URL);
         selenium.windowMaximize();
+        seleniumjd.windowMaximize();
     }
 
     /**
@@ -62,6 +70,7 @@ public abstract class AbstractTest {
     @AfterSuite(alwaysRun = true)
     public void closeBrowser() {
         driver.close();
+        jd_driver.close();
         SuiteLogger.logMessage("Suite ended");
     }
 

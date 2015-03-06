@@ -3,37 +3,26 @@ package com.qulix.ft.logging;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import java.io.File;
 
 public class WebDriverFactory {
 
-    private WebDriver activeDriver;
+    private RemoteWebDriver activeDriver;
 
     private Browser defaultBrowser;
 
-    private static WebDriverFactory _instance;
+    private WebDriverFactory _instance;
 
     public static enum Browser {
         IE,
         CHROME;
     }
 
-    private WebDriverFactory(Browser defaultBrowser) {
-        this.defaultBrowser = defaultBrowser;
+    public WebDriverFactory() {
     }
 
-    public static void init() {
-        init(Browser.IE);
-    }
-
-    public static void init(Browser defaultBrowser) {
-        if (_instance == null) _instance = new WebDriverFactory(defaultBrowser);
-    }
-
-    public static WebDriverFactory instance() {
-        init();
-        return _instance;
-    }
 
     public WebDriver get() {
         return activeDriver;
@@ -48,7 +37,7 @@ public class WebDriverFactory {
 
         File file;
 
-        if (activeDriver == null) {
+//        if (activeDriver == null) {
 
             switch (browser) {
                 case IE:
@@ -69,7 +58,7 @@ public class WebDriverFactory {
 
             activeDriver.manage().deleteAllCookies();
 
-        }
+//        }
 
         return get();
     }

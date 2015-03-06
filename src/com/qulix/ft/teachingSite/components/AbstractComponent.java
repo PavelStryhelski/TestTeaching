@@ -12,10 +12,10 @@ import java.util.List;
 
 public abstract class AbstractComponent{
 
-    private final WebDriver driver;
+    private static WebDriver driver;
 
-    protected AbstractComponent(){
-        driver = WebDriverFactory.instance().get();
+    protected AbstractComponent(WebDriver driver) {
+        AbstractComponent.driver = driver;
     }
 
     protected WebDriver getDriver() {

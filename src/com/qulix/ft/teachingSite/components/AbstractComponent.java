@@ -14,7 +14,11 @@ public abstract class AbstractComponent{
 
     private static WebDriver driver;
 
-    protected AbstractComponent(WebDriver driver) {
+    protected AbstractComponent(){
+        driver = WebDriverFactory.instance().get();
+    }
+
+    public static void setWebDriver(WebDriver driver){
         AbstractComponent.driver = driver;
     }
 

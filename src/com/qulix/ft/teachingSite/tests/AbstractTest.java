@@ -28,7 +28,6 @@ public abstract class AbstractTest {
     public WebDriver driver;
     public WebDriver jd_driver;
 
-
     /**
      * »нициализаци€ окружени€ и драйвера
      *
@@ -36,15 +35,10 @@ public abstract class AbstractTest {
      */
     @BeforeSuite
     public void beforeSuite(ITestContext context) throws InterruptedException {
-        WebDriverFactory WDF_jd = new WebDriverFactory();
-        WDF_jd.openNewBrowser(WebDriverFactory.Browser.CHROME);
-        jd_driver = WDF_jd.get();
+        WebDriverFactory.init(WebDriverFactory.Browser.CHROME);
+        driver = WebDriverFactory.instance().openNewBrowser();
+        jd_driver = WebDriverFactory.instance().openNewBrowser();
 
-        WebDriverFactory WDF_admin = new WebDriverFactory();
-        WDF_admin.openNewBrowser(WebDriverFactory.Browser.CHROME);
-        driver = WDF_admin.get();
-
-        GetScreenshot.setWebDriver(driver);
         SuiteLogger.startLogSuite(context.getSuite().getName() + ". URL: " + Environment.URL); //вывод в лог сообщени€ о начале выполнени€
     }
 
@@ -58,6 +52,7 @@ public abstract class AbstractTest {
         SuiteLogger.logMessage("Start method  " + method.getName());
         driver.get(Environment.URL); //открытие стартовой страницы
         jd_driver.get(Environment.URL);
+
         Selenium selenium = new WebDriverBackedSelenium(driver, Environment.URL);
         Selenium seleniumjd = new WebDriverBackedSelenium(jd_driver, Environment.URL);
         selenium.windowMaximize();

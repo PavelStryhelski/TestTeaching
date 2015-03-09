@@ -1,5 +1,6 @@
 package com.qulix.ft.teachingSite.tests;
 
+import com.qulix.ft.logging.WebDriverFactory;
 import com.qulix.ft.teachingSite.User;
 import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.pages.*;
@@ -14,7 +15,8 @@ public class Test1 extends AbstractTest {
     public void Test() {
 
 //        ADMIN
-        MainPage mainPage = new MainPage(driver);
+        WebDriverFactory.instance().setWebDriverForAllPages(driver);
+        MainPage mainPage = new MainPage(WebDriverFactory.instance().get());
 
         //Открыта главная страница
         mainPage.assertMainPageIsOpened();
@@ -29,7 +31,8 @@ public class Test1 extends AbstractTest {
         MessageList messageList = loginPagePage.signIn(User.ADMIN);
 
 //      JD
-        MainPage jdMainPage = new MainPage(jd_driver);
+        WebDriverFactory.instance().setWebDriverForAllPages(jd_driver);
+        MainPage jdMainPage = new MainPage(WebDriverFactory.instance().get());
         jdMainPage.assertMainPageIsOpened();
         LoginPage jdLoginPagePage = jdMainPage.goToUserController();
         jdLoginPagePage.assertLoginPageIsOpened();
@@ -38,6 +41,7 @@ public class Test1 extends AbstractTest {
 
 //        ADMIN
         //Открыт список Message list
+        WebDriverFactory.instance().setWebDriverForAllPages(driver);
         messageList.assertPageIsOpened();
 
         //Нажать New Message
@@ -65,6 +69,7 @@ public class Test1 extends AbstractTest {
 
 
 //      JD
+        WebDriverFactory.instance().setWebDriverForAllPages(jd_driver);
         jdMessageList.checkCheckBox();
         jdMessageList.assertMessageIsInList(userMessage, User.ADMIN.getName());
 

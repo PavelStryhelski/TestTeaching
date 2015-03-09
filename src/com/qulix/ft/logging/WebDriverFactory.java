@@ -1,31 +1,53 @@
 package com.qulix.ft.logging;
 
+import com.qulix.ft.teachingSite.components.AbstractComponent;
+import com.qulix.ft.teachingSite.pages.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 
 public class WebDriverFactory {
 
-    private RemoteWebDriver activeDriver;
+    private WebDriver activeDriver;
 
     private Browser defaultBrowser;
 
-    private WebDriverFactory _instance;
+    private static WebDriverFactory _instance;
 
     public static enum Browser {
         IE,
         CHROME;
     }
 
-    public WebDriverFactory() {
+    private WebDriverFactory(Browser defaultBrowser) {
+        this.defaultBrowser = defaultBrowser;
     }
 
+    public static void init() {
+        init(Browser.IE);
+    }
+
+    public static void init(Browser defaultBrowser) {
+        if (_instance == null) _instance = new WebDriverFactory(defaultBrowser);
+    }
+
+    public static WebDriverFactory instance() {
+        init();
+        return _instance;
+    }
 
     public WebDriver get() {
         return activeDriver;
+    }
+
+    public void setWebDriverForAllPages(WebDriver driver){
+        activeDriver = driver;
+
+        GetScreenshot.setWebDriver(activeDriver);
+        AbstractPage.setWebDriver(activeDriver);
+        AbstractComponent.setWebDriver(activeDriver);
     }
 
     public WebDriver openNewBrowser() {
@@ -37,7 +59,7 @@ public class WebDriverFactory {
 
         File file;
 
-//        if (activeDriver == null) {
+        /*if (activeDriver == null) {*/
 
             switch (browser) {
                 case IE:
@@ -58,7 +80,7 @@ public class WebDriverFactory {
 
             activeDriver.manage().deleteAllCookies();
 
-//        }
+       /* }*/
 
         return get();
     }

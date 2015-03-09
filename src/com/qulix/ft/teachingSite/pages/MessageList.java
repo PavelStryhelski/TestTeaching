@@ -36,7 +36,7 @@ public class MessageList extends AbstractPage {
     }
 
     private TableManager tableMessages() {
-        return new TableManager(_table, driver);
+        return new TableManager(_table);
     }
 
     public void assertPageIsOpened() {

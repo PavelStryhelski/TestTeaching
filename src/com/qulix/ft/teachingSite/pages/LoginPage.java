@@ -32,7 +32,7 @@ public class LoginPage extends AbstractPage {
 
     public MessageList signIn(User user) {
         SuiteLogger.logMessage("Log in user: " + user.toString());
-        driver.switchTo().defaultContent();
+        getDriver().switchTo().defaultContent();
         sendTextToTheField(_editLogin, user.getUserLoginName());
         sendTextToTheField(_editPassword, user.getPassword());
         clickOnElement(_buttonLogin);

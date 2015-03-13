@@ -15,7 +15,6 @@ public class Test1 extends AbstractTest {
     public void Test() {
 
 //        ADMIN
-        WebDriverFactory.instance().setWebDriverForAllPages(driver);
         MainPage mainPage = new MainPage(WebDriverFactory.instance().get());
 
         //Открыта главная страница

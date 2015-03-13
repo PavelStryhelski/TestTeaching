@@ -39,6 +39,8 @@ public abstract class AbstractTest {
         driver = WebDriverFactory.instance().openNewBrowser();
         jd_driver = WebDriverFactory.instance().openNewBrowser();
 
+        WebDriverFactory.instance().setWebDriverForAllPages(driver);
+
         SuiteLogger.startLogSuite(context.getSuite().getName() + ". URL: " + Environment.URL); //вывод в лог сообщения о начале выполнения
     }
 

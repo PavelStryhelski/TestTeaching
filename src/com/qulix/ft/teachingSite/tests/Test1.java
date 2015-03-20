@@ -1,9 +1,11 @@
 package com.qulix.ft.teachingSite.tests;
 
 import com.qulix.ft.logging.WebDriverFactory;
+import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.teachingSite.User;
 import com.qulix.ft.teachingSite.UserMessage;
 import com.qulix.ft.teachingSite.pages.*;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 /**
@@ -11,11 +13,17 @@ import org.testng.annotations.Test;
  */
 public class Test1 extends AbstractTest {
 
+    public WebDriver jd_driver;
+
     @Test(description = "Сценарий 1. Create message")
     public void Test() {
 
-//        ADMIN
-        MainPage mainPage = new MainPage(WebDriverFactory.instance().get());
+       /* jd_driver = WebDriverFactory.instance().openNewBrowser();
+        jd_driver.get(Environment.URL);*/
+
+        //ADMIN
+//        WebDriverFactory.instance().setActiveWebDriver(driver);
+        MainPage mainPage = new MainPage(WebDriverFactory.instance().getActiveWebDriver());
 
         //Открыта главная страница
         mainPage.assertMainPageIsOpened();
@@ -29,18 +37,18 @@ public class Test1 extends AbstractTest {
         //Ввести логин и пароль  admin/password, нажать LoginPage
         MessageList messageList = loginPagePage.signIn(User.ADMIN);
 
-//      JD
-        WebDriverFactory.instance().setWebDriverForAllPages(jd_driver);
-        MainPage jdMainPage = new MainPage(WebDriverFactory.instance().get());
+     /*   //JD
+        WebDriverFactory.instance().setActiveWebDriver(jd_driver);
+        MainPage jdMainPage = new MainPage(WebDriverFactory.instance().getActiveWebDriver());
         jdMainPage.assertMainPageIsOpened();
         LoginPage jdLoginPagePage = jdMainPage.goToUserController();
         jdLoginPagePage.assertLoginPageIsOpened();
         //Ввести логин и пароль  admin/password, нажать LoginPage
         MessageList jdMessageList = jdLoginPagePage.signIn(User.J_DOE);
 
-//        ADMIN
+        //ADMIN
         //Открыт список Message list
-        WebDriverFactory.instance().setWebDriverForAllPages(driver);
+        WebDriverFactory.instance().setActiveWebDriver(driver);
         messageList.assertPageIsOpened();
 
         //Нажать New Message
@@ -67,10 +75,10 @@ public class Test1 extends AbstractTest {
         messageList.assertMessageIsInList(userMessage);
 
 
-//      JD
-        WebDriverFactory.instance().setWebDriverForAllPages(jd_driver);
+        //JD
+        WebDriverFactory.instance().setActiveWebDriver(jd_driver);
         jdMessageList.checkCheckBox();
-        jdMessageList.assertMessageIsInList(userMessage, User.ADMIN.getName());
+        jdMessageList.assertMessageIsInList(userMessage, User.ADMIN.getName());*/
 
     }
 

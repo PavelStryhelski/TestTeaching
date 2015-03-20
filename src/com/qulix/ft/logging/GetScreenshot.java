@@ -1,6 +1,5 @@
 package com.qulix.ft.logging;
 
-import com.qulix.ft.teachingSite.tests.AbstractTest;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,15 +20,9 @@ public class GetScreenshot {
      * @return Файл скриншота
      * @see org.openqa.selenium.TakesScreenshot
      */
-    private static WebDriver driver;
-
-    public static void setWebDriver(WebDriver driver){
-        GetScreenshot.driver = driver;
-    }
-
 
     public static File fromDriver() {
-        return fromDriver(driver);
+        return fromDriver(WebDriverFactory.instance().getActiveWebDriver());
     }
 
     /**

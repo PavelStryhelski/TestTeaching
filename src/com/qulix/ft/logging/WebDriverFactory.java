@@ -1,12 +1,11 @@
 package com.qulix.ft.logging;
 
-import com.qulix.ft.teachingSite.components.AbstractComponent;
-import com.qulix.ft.teachingSite.pages.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import java.io.File;
+import java.util.LinkedList;
 
 public class WebDriverFactory {
 
@@ -15,6 +14,8 @@ public class WebDriverFactory {
     private Browser defaultBrowser;
 
     private static WebDriverFactory _instance;
+
+    private static LinkedList<WebDriver> _listOfWebDrivers = new LinkedList<>();
 
     public static enum Browser {
         IE,
@@ -38,16 +39,12 @@ public class WebDriverFactory {
         return _instance;
     }
 
-    public WebDriver get() {
+    public WebDriver getActiveWebDriver() {
         return activeDriver;
     }
 
-    public void setWebDriverForAllPages(WebDriver driver){
+    public void setActiveWebDriver(WebDriver driver){
         activeDriver = driver;
-
-        GetScreenshot.setWebDriver(activeDriver);
-        AbstractPage.setWebDriver(activeDriver);
-        AbstractComponent.setWebDriver(activeDriver);
     }
 
     public WebDriver openNewBrowser() {
@@ -59,31 +56,45 @@ public class WebDriverFactory {
 
         File file;
 
-        /*if (activeDriver == null) {*/
-
             switch (browser) {
                 case IE:
                     file = new File("drivers" + File.separator + "IEDriverServer.exe");
                     System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
                     activeDriver = new InternetExplorerDriver();
+                    _listOfWebDrivers.add(activeDriver);
                     break;
                 case CHROME:
                     file = new File("drivers" + File.separator + "ChromeDriver.exe");
                     System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
                     activeDriver = new ChromeDriver();
+                    _listOfWebDrivers.add(activeDriver);
                     break;
                 default:
                     file = new File("drivers" + File.separator + "IEDriverServer.exe");
                     System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
                     activeDriver = new InternetExplorerDriver();
+                    _listOfWebDrivers.add(activeDriver);
+                    break;
             }
 
             activeDriver.manage().deleteAllCookies();
 
-       /* }*/
-
-        return get();
+        return getActiveWebDriver();
     }
+
+    /**
+     * Закрытие браузера
+     */
+    public void closeBrowsers() {
+
+        for (WebDriver driver : _listOfWebDrivers){
+            driver.close();
+            driver.quit();
+        }
+        SuiteLogger.logMessage("Suite ended");
+    }
+
+
 
 
 }

@@ -1,6 +1,5 @@
 package com.qulix.ft.teachingSite.tests;
 
-import com.qulix.ft.logging.GetScreenshot;
 import com.qulix.ft.logging.WebDriverFactory;
 import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.logging.SuiteLogger;
@@ -26,7 +25,6 @@ public abstract class AbstractTest {
      * Драйвер приложения
      */
     public WebDriver driver;
-    public WebDriver jd_driver;
 
     /**
      * Инициализация окружения и драйвера
@@ -36,10 +34,8 @@ public abstract class AbstractTest {
     @BeforeSuite
     public void beforeSuite(ITestContext context) throws InterruptedException {
         WebDriverFactory.init(WebDriverFactory.Browser.CHROME);
-        driver = WebDriverFactory.instance().openNewBrowser();
-        jd_driver = WebDriverFactory.instance().openNewBrowser();
 
-        WebDriverFactory.instance().setWebDriverForAllPages(driver);
+        driver = WebDriverFactory.instance().openNewBrowser();
 
         SuiteLogger.startLogSuite(context.getSuite().getName() + ". URL: " + Environment.URL); //вывод в лог сообщения о начале выполнения
     }
@@ -53,22 +49,14 @@ public abstract class AbstractTest {
     public void openStartPage(Method method) {
         SuiteLogger.logMessage("Start method  " + method.getName());
         driver.get(Environment.URL); //открытие стартовой страницы
-        jd_driver.get(Environment.URL);
 
         Selenium selenium = new WebDriverBackedSelenium(driver, Environment.URL);
-        Selenium seleniumjd = new WebDriverBackedSelenium(jd_driver, Environment.URL);
         selenium.windowMaximize();
-        seleniumjd.windowMaximize();
     }
 
-    /**
-     * Закрытие браузера
-     */
     @AfterSuite(alwaysRun = true)
-    public void closeBrowser() {
-        driver.close();
-        jd_driver.close();
-        SuiteLogger.logMessage("Suite ended");
+    public void closeBrowsers(){
+        WebDriverFactory.instance().closeBrowsers();
     }
 
     /**

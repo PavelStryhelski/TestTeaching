@@ -1,5 +1,6 @@
 package com.qulix.ft.teachingSite.pages;
 
+import com.qulix.ft.implementation.Button;
 import com.qulix.ft.teachingSite.Environment;
 import com.qulix.ft.logging.SuiteLogger;
 import com.qulix.ft.teachingSite.User;
@@ -17,11 +18,13 @@ public class LoginPage extends AbstractPage {
 
     private static final By _buttonLogin = Locators.get(Environment.MAPS.LOGIN, "buttonLogin");
 
+    private final Button _button;
     private final WebDriver driver;
 
     public LoginPage(WebDriver driver) {
         super(driver);
         this.driver = getDriver();
+        _button = new Button (driver,_buttonLogin);
     }
 
     private static String loggedUser = null;
@@ -35,7 +38,7 @@ public class LoginPage extends AbstractPage {
         getDriver().switchTo().defaultContent();
         sendTextToTheField(_editLogin, user.getUserLoginName());
         sendTextToTheField(_editPassword, user.getPassword());
-        clickOnElement(_buttonLogin);
+        _button.click();
         loggedUser = user.getName();
         return new MessageList(driver);
     }

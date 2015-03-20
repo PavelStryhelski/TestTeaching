@@ -22,7 +22,8 @@ public class TableManager extends AbstractComponent {
     private static final By _nextPageButton = By.xpath("//div[@class='paginateButtons']//a[@class='nextLink']");
     private static final By _currentPage = By.xpath("//div[@class='paginateButtons']//span[@class='currentStep']");
 
-    public TableManager(By locator) {
+    public TableManager(By locator, WebDriver driver) {
+        super(driver);
         this.tableLocator = locator;
     }
 
